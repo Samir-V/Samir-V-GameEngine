@@ -5,7 +5,9 @@
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update(){}
+void dae::GameObject::Update(float elapsedSec) { elapsedSec; }
+
+void dae::GameObject::FixedUpdate(float fixedTimeStep) { fixedTimeStep; }
 
 void dae::GameObject::Render() const
 {
