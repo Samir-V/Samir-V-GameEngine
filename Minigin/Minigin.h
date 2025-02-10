@@ -16,6 +16,6 @@ namespace dae
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
 
-		const float FIXED_TIME_STEP = 0.01666666666666666666666666666667f;
+		static constexpr float FIXED_TIME_STEP = 0.01666666666666666666666666666667f;
 	};
 }
