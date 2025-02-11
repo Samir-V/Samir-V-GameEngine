@@ -29,7 +29,7 @@ void dae::Texture2DComponent::SetPosition(float x, float y)
 	m_Transform.SetPosition(x, y, 0.0f);
 }
 
-void dae::Texture2DComponent::SetOwner(std::weak_ptr<dae::GameObject> owner)
+void dae::Texture2DComponent::SetOwner(std::weak_ptr<GameObject> owner)
 {
 	m_Owner = owner;
 }
