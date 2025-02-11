@@ -6,27 +6,32 @@
 #include "Transform.h"
 #include "Texture2D.h"
 
-class Texture2DComponent final : public ComponentBase
+namespace dae
 {
-public:
+	class Texture2DComponent final : public ComponentBase
+	{
+	public:
 
-	Texture2DComponent(const std::string& filename);
-	~Texture2DComponent() override = default;
+		Texture2DComponent(const std::string& filename);
+		~Texture2DComponent() override = default;
 
-	Texture2DComponent(const Texture2DComponent& other) = delete;
-	Texture2DComponent(Texture2DComponent&& other) = delete;
-	Texture2DComponent& operator=(const Texture2DComponent& other) = delete;
-	Texture2DComponent& operator=(Texture2DComponent&& other) = delete;
+		Texture2DComponent(const Texture2DComponent& other) = delete;
+		Texture2DComponent(Texture2DComponent&& other) = delete;
+		Texture2DComponent& operator=(const Texture2DComponent& other) = delete;
+		Texture2DComponent& operator=(Texture2DComponent&& other) = delete;
 
-	void Update(float elapsedSec) override;
-	void FixedUpdate(float fixedTimeStep) override;
-	void Render() const override;
+		void Update(float elapsedSec) override;
+		void FixedUpdate(float fixedTimeStep) override;
+		void Render() const override;
 
-	void SetPosition(float x, float y) override;
+		void SetPosition(float x, float y) override;
+		void SetOwner(std::weak_ptr<GameObject> owner) override;
 
-private:
+	private:
 
-	dae::Transform m_Transform{};
-	std::shared_ptr<dae::Texture2D> m_Texture{};
-};
+		Transform m_Transform{};
+		std::shared_ptr<Texture2D> m_Texture{};
+		std::weak_ptr<GameObject> m_Owner{};
+	};
+}
 

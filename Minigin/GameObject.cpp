@@ -30,6 +30,7 @@ void dae::GameObject::Render() const
 
 void dae::GameObject::AddComponent(std::unique_ptr<ComponentBase> component)
 {
+	component->SetOwner(shared_from_this());
 	m_Components.push_back(std::move(component));
 }
 

@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 		void Update(float elapsedSec);

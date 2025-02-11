@@ -1,20 +1,28 @@
 #pragma once
-class ComponentBase
+#include <memory>
+
+namespace dae
 {
-public:
+	class GameObject;
 
-	ComponentBase() = default;
-	virtual ~ComponentBase() = default;
+	class ComponentBase
+	{
+	public:
 
-	ComponentBase(const ComponentBase& other) = delete;
-	ComponentBase(ComponentBase&& other) = default;
-	ComponentBase& operator=(const ComponentBase& other) = delete;
-	ComponentBase& operator=(ComponentBase&& other) = default;
+		ComponentBase() = default;
+		virtual ~ComponentBase() = default;
 
-	virtual void Update(float elapsedSec) = 0;
-	virtual void FixedUpdate(float fixedTimeStep) = 0;
-	virtual void Render() const = 0;
+		ComponentBase(const ComponentBase& other) = delete;
+		ComponentBase(ComponentBase&& other) = default;
+		ComponentBase& operator=(const ComponentBase& other) = delete;
+		ComponentBase& operator=(ComponentBase&& other) = default;
 
-	virtual void SetPosition(float x, float y) = 0;
-};
+		virtual void Update(float elapsedSec) = 0;
+		virtual void FixedUpdate(float fixedTimeStep) = 0;
+		virtual void Render() const = 0;
+
+		virtual void SetPosition(float x, float y) = 0;
+		virtual void SetOwner(std::weak_ptr<GameObject> owner) = 0;
+	};
+}
 
