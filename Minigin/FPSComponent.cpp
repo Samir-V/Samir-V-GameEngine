@@ -1,18 +1,16 @@
 #include "FPSComponent.h"
-
 #include <format>
-#include <utility>
 
-dae::FPSComponent::FPSComponent(std::shared_ptr<TextComponent> textComponent)
+dae::FPSComponent::FPSComponent(TextComponent* textComponentPtr)
 {
-	m_AssignedTextComponent = std::move(textComponent);
+	m_AssignedTextComponentPtr = textComponentPtr;
 }
 
 void dae::FPSComponent::Update(float elapsedSec)
 {
 	float fps = CalculateFPS(elapsedSec);
 
-	m_AssignedTextComponent->SetText(std::format("{:.1f} FPS", fps));
+	m_AssignedTextComponentPtr->SetText(std::format("{:.1f} FPS", fps));
 }
 
 void dae::FPSComponent::FixedUpdate(float fixedTimeStep)
@@ -30,9 +28,9 @@ void dae::FPSComponent::SetPosition(float x, float y)
 	m_Transform.SetPosition(x, y, 0.0f);
 }
 
-void dae::FPSComponent::SetOwner(std::weak_ptr<GameObject> owner)
+void dae::FPSComponent::SetOwner(const GameObject* owner)
 {
-	m_Owner = owner;
+	m_OwnerPtr = owner;
 }
 
 float dae::FPSComponent::CalculateFPS(float elapsedSec)

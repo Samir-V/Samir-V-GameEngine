@@ -25,13 +25,13 @@ namespace dae
 		void Render() const override;
 
 		void SetPosition(float x, float y) override;
-		void SetOwner(std::weak_ptr<GameObject> owner) override;
+		void SetOwner(const GameObject* owner) override;
 
 	private:
 
 		Transform m_Transform{};
 		std::shared_ptr<Texture2D> m_Texture{};
-		std::weak_ptr<GameObject> m_Owner{};
+		const GameObject* m_OwnerPtr{};
 	};
 }
 

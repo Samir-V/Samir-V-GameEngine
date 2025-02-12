@@ -58,7 +58,7 @@ void dae::TextComponent::SetPosition(const float x, const float y)
 	m_Transform.SetPosition(x, y, 0.0f);
 }
 
-void dae::TextComponent::SetOwner(std::weak_ptr<GameObject> owner)
+void dae::TextComponent::SetOwner(const GameObject* owner)
 {
-	m_Owner = owner;
+	m_OwnerPtr = owner;
 }

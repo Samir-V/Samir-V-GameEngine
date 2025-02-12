@@ -9,7 +9,7 @@ namespace dae
 	{
 	public:
 
-		FPSComponent(std::shared_ptr<TextComponent> textComponent);
+		FPSComponent(TextComponent* textComponentPtr);
 		~FPSComponent() override = default;
 
 		FPSComponent(const FPSComponent& other) = delete;
@@ -22,7 +22,7 @@ namespace dae
 		void Render() const override;
 
 		void SetPosition(float x, float y) override;
-		void SetOwner(std::weak_ptr<GameObject> owner) override;
+		void SetOwner(const GameObject* owner) override;
 
 	private:
 
@@ -30,9 +30,10 @@ namespace dae
 
 		Transform m_Transform{};
 
-		// A choice to store the text component as a shared pointer to avoid cluttering the GameObject class and for easier communication between components
-		std::shared_ptr<TextComponent> m_AssignedTextComponent{};
-		std::weak_ptr<GameObject> m_Owner{};
+		// A choice to store the text component as a raw pointer to avoid cluttering the GameObject class and for easier communication between components
+		// Not const since the text will be modified constantly
+		TextComponent* m_AssignedTextComponentPtr{};
+		const GameObject* m_OwnerPtr{};
 	};
 }
 
