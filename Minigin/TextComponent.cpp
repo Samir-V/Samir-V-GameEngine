@@ -62,3 +62,13 @@ void dae::TextComponent::SetOwner(const GameObject* owner)
 {
 	m_OwnerPtr = owner;
 }
+
+void dae::TextComponent::Destroy()
+{
+	m_MarkedToDestroy = true;
+}
+
+bool dae::TextComponent::GetMarkedToDestroy() const
+{
+	return m_MarkedToDestroy;
+}

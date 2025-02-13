@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <ranges>
+#include <algorithm>
 
 #include "ComponentBase.h"
 #include "Transform.h"
@@ -24,32 +26,56 @@ namespace dae
 
 		void SetPosition(float x, float y);
 
-		void AddComponent(std::unique_ptr<ComponentBase> component);
+		template <typename T, typename... Args>
+		T* AddComponent(Args&&... args)
+		{
+			auto component = std::make_unique<T>(std::forward<Args>(args)...);
+			component->SetOwner(this);
+			auto rawPtr = component.get();
+			m_Components.push_back(std::move(component));
+
+			return rawPtr;
+		}
 
 		template <typename T>
 		bool HasComponent() const
 		{
-			for (const auto& component : m_Components)
+			return std::ranges::any_of(m_Components, [](const auto& component)
 			{
-				if (dynamic_cast<T*>(component.get()))
-				{
-					return true;
-				}
-			}
-			return false;
+				return dynamic_cast<T*>(component.get()) != nullptr;
+			});
 		}
 
 		template <typename T>
 		T* GetComponent() const
 		{
-			for (const auto& component : m_Components)
-			{
-				if (T* casted = dynamic_cast<T*>(component.get()))
+			auto it = std::ranges::find_if(m_Components, [](const auto& component) 
 				{
-					return casted;
-				}
+					return dynamic_cast<T*>(component.get()) != nullptr;
+				});
+
+			if (it != m_Components.end())
+			{
+				return static_cast<T*>((*it).get());
 			}
+
 			return nullptr;
+		}
+
+		template <typename T>
+		void DeleteComponent() const
+		{
+			auto it = std::ranges::find_if(m_Components, [](const auto& component)
+				{
+					return dynamic_cast<T*>(component.get()) != nullptr;
+				});
+
+			if (it != m_Components.end())
+			{
+				auto component = static_cast<T*>((*it).get());
+
+				component->Destroy();
+			}
 		}
 
 	private:

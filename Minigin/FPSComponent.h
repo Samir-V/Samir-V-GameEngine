@@ -23,11 +23,14 @@ namespace dae
 
 		void SetPosition(float x, float y) override;
 		void SetOwner(const GameObject* owner) override;
+		void Destroy() override;
+		bool GetMarkedToDestroy() const override;
 
 	private:
 
 		float CalculateFPS(float elapsedSec);
 
+		bool m_MarkedToDestroy{};
 		Transform m_Transform{};
 
 		// A choice to store the text component as a raw pointer to avoid cluttering the GameObject class and for easier communication between components

@@ -28,10 +28,13 @@ namespace dae
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y) override;
 		void SetOwner(const GameObject* owner) override;
+		void Destroy() override;
+		bool GetMarkedToDestroy() const override;
 
 	private:
 
 		bool m_NeedsUpdate;
+		bool m_MarkedToDestroy{};
 		std::string m_Text;
 		Transform m_Transform{};
 		std::shared_ptr<Font> m_Font;

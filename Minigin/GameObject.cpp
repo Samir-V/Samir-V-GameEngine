@@ -10,6 +10,13 @@ void dae::GameObject::Update(float elapsedSec)
 	{
 		component->Update(elapsedSec);
 	}
+
+	auto rangeToDestroy = std::ranges::remove_if(m_Components, [](const auto& component)
+		{
+			return component->GetMarkedToDestroy();
+		});
+
+	m_Components.erase(rangeToDestroy.begin(),  m_Components.end());
 }
 
 void dae::GameObject::FixedUpdate(float fixedTimeStep)
@@ -28,11 +35,11 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::AddComponent(std::unique_ptr<ComponentBase> component)
-{
-	component->SetOwner(this);
-	m_Components.push_back(std::move(component));
-}
+//void dae::GameObject::AddComponent(std::unique_ptr<ComponentBase> component)
+//{
+//	component->SetOwner(this);
+//	m_Components.push_back(std::move(component));
+//}
 
 void dae::GameObject::SetPosition(float x, float y)
 {

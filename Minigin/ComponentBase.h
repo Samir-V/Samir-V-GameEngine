@@ -7,8 +7,6 @@ namespace dae
 	class ComponentBase
 	{
 	public:
-
-		ComponentBase() = default;
 		virtual ~ComponentBase() = default;
 
 		ComponentBase(const ComponentBase& other) = default;
@@ -22,6 +20,12 @@ namespace dae
 
 		virtual void SetPosition(float x, float y) = 0;
 		virtual void SetOwner(const GameObject* owner) = 0;
+
+		virtual void Destroy() = 0;
+		virtual bool GetMarkedToDestroy() const = 0;
+
+	protected:
+		ComponentBase() = default;
 	};
 }
 

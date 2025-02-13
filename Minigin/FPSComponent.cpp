@@ -38,3 +38,12 @@ float dae::FPSComponent::CalculateFPS(float elapsedSec)
 	return 1.0f / elapsedSec;
 }
 
+void dae::FPSComponent::Destroy()
+{
+	m_MarkedToDestroy = true;
+}
+
+bool dae::FPSComponent::GetMarkedToDestroy() const
+{
+	return m_MarkedToDestroy;
+}
