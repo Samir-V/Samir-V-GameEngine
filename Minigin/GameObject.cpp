@@ -10,13 +10,6 @@ void dae::GameObject::Update(float elapsedSec)
 	{
 		component->Update(elapsedSec);
 	}
-
-	auto rangeToDestroy = std::ranges::remove_if(m_Components, [](const auto& component)
-		{
-			return component->GetMarkedToDestroy();
-		});
-
-	m_Components.erase(rangeToDestroy.begin(),  m_Components.end());
 }
 
 void dae::GameObject::FixedUpdate(float fixedTimeStep)
@@ -26,6 +19,24 @@ void dae::GameObject::FixedUpdate(float fixedTimeStep)
 		component->FixedUpdate(fixedTimeStep);
 	}
 }
+
+void dae::GameObject::LateUpdate(float elapsedSec)
+{
+	for (const auto& component : m_Components)
+	{
+		component->LateUpdate(elapsedSec);
+	}
+
+	// Deletion of marked objects happens at the very end
+
+	auto rangeToDestroy = std::ranges::remove_if(m_Components, [](const auto& component)
+		{
+			return component->GetMarkedToDestroy();
+		});
+
+	m_Components.erase(rangeToDestroy.begin(), m_Components.end());
+}
+
 
 void dae::GameObject::Render() const
 {

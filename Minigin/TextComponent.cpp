@@ -37,6 +37,11 @@ void dae::TextComponent::FixedUpdate(float fixedTimeStep)
 	fixedTimeStep;
 }
 
+void dae::TextComponent::LateUpdate(float elapsedSec)
+{
+	elapsedSec;
+}
+
 void dae::TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)

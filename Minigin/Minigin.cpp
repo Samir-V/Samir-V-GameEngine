@@ -110,6 +110,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		// Running an update with elapsedSec for everything besides Physics and AI updates
 		sceneManager.Update(elapsedSec);
 
+		// Running the late update with elapsedSec
+		sceneManager.LateUpdate(elapsedSec);
+
 		renderer.Render();
 
 		// Preventing additional frame generation by setting a desired frame rate

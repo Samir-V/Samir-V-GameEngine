@@ -18,6 +18,11 @@ void dae::Texture2DComponent::FixedUpdate(float fixedTimeStep)
 	fixedTimeStep;
 }
 
+void dae::Texture2DComponent::LateUpdate(float elapsedSec)
+{
+	elapsedSec;
+}
+
 void dae::Texture2DComponent::Render() const
 {
 	const auto& pos = m_Transform.GetPosition();

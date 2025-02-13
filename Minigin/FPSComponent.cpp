@@ -26,6 +26,11 @@ void dae::FPSComponent::FixedUpdate(float fixedTimeStep)
 	fixedTimeStep;
 }
 
+void dae::FPSComponent::LateUpdate(float elapsedSec)
+{
+	elapsedSec;
+}
+
 void dae::FPSComponent::Render() const
 {
 

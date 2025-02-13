@@ -22,6 +22,7 @@ namespace dae
 
 		void Update(float elapsedSec) override;
 		void FixedUpdate(float fixedTimeStep) override;
+		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
 		void SetPosition(float x, float y) override;

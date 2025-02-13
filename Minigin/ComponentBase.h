@@ -16,6 +16,7 @@ namespace dae
 
 		virtual void Update(float elapsedSec) = 0;
 		virtual void FixedUpdate(float fixedTimeStep) = 0;
+		virtual void LateUpdate(float elapsedSec) = 0;
 		virtual void Render() const = 0; // Not every component will implement the Render Function
 
 		virtual void SetPosition(float x, float y) = 0;

@@ -22,6 +22,7 @@ namespace dae
 
 		void Update(float elapsedSec);
 		void FixedUpdate(float fixedTimeStep);
+		void LateUpdate(float elapsedSec);
 		void Render() const;
 
 		void SetPosition(float x, float y);
