@@ -35,12 +35,6 @@ void dae::GameObject::Render() const
 	}
 }
 
-//void dae::GameObject::AddComponent(std::unique_ptr<ComponentBase> component)
-//{
-//	component->SetOwner(this);
-//	m_Components.push_back(std::move(component));
-//}
-
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);

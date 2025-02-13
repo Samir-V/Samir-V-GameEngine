@@ -8,9 +8,17 @@ dae::FPSComponent::FPSComponent(TextComponent* textComponentPtr)
 
 void dae::FPSComponent::Update(float elapsedSec)
 {
-	float fps = CalculateFPS(elapsedSec);
+	if (m_AssignedTextComponentPtr != nullptr && m_AssignedTextComponentPtr->GetMarkedToDestroy())
+	{
+		m_AssignedTextComponentPtr = nullptr;
+	}
 
-	m_AssignedTextComponentPtr->SetText(std::format("{:.1f} FPS", fps));
+	if (m_AssignedTextComponentPtr != nullptr)
+	{
+		float fps = CalculateFPS(elapsedSec);
+
+		m_AssignedTextComponentPtr->SetText(std::format("{:.1f} FPS", fps));
+	}
 }
 
 void dae::FPSComponent::FixedUpdate(float fixedTimeStep)
