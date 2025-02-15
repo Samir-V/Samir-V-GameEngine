@@ -9,10 +9,8 @@ dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font>
 	: m_NeedsUpdate(true), m_Text(text), m_Font(std::move(font)), m_TextTexture(nullptr)
 { }
 
-void dae::TextComponent::Update(float elapsedSec)
+void dae::TextComponent::Update([[maybe_unused]] float elapsedSec)
 {
-	elapsedSec;
-
 	if (m_NeedsUpdate)
 	{
 		const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
@@ -32,14 +30,14 @@ void dae::TextComponent::Update(float elapsedSec)
 	}
 }
 
-void dae::TextComponent::FixedUpdate(float fixedTimeStep)
+void dae::TextComponent::FixedUpdate([[maybe_unused]] float fixedTimeStep)
 {
-	fixedTimeStep;
+
 }
 
-void dae::TextComponent::LateUpdate(float elapsedSec)
+void dae::TextComponent::LateUpdate([[maybe_unused]] float elapsedSec)
 {
-	elapsedSec;
+
 }
 
 void dae::TextComponent::Render() const

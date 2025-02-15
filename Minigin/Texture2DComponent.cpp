@@ -8,19 +8,19 @@ dae::Texture2DComponent::Texture2DComponent(const std::string& filename) : m_Tex
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
-void dae::Texture2DComponent::Update(float elapsedSec)
+void dae::Texture2DComponent::Update([[maybe_unused]] float elapsedSec)
 {
-	elapsedSec;
+
 }
 
-void dae::Texture2DComponent::FixedUpdate(float fixedTimeStep)
+void dae::Texture2DComponent::FixedUpdate([[maybe_unused]] float fixedTimeStep)
 {
-	fixedTimeStep;
+	
 }
 
-void dae::Texture2DComponent::LateUpdate(float elapsedSec)
+void dae::Texture2DComponent::LateUpdate([[maybe_unused]] float elapsedSec)
 {
-	elapsedSec;
+
 }
 
 void dae::Texture2DComponent::Render() const

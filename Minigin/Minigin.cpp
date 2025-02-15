@@ -116,7 +116,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		renderer.Render();
 
 		// Preventing additional frame generation by setting a desired frame rate
-		const auto sleep_time = currentTime + std::chrono::milliseconds(6) - std::chrono::high_resolution_clock::now();
-		std::this_thread::sleep_for(sleep_time);
+		/*const auto sleep_time = currentTime + std::chrono::milliseconds(6) - std::chrono::high_resolution_clock::now();
+		std::this_thread::sleep_for(sleep_time);*/
 	}
 }

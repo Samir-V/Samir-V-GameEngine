@@ -6,17 +6,17 @@ dae::FPSComponent::FPSComponent(TextComponent* textComponentPtr)
 	m_AssignedTextComponentPtr = textComponentPtr;
 }
 
-void dae::FPSComponent::Update(float elapsedSec)
+void dae::FPSComponent::Update([[maybe_unused]] float elapsedSec)
 {
-	elapsedSec;
+
 }
 
-void dae::FPSComponent::FixedUpdate(float fixedTimeStep)
+void dae::FPSComponent::FixedUpdate([[maybe_unused]] float fixedTimeStep)
 {
-	fixedTimeStep;
+
 }
 
-void dae::FPSComponent::LateUpdate(float elapsedSec)
+void dae::FPSComponent::LateUpdate([[maybe_unused]] float elapsedSec)
 {
 	if (m_AssignedTextComponentPtr != nullptr && m_AssignedTextComponentPtr->GetMarkedToDestroy())
 	{
