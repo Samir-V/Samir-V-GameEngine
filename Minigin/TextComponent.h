@@ -29,7 +29,7 @@ namespace dae
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y) override;
 		void Destroy() override;
-		bool GetMarkedToDestroy() const override;
+		bool IsMarkedToDestroy() const override;
 
 	private:
 

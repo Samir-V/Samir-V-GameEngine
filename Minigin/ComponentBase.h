@@ -21,7 +21,7 @@ namespace dae
 
 		virtual void SetPosition(float x, float y) = 0;
 		virtual void Destroy() = 0;
-		virtual bool GetMarkedToDestroy() const = 0;
+		virtual bool IsMarkedToDestroy() const = 0;
 
 	protected:
 		explicit ComponentBase(GameObject* ownerPtr) : m_OwnerPtr(ownerPtr) {}

@@ -71,7 +71,7 @@ void dae::TextComponent::Destroy()
 	m_MarkedToDestroy = true;
 }
 
-bool dae::TextComponent::GetMarkedToDestroy() const
+bool dae::TextComponent::IsMarkedToDestroy() const
 {
 	return m_MarkedToDestroy;
 }

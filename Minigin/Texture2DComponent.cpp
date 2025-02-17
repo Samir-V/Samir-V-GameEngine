@@ -41,7 +41,7 @@ void dae::Texture2DComponent::Destroy()
 	m_MarkedToDestroy = true;
 }
 
-bool dae::Texture2DComponent::GetMarkedToDestroy() const
+bool dae::Texture2DComponent::IsMarkedToDestroy() const
 {
 	return m_MarkedToDestroy;
 }

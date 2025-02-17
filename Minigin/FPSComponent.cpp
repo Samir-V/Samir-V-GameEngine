@@ -45,7 +45,7 @@ void dae::FPSComponent::Destroy()
 	m_MarkedToDestroy = true;
 }
 
-bool dae::FPSComponent::GetMarkedToDestroy() const
+bool dae::FPSComponent::IsMarkedToDestroy() const
 {
 	return m_MarkedToDestroy;
 }
