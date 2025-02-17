@@ -9,7 +9,7 @@ dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font>
 	: m_NeedsUpdate(true), m_Text(text), m_Font(std::move(font)), m_TextTexture(nullptr)
 { }
 
-void dae::TextComponent::Update([[maybe_unused]] float elapsedSec)
+void dae::TextComponent::Update(float)
 {
 	if (m_NeedsUpdate)
 	{
@@ -30,12 +30,12 @@ void dae::TextComponent::Update([[maybe_unused]] float elapsedSec)
 	}
 }
 
-void dae::TextComponent::FixedUpdate([[maybe_unused]] float fixedTimeStep)
+void dae::TextComponent::FixedUpdate(float)
 {
 
 }
 
-void dae::TextComponent::LateUpdate([[maybe_unused]] float elapsedSec)
+void dae::TextComponent::LateUpdate(float)
 {
 
 }

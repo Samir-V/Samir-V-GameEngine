@@ -6,29 +6,23 @@ dae::FPSComponent::FPSComponent(TextComponent* textComponentPtr)
 	m_AssignedTextComponentPtr = textComponentPtr;
 }
 
-void dae::FPSComponent::Update([[maybe_unused]] float elapsedSec)
+void dae::FPSComponent::Update(float elapsedSec)
+{
+	assert(m_AssignedTextComponentPtr && "m_AssignedTextComponentPtr is null!");
+
+	float fps = CalculateFPS(elapsedSec);
+
+	m_AssignedTextComponentPtr->SetText(std::format("{:.1f} FPS", fps));
+}
+
+void dae::FPSComponent::FixedUpdate(float)
 {
 
 }
 
-void dae::FPSComponent::FixedUpdate([[maybe_unused]] float fixedTimeStep)
+void dae::FPSComponent::LateUpdate(float)
 {
 
-}
-
-void dae::FPSComponent::LateUpdate([[maybe_unused]] float elapsedSec)
-{
-	if (m_AssignedTextComponentPtr != nullptr && m_AssignedTextComponentPtr->GetMarkedToDestroy())
-	{
-		m_AssignedTextComponentPtr = nullptr;
-	}
-
-	if (m_AssignedTextComponentPtr != nullptr)
-	{
-		float fps = CalculateFPS(elapsedSec);
-
-		m_AssignedTextComponentPtr->SetText(std::format("{:.1f} FPS", fps));
-	}
 }
 
 void dae::FPSComponent::Render() const
