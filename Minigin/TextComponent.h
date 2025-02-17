@@ -13,7 +13,7 @@ namespace dae
 	{
 	public:
 
-		TextComponent(const std::string& text, std::shared_ptr<Font> font);
+		TextComponent(GameObject* ownerPtr, const std::string& text, std::shared_ptr<Font> font);
 		~TextComponent() override = default;
 
 		TextComponent(const TextComponent& other) = delete;
@@ -28,7 +28,6 @@ namespace dae
 
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y) override;
-		void SetOwner(const GameObject* owner) override;
 		void Destroy() override;
 		bool GetMarkedToDestroy() const override;
 
@@ -40,6 +39,5 @@ namespace dae
 		Transform m_Transform{};
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
-		const GameObject* m_OwnerPtr{};
 	};
 }

@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 
-		Texture2DComponent(const std::string& filename);
+		Texture2DComponent(GameObject* ownerPtr, const std::string& filename);
 		~Texture2DComponent() override = default;
 
 		Texture2DComponent(const Texture2DComponent& other) = delete;
@@ -26,7 +26,6 @@ namespace dae
 		void Render() const override;
 
 		void SetPosition(float x, float y) override;
-		void SetOwner(const GameObject* owner) override;
 		void Destroy() override;
 		bool GetMarkedToDestroy() const override;
 
@@ -35,7 +34,6 @@ namespace dae
 		bool m_MarkedToDestroy{};
 		Transform m_Transform{};
 		std::shared_ptr<Texture2D> m_Texture{};
-		const GameObject* m_OwnerPtr{};
 	};
 }
 

@@ -1,7 +1,7 @@
 #include "FPSComponent.h"
 #include <format>
 
-dae::FPSComponent::FPSComponent(TextComponent* textComponentPtr)
+dae::FPSComponent::FPSComponent(GameObject* ownerPtr, TextComponent* textComponentPtr): ComponentBase(ownerPtr)
 {
 	m_AssignedTextComponentPtr = textComponentPtr;
 }
@@ -33,11 +33,6 @@ void dae::FPSComponent::Render() const
 void dae::FPSComponent::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
-}
-
-void dae::FPSComponent::SetOwner(const GameObject* owner)
-{
-	m_OwnerPtr = owner;
 }
 
 float dae::FPSComponent::CalculateFPS(float elapsedSec)

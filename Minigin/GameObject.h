@@ -30,8 +30,7 @@ namespace dae
 		template <typename T, typename... Args>
 		T* AddComponent(Args&&... args)
 		{
-			auto component = std::make_unique<T>(std::forward<Args>(args)...);
-			component->SetOwner(this);
+			auto component = std::make_unique<T>(this, std::forward<Args>(args)...);
 			auto rawPtr = component.get();
 			m_Components.push_back(std::move(component));
 
