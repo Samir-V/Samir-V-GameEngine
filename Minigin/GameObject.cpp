@@ -12,14 +12,6 @@ void dae::GameObject::Update(float elapsedSec)
 	}
 }
 
-void dae::GameObject::FixedUpdate(float fixedTimeStep)
-{
-	for (const auto& component : m_Components)
-	{
-		component->FixedUpdate(fixedTimeStep);
-	}
-}
-
 void dae::GameObject::LateUpdate(float elapsedSec)
 {
 	for (const auto& component : m_Components)
@@ -63,6 +55,8 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 	// Validation
 	assert(newParentPtr && newParentPtr != this && IsNotInChildren(this));
 
+
+	worldPositionStays;
 	// Position update
 	// TODO: Implement the position update
 

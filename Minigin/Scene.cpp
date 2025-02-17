@@ -36,14 +36,6 @@ void Scene::Update(float elapsedSec)
 	}
 }
 
-void Scene::FixedUpdate(float fixedTimeStep)
-{
-	for (const auto& object : m_Objects)
-	{
-		object->FixedUpdate(fixedTimeStep);
-	}
-}
-
 void Scene::LateUpdate(float elapsedSec)
 {
 	for (auto& object : m_Objects)

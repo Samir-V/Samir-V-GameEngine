@@ -18,7 +18,6 @@ namespace dae
 		FPSComponent& operator=(FPSComponent&& other) = delete;
 
 		void Update(float elapsedSec) override;
-		void FixedUpdate(float fixedTimeStep) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 

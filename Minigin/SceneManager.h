@@ -13,7 +13,6 @@ namespace dae
 		Scene& CreateScene(const std::string& name);
 
 		void Update(float elapsedSec);
-		void FixedUpdate(float fixedTimeStep);
 		void LateUpdate(float elapsedSec);
 		void Render();
 	private:

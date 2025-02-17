@@ -35,11 +35,6 @@ void dae::TextComponent::Update(float)
 	}
 }
 
-void dae::TextComponent::FixedUpdate(float)
-{
-
-}
-
 void dae::TextComponent::LateUpdate(float)
 {
 

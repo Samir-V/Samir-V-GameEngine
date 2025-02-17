@@ -9,14 +9,6 @@ void dae::SceneManager::Update(float elapsedSec)
 	}
 }
 
-void dae::SceneManager::FixedUpdate(float fixedTimeStep)
-{
-	for (const auto& scene : m_Scenes)
-	{
-		scene->FixedUpdate(fixedTimeStep);
-	}
-}
-
 void dae::SceneManager::LateUpdate(float elapsedSec)
 {
 	for (auto& scene : m_Scenes)

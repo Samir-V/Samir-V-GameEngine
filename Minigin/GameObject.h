@@ -21,7 +21,6 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 		void Update(float elapsedSec);
-		void FixedUpdate(float fixedTimeStep);
 		void LateUpdate(float elapsedSec);
 		void Render() const;
 

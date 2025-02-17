@@ -89,23 +89,14 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	bool doContinue = true;
 
 	auto previous = std::chrono::high_resolution_clock::now();
-	float lag = 0.0f;
 
 	while (doContinue)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
 		const float elapsedSec = std::chrono::duration<float>(currentTime - previous).count();
 		previous = currentTime;
-		lag += elapsedSec;
 
 		doContinue = input.ProcessInput();
-
-		while (lag >= FIXED_TIME_STEP)
-		{
-			// Running an update with fixed time step for Physics and AI updates
-			sceneManager.FixedUpdate(FIXED_TIME_STEP);
-			lag -= FIXED_TIME_STEP;
-		}
 
 		// Running an update with elapsedSec for everything besides Physics and AI updates
 		sceneManager.Update(elapsedSec);

@@ -15,11 +15,6 @@ void dae::Texture2DComponent::Update(float)
 
 }
 
-void dae::Texture2DComponent::FixedUpdate(float)
-{
-
-}
-
 void dae::Texture2DComponent::LateUpdate(float)
 {
 

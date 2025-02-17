@@ -15,11 +15,6 @@ void dae::FPSComponent::Update(float elapsedSec)
 	m_AssignedTextComponentPtr->SetText(std::format("{:.1f} FPS", fps));
 }
 
-void dae::FPSComponent::FixedUpdate(float)
-{
-
-}
-
 void dae::FPSComponent::LateUpdate(float)
 {
 
