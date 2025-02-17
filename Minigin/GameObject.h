@@ -26,6 +26,8 @@ namespace dae
 		void Render() const;
 
 		void SetPosition(float x, float y);
+		void SetParent(GameObject* newParentPtr, bool worldPositionStays);
+		std::vector<GameObject*>& GetChildrenVector();
 
 		template <typename T, typename... Args>
 		T* AddComponent(Args&&... args)
@@ -80,8 +82,12 @@ namespace dae
 
 	private:
 
+		bool IsNotInChildren(GameObject* gameObject) const;
+
 		Transform m_Transform{};
+		GameObject* m_Parent{};
 
 		std::vector<std::unique_ptr<ComponentBase>> m_Components{};
+		std::vector<GameObject*> m_Children{};
 	};
 }
