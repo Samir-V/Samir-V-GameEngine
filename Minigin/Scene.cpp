@@ -53,3 +53,8 @@ void Scene::Render() const
 	}
 }
 
+const std::vector<std::unique_ptr<GameObject>>& Scene::GetGameObjects()
+{
+	return m_Objects;
+}
+

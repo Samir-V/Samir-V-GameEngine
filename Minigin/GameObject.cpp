@@ -79,6 +79,11 @@ void dae::GameObject::UpdateWorldPosition()
 void dae::GameObject::SetPositionIsDirty()
 {
 	m_PositionIsDirty = true;
+
+	for (const auto child : m_Children)
+	{
+		child->SetPositionIsDirty();
+	}
 }
 
 void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStays)
@@ -100,24 +105,31 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 	}
 
 	// Removing from previous parent
-	auto& childrenVec = m_Parent->GetChildrenVector();
 
-	auto it = std::ranges::find_if(childrenVec, [this](const auto& child)
-		{
-			return child == this;
-		});
+	if (m_Parent)
+	{
+		auto& childrenVec = m_Parent->GetChildrenVector();
 
-	auto child = *it;
-		
-	childrenVec.erase(it);
+		auto it = std::ranges::find_if(childrenVec, [this](const auto& child)
+			{
+				return child == this;
+			});
+
+		childrenVec.erase(it);
+	}
 
 	// Setting the new parent
 	m_Parent = newParentPtr;
 
 	// Adding to the new parents children
-	childrenVec = m_Parent->GetChildrenVector();
+	if (m_Parent)
+	{
+		auto& childrenVec = m_Parent->GetChildrenVector();
 
-	childrenVec.push_back(child);
+		childrenVec = m_Parent->GetChildrenVector();
+
+		childrenVec.push_back(this);
+	}
 }
 
 bool dae::GameObject::IsNotInChildren(GameObject* gameObject) const
