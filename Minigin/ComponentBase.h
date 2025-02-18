@@ -18,7 +18,7 @@ namespace dae
 		virtual void LateUpdate(float elapsedSec) = 0;
 		virtual void Render() const = 0; // Not every component will implement the Render Function
 
-		virtual void SetPosition(float x, float y) = 0;
+		virtual void SetLocalPosition(float x, float y) = 0;
 		virtual void Destroy() = 0;
 		virtual bool IsMarkedToDestroy() const = 0;
 

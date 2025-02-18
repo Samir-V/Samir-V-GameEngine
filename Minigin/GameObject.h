@@ -24,9 +24,13 @@ namespace dae
 		void LateUpdate(float elapsedSec);
 		void Render() const;
 
-		void SetPosition(float x, float y);
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec3& pos);
 		void SetParent(GameObject* newParentPtr, bool worldPositionStays);
 		std::vector<GameObject*>& GetChildrenVector();
+
+		Transform GetWorldTransform();
+		void SetPositionIsDirty();
 
 		template <typename T, typename... Args>
 		T* AddComponent(Args&&... args)
@@ -82,8 +86,12 @@ namespace dae
 	private:
 
 		bool IsNotInChildren(GameObject* gameObject) const;
+		void UpdateWorldPosition();
 
-		Transform m_Transform{};
+		bool m_PositionIsDirty{};
+
+		Transform m_LocalTransform{};
+		Transform m_WorldTransform{};
 		GameObject* m_Parent{};
 
 		std::vector<std::unique_ptr<ComponentBase>> m_Components{};

@@ -2,6 +2,7 @@
 
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "GameObject.h"
 
 dae::Texture2DComponent::Texture2DComponent(GameObject* ownerPtr, const std::string& filename) :
 	ComponentBase(ownerPtr),
@@ -22,13 +23,13 @@ void dae::Texture2DComponent::LateUpdate(float)
 
 void dae::Texture2DComponent::Render() const
 {
-	const auto& pos = m_Transform.GetPosition();
+	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + m_LocalTransform.GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
-void dae::Texture2DComponent::SetPosition(float x, float y)
+void dae::Texture2DComponent::SetLocalPosition(float x, float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
 void dae::Texture2DComponent::Destroy()

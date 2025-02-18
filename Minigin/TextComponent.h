@@ -26,7 +26,7 @@ namespace dae
 		void Render() const override;
 
 		void SetText(const std::string& text);
-		void SetPosition(float x, float y) override;
+		void SetLocalPosition(float x, float y) override;
 		void Destroy() override;
 		bool IsMarkedToDestroy() const override;
 
@@ -35,7 +35,7 @@ namespace dae
 		bool m_NeedsUpdate;
 		bool m_MarkedToDestroy{};
 		std::string m_Text;
-		Transform m_Transform{};
+		Transform m_LocalTransform{};
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
 	};

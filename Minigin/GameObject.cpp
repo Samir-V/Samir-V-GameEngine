@@ -38,9 +38,47 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void dae::GameObject::SetLocalPosition(float x, float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_LocalTransform.SetPosition(x, y, 0.0f);
+	SetPositionIsDirty();
+}
+
+void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
+{
+	m_LocalTransform.SetPosition(pos);
+	SetPositionIsDirty();
+}
+
+
+dae::Transform dae::GameObject::GetWorldTransform()
+{
+	if (m_PositionIsDirty)
+	{
+		UpdateWorldPosition();
+	}
+	return m_WorldTransform;
+}
+
+void dae::GameObject::UpdateWorldPosition()
+{
+	if (m_PositionIsDirty)
+	{
+		if (m_Parent == nullptr)
+		{
+			m_WorldTransform.SetPosition(m_LocalTransform.GetPosition());
+		}
+		else
+		{
+			m_WorldTransform.SetPosition(m_Parent->GetWorldTransform().GetPosition() + m_LocalTransform.GetPosition());
+		}
+	}
+	m_PositionIsDirty = false;
+}
+
+void dae::GameObject::SetPositionIsDirty()
+{
+	m_PositionIsDirty = true;
 }
 
 void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStays)
@@ -48,10 +86,18 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 	// Validation
 	assert(newParentPtr != m_Parent && newParentPtr != this && IsNotInChildren(this));
 
-
-	worldPositionStays;
-	// Position update
-	// TODO: Implement the position update
+	if (newParentPtr == nullptr)
+	{
+		SetLocalPosition(GetWorldTransform().GetPosition());
+	}
+	else
+	{
+		if (worldPositionStays)
+		{
+			SetLocalPosition(GetWorldTransform().GetPosition() - m_Parent->GetWorldTransform().GetPosition());
+		}
+		SetPositionIsDirty();
+	}
 
 	// Removing from previous parent
 	auto& childrenVec = m_Parent->GetChildrenVector();
