@@ -144,3 +144,9 @@ std::vector<dae::GameObject*>& dae::GameObject::GetChildrenVector()
 {
 	return m_Children;
 }
+
+dae::GameObject* dae::GameObject::GetParent()
+{
+	return m_Parent;
+}
+

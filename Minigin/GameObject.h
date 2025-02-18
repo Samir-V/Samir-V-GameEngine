@@ -30,6 +30,7 @@ namespace dae
 		std::vector<GameObject*>& GetChildrenVector();
 
 		Transform GetWorldTransform();
+		GameObject* GetParent();
 		void SetPositionIsDirty();
 
 		template <typename T, typename... Args>
