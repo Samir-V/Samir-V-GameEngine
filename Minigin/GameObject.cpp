@@ -27,13 +27,6 @@ void dae::GameObject::LateUpdate(float elapsedSec)
 		});
 
 	m_Components.erase(rangeToDestroy.begin(), m_Components.end());
-
-	auto childrenToDestroy = std::ranges::remove_if(m_Children, [](const auto& component)
-		{
-			return component == nullptr;
-		});
-
-	m_Children.erase(childrenToDestroy.begin(), m_Children.end());
 }
 
 
@@ -53,7 +46,7 @@ void dae::GameObject::SetPosition(float x, float y)
 void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStays)
 {
 	// Validation
-	assert(newParentPtr && newParentPtr != this && IsNotInChildren(this));
+	assert(newParentPtr != m_Parent && newParentPtr != this && IsNotInChildren(this));
 
 
 	worldPositionStays;
@@ -67,9 +60,10 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 		{
 			return child == this;
 		});
-		
+
 	auto child = *it;
-	*it = nullptr;
+		
+	childrenVec.erase(it);
 
 	// Setting the new parent
 	m_Parent = newParentPtr;
