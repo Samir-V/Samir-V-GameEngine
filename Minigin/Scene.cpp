@@ -42,6 +42,14 @@ void Scene::LateUpdate(float elapsedSec)
 	{
 		object->LateUpdate(elapsedSec);
 	}
+
+	// Deletion of marked objects happens at the very end
+	auto rangeToDestroy = std::ranges::remove_if(m_Objects, [](const auto& object)
+		{
+			return object->IsMarkedToDestroy();
+		});
+
+	m_Objects.erase(rangeToDestroy.begin(), m_Objects.end());
 }
 
 

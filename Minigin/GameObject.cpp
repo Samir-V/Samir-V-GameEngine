@@ -105,7 +105,6 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 	}
 
 	// Removing from previous parent
-
 	if (m_Parent)
 	{
 		auto& childrenVec = m_Parent->GetChildrenVector();
@@ -145,8 +144,20 @@ std::vector<dae::GameObject*>& dae::GameObject::GetChildrenVector()
 	return m_Children;
 }
 
-dae::GameObject* dae::GameObject::GetParent()
+dae::GameObject* dae::GameObject::GetParent() const
 {
 	return m_Parent;
 }
+
+void dae::GameObject::Destroy()
+{
+	m_MarkedToDestroy = true;
+}
+
+bool dae::GameObject::IsMarkedToDestroy() const
+{
+	return m_MarkedToDestroy;
+}
+
+
 

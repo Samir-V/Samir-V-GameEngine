@@ -30,8 +30,11 @@ namespace dae
 		std::vector<GameObject*>& GetChildrenVector();
 
 		Transform GetWorldTransform();
-		GameObject* GetParent();
+		GameObject* GetParent() const;
 		void SetPositionIsDirty();
+
+		void Destroy();
+		bool IsMarkedToDestroy() const;
 
 		template <typename T, typename... Args>
 		T* AddComponent(Args&&... args)
@@ -90,6 +93,7 @@ namespace dae
 		void UpdateWorldPosition();
 
 		bool m_PositionIsDirty{};
+		bool m_MarkedToDestroy{};
 
 		Transform m_LocalTransform{};
 		Transform m_WorldTransform{};
