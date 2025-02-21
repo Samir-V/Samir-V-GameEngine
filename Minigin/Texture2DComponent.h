@@ -29,7 +29,7 @@ namespace dae
 	private:
 
 		Transform m_LocalTransform{};
-		std::shared_ptr<Texture2D> m_Texture{};
+		const Texture2D* m_Texture{};
 	};
 }
 
