@@ -61,13 +61,3 @@ void dae::TextComponent::SetLocalPosition(const float x, const float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
-
-void dae::TextComponent::Destroy()
-{
-	m_MarkedToDestroy = true;
-}
-
-bool dae::TextComponent::IsMarkedToDestroy() const
-{
-	return m_MarkedToDestroy;
-}

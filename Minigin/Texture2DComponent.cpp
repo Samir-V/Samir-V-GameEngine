@@ -32,16 +32,5 @@ void dae::Texture2DComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::Texture2DComponent::Destroy()
-{
-	m_MarkedToDestroy = true;
-}
-
-bool dae::Texture2DComponent::IsMarkedToDestroy() const
-{
-	return m_MarkedToDestroy;
-}
-
-
 
 

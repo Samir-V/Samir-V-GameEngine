@@ -19,15 +19,16 @@ namespace dae
 		virtual void Render() const = 0; // Not every component will implement the Render Function
 
 		virtual void SetLocalPosition(float x, float y) = 0;
-		virtual void Destroy() = 0;
-		virtual bool IsMarkedToDestroy() const = 0;
+		virtual void Destroy() { m_MarkedToDestroy = true; }
+		virtual bool IsMarkedToDestroy() const { return m_MarkedToDestroy; }
 
 	protected:
-		explicit ComponentBase(GameObject* ownerPtr) : m_OwnerPtr(ownerPtr) {}
+		explicit ComponentBase(GameObject* ownerPtr) : m_OwnerPtr(ownerPtr), m_MarkedToDestroy(false) {}
 		GameObject* GetOwner() const { return m_OwnerPtr; }
 
 	private:
 		GameObject* m_OwnerPtr;
+		bool m_MarkedToDestroy;
 	};
 }
 

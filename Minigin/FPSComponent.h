@@ -22,14 +22,11 @@ namespace dae
 		void Render() const override;
 
 		void SetLocalPosition(float x, float y) override;
-		void Destroy() override;
-		bool IsMarkedToDestroy() const override;
 
 	private:
 
 		float CalculateFPS(float elapsedSec);
 
-		bool m_MarkedToDestroy{};
 		Transform m_LocalTransform{};
 
 		// A choice to store the text component as a raw pointer to avoid cluttering the GameObject class and for easier communication between components

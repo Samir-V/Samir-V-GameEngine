@@ -36,13 +36,3 @@ void dae::RotatorComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::RotatorComponent::Destroy()
-{
-	m_MarkedToDestroy = true;
-}
-
-bool dae::RotatorComponent::IsMarkedToDestroy() const
-{
-	return m_MarkedToDestroy;
-}
-

@@ -27,13 +27,10 @@ namespace dae
 
 		void SetText(const std::string& text);
 		void SetLocalPosition(float x, float y) override;
-		void Destroy() override;
-		bool IsMarkedToDestroy() const override;
 
 	private:
 
 		bool m_NeedsUpdate;
-		bool m_MarkedToDestroy{};
 		std::string m_Text;
 		Transform m_LocalTransform{};
 		std::shared_ptr<Font> m_Font;
