@@ -152,6 +152,11 @@ dae::GameObject* dae::GameObject::GetParent() const
 void dae::GameObject::Destroy()
 {
 	m_MarkedToDestroy = true;
+
+	for (const auto child : m_Children)
+	{
+		child->Destroy();
+	}
 }
 
 bool dae::GameObject::IsMarkedToDestroy() const

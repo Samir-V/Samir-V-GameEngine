@@ -1,15 +1,24 @@
 #include "RotatorComponent.h"
 #include "GameObject.h"
-#define GLM_ENABLE_EXPERIMENTAL
-#include <gtx/rotate_vector.hpp>
 
-dae::RotatorComponent::RotatorComponent(GameObject* ownerPtr, const glm::vec3& rotPoint, float angularSpeed, float radius):
+dae::RotatorComponent::RotatorComponent(GameObject* ownerPtr, const glm::vec3& rotPoint, float angularSpeed):
 	ComponentBase(ownerPtr),
 	m_RotationPoint	{rotPoint},
 	m_AngularSpeed	{angularSpeed},
-	m_Radius		{radius},
+	m_Radius		{ },
 	m_Angle			{ }
 {
+	if (GetOwner()->GetParent() == nullptr)
+	{
+		const glm::vec3 ownerWorldPos = GetOwner()->GetWorldTransform().GetPosition();
+		m_Radius = glm::distance(m_RotationPoint, ownerWorldPos);
+	}
+	else
+	{
+		const glm::vec3 ownerWorldPos = GetOwner()->GetWorldTransform().GetPosition();
+		const glm::vec3 parentWorldPos = GetOwner()->GetParent()->GetWorldTransform().GetPosition();
+		m_Radius = glm::distance(parentWorldPos + m_RotationPoint, ownerWorldPos);
+	}
 }
 
 void dae::RotatorComponent::Render() const
@@ -35,4 +44,15 @@ void dae::RotatorComponent::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
+
+void dae::RotatorComponent::SetRotationPoint(float x, float y)
+{
+	m_RotationPoint = glm::vec3(x, y, 0.0f);
+}
+
+void dae::RotatorComponent::SetRotationPoint(const glm::vec3& pos)
+{
+	m_RotationPoint = pos;
+}
+
 

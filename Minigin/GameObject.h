@@ -92,14 +92,14 @@ namespace dae
 		bool IsNotInChildren(GameObject* gameObject) const;
 		void UpdateWorldPosition();
 
-		bool m_PositionIsDirty{};
-		bool m_MarkedToDestroy{};
+		bool m_PositionIsDirty		{ true };
+		bool m_MarkedToDestroy		{ };
 
-		Transform m_LocalTransform{};
-		Transform m_WorldTransform{};
-		GameObject* m_Parent{};
+		Transform m_LocalTransform	{ };
+		Transform m_WorldTransform	{ };
+		GameObject* m_Parent		{ };
 
-		std::vector<std::unique_ptr<ComponentBase>> m_Components{};
-		std::vector<GameObject*> m_Children{};
+		std::vector<std::unique_ptr<ComponentBase>> m_Components{ };
+		std::vector<GameObject*>					m_Children	{ };
 	};
 }
