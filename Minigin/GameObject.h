@@ -37,6 +37,7 @@ namespace dae
 		bool IsMarkedToDestroy() const;
 
 		template <typename ComponentType, typename... Args>
+			requires std::derived_from<ComponentType, ComponentBase>
 		ComponentType* AddComponent(Args&&... args)
 		{
 			auto component = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
@@ -47,6 +48,7 @@ namespace dae
 		}
 
 		template <typename ComponentType>
+			requires std::derived_from<ComponentType, ComponentBase>
 		bool HasComponent() const
 		{
 			return std::ranges::any_of(m_Components, [](const auto& component)
@@ -56,6 +58,7 @@ namespace dae
 		}
 
 		template <typename ComponentType>
+			requires std::derived_from<ComponentType, ComponentBase>
 		ComponentType* GetComponent() const
 		{
 			auto it = std::ranges::find_if(m_Components, [](const auto& component) 
@@ -72,6 +75,7 @@ namespace dae
 		}
 
 		template <typename ComponentType>
+			requires std::derived_from<ComponentType, ComponentBase>
 		void DeleteComponent() const
 		{
 			auto it = std::ranges::find_if(m_Components, [](const auto& component)
