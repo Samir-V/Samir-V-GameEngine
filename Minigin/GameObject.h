@@ -36,52 +36,52 @@ namespace dae
 		void Destroy();
 		bool IsMarkedToDestroy() const;
 
-		template <typename T, typename... Args>
-		T* AddComponent(Args&&... args)
+		template <typename ComponentType, typename... Args>
+		ComponentType* AddComponent(Args&&... args)
 		{
-			auto component = std::make_unique<T>(this, std::forward<Args>(args)...);
+			auto component = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
 			auto rawPtr = component.get();
 			m_Components.push_back(std::move(component));
 
 			return rawPtr;
 		}
 
-		template <typename T>
+		template <typename ComponentType>
 		bool HasComponent() const
 		{
 			return std::ranges::any_of(m_Components, [](const auto& component)
 			{
-				return dynamic_cast<T*>(component.get()) != nullptr;
+				return dynamic_cast<ComponentType*>(component.get()) != nullptr;
 			});
 		}
 
-		template <typename T>
-		T* GetComponent() const
+		template <typename ComponentType>
+		ComponentType* GetComponent() const
 		{
 			auto it = std::ranges::find_if(m_Components, [](const auto& component) 
 				{
-					return dynamic_cast<T*>(component.get()) != nullptr;
+					return dynamic_cast<ComponentType*>(component.get()) != nullptr;
 				});
 
 			if (it != m_Components.end())
 			{
-				return static_cast<T*>((*it).get());
+				return static_cast<ComponentType*>((*it).get());
 			}
 
 			return nullptr;
 		}
 
-		template <typename T>
+		template <typename ComponentType>
 		void DeleteComponent() const
 		{
 			auto it = std::ranges::find_if(m_Components, [](const auto& component)
 				{
-					return dynamic_cast<T*>(component.get()) != nullptr;
+					return dynamic_cast<ComponentType*>(component.get()) != nullptr;
 				});
 
 			if (it != m_Components.end())
 			{
-				auto component = static_cast<T*>((*it).get());
+				auto component = static_cast<ComponentType*>((*it).get());
 
 				component->Destroy();
 			}
