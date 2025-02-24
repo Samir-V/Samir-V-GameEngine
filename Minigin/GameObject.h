@@ -29,7 +29,7 @@ namespace dae
 		void SetParent(GameObject* newParentPtr, bool worldPositionStays);
 		std::vector<GameObject*>& GetChildrenVector();
 
-		Transform GetWorldTransform();
+		const Transform& GetWorldTransform();
 		GameObject* GetParent() const;
 		void SetPositionIsDirty();
 

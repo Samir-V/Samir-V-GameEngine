@@ -51,7 +51,7 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 }
 
 
-dae::Transform dae::GameObject::GetWorldTransform()
+const dae::Transform& dae::GameObject::GetWorldTransform()
 {
 	if (m_PositionIsDirty)
 	{
@@ -109,12 +109,12 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 	{
 		auto& childrenVec = m_Parent->GetChildrenVector();
 
-		auto it = std::ranges::find_if(childrenVec, [this](const auto& child)
+		auto childToRemove = std::ranges::remove_if(childrenVec, [this](const auto& child)
 			{
 				return child == this;
 			});
 
-		childrenVec.erase(it);
+		childrenVec.erase(childToRemove.begin(), childrenVec.end());
 	}
 
 	// Setting the new parent
