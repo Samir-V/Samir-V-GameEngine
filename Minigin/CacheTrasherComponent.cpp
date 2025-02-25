@@ -182,7 +182,7 @@ void dae::CacheTrasherComponent::ShowEx2UI() const
 
 bool dae::CacheTrasherComponent::CalculateEx2(int samples, std::vector<float>& measurements) const
 {
-	constexpr int bufferSize = 67108864;
+	constexpr int bufferSize = 33554432;
 
 	const auto buffer = new GameObject3D[bufferSize];
 
