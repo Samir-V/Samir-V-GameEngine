@@ -26,8 +26,37 @@ namespace dae
 
 	private:
 
+		struct TransformHelper
+		{
+			float matrix[16]
+			{
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1
+			};
+		};
+
+		class GameObject3D
+		{
+		public:
+			TransformHelper transform;
+			int ID;
+		};
+
+		class GameObject3DAlt
+		{
+		public:
+			TransformHelper* transform;
+			int ID;
+		};
+
 		void ShowEx1UI() const;
 		bool CalculateEx1(int samples, std::vector<float>& measurements) const;
+
+		void ShowEx2UI() const;
+		bool CalculateEx2(int samples, std::vector<float>& measurements) const;
+		bool CalculateEx2Alt(int samples, std::vector<float>& measurements) const;
 
 		Transform m_LocalTransform{};
 	};
