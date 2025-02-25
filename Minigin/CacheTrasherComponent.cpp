@@ -63,6 +63,7 @@ void dae::CacheTrasherComponent::ShowEx1UI() const
 
 	if (ImGui::Button("Trash the cache"))
 	{
+		cachedMeasurements.clear();
 		calculationIsActive = CalculateEx1(sampleAmount, cachedMeasurements);
 	}
 
