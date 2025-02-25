@@ -107,6 +107,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;OpenGL32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
@@ -148,6 +149,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;OpenGL32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
@@ -170,7 +172,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;OpenGL32.Lib;OpenGL32.Lib%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;OpenGL32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
