@@ -7,6 +7,7 @@
 
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl2.h"
+#include "implot.h"
 
 dae::CacheTrasherComponent::CacheTrasherComponent(GameObject* ownerPtr): ComponentBase(ownerPtr)
 {
@@ -68,9 +69,11 @@ void dae::CacheTrasherComponent::ShowEx1UI() const
 		calculationIsActive = CalculateEx1(sampleAmount, cachedMeasurements);
 	}
 
-	if (calculationIsActive)
+	if (calculationIsActive && ImPlot::BeginPlot("Ex1 Graph"))
 	{
-		ImGui::PlotLines("Ex1 Graph", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
+		ImPlot::PlotLine("Time Measurements", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()));
+		ImPlot::EndPlot();
+		//ImGui::PlotLines("Ex1 Graph", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
 	}
 
 	ImGui::End();
@@ -153,14 +156,25 @@ void dae::CacheTrasherComponent::ShowEx2UI() const
 		calculationAltIsActive = CalculateEx2Alt(sampleAmount, cachedMeasurementsAlt);
 	}
 
-	if (calculationRegularIsActive)
+	if (calculationRegularIsActive && ImPlot::BeginPlot("Ex2 Graph Regular"))
 	{
-		ImGui::PlotLines("Ex2 Graph Regular", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
+		//ImGui::PlotLines("Ex2 Graph Regular", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
+		ImPlot::PlotLine("Time Measurements", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()));
+		ImPlot::EndPlot();
 	}
 
-	if (calculationAltIsActive)
+	if (calculationAltIsActive && ImPlot::BeginPlot("Ex2 Graph Alt"))
 	{
-		ImGui::PlotLines("Ex2 Graph Alt", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
+		//ImGui::PlotLines("Ex2 Graph Alt", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
+		ImPlot::PlotLine("Time Measurements", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()));
+		ImPlot::EndPlot();
+	}
+
+	if (calculationRegularIsActive && calculationAltIsActive && ImPlot::BeginPlot("Ex2 Graph Combined"))
+	{
+		ImPlot::PlotLine("Time Measurements Reg", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()));
+		ImPlot::PlotLine("Time Measurements Alt", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()));
+		ImPlot::EndPlot();
 	}
 
 	ImGui::End();

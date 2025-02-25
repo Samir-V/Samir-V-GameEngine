@@ -3,6 +3,7 @@
 
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
+#include "implot.h"
 #include "imgui_impl_sdl2.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
@@ -34,6 +35,7 @@ void dae::Renderer::Init(SDL_Window* window)
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL3_Init();
+	ImPlot::CreateContext();
 }
 
 void dae::Renderer::Render() const
@@ -51,6 +53,7 @@ void dae::Renderer::Destroy()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	ImPlot::DestroyContext();
 
 	if (m_renderer != nullptr)
 	{
