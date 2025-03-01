@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(GameObject* ownerPtr, const std::string& text, const Font* font) :
+dae::TextComponent::TextComponent(GameObject* ownerPtr, const std::string& text, std::shared_ptr<Font> font) :
 	ComponentBase(ownerPtr),
 	m_NeedsUpdate(true),
 	m_Text(text),
@@ -31,7 +31,7 @@ void dae::TextComponent::Update(float)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_TextTexture = std::make_unique<Texture2D>(texture);
+		m_TextTexture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 }

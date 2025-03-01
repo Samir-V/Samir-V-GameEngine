@@ -13,7 +13,7 @@ namespace dae
 	{
 	public:
 
-		TextComponent(GameObject* ownerPtr, const std::string& text, const Font* font);
+		TextComponent(GameObject* ownerPtr, const std::string& text, std::shared_ptr<Font> font);
 		~TextComponent() override = default;
 
 		TextComponent(const TextComponent& other) = delete;
@@ -33,7 +33,7 @@ namespace dae
 		bool m_NeedsUpdate;
 		std::string m_Text;
 		Transform m_LocalTransform{};
-		const Font* m_Font;
-		std::unique_ptr<Texture2D> m_TextTexture;
+		std::shared_ptr<Font> m_Font;
+		std::shared_ptr<Texture2D> m_TextTexture;
 	};
 }
