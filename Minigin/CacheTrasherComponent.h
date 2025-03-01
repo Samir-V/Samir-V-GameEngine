@@ -51,12 +51,22 @@ namespace dae
 			int ID;
 		};
 
-		void ShowEx1UI() const;
-		bool CalculateEx1(int samples, std::vector<float>& measurements) const;
+		void ShowEx1UI();
+		bool CalculateEx1(int samples, std::vector<float>& measurements);
 
-		void ShowEx2UI() const;
-		bool CalculateEx2(int samples, std::vector<float>& measurements) const;
-		bool CalculateEx2Alt(int samples, std::vector<float>& measurements) const;
+		void ShowEx2UI();
+		bool CalculateEx2(int samples, std::vector<float>& measurements);
+		bool CalculateEx2Alt(int samples, std::vector<float>& measurements);
+
+		int m_NrOfSamplesEx1{ 10 };
+		bool m_IsEx1GraphActive{ false };
+		std::vector<float> m_Ex1Measurements{};
+
+		int m_NrOfSamplesEx2{ 10 };
+		bool m_IsEx2GraphActive{ false };
+		bool m_IsEx2AltGraphActive{ false };
+		std::vector<float> m_Ex2Measurements{};
+		std::vector<float> m_Ex2AltMeasurements{};
 
 		Transform m_LocalTransform{};
 	};

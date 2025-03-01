@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <chrono>
 #include <numeric>
-#include <vector>
 
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl2.h"
@@ -15,7 +14,13 @@ dae::CacheTrasherComponent::CacheTrasherComponent(GameObject* ownerPtr): Compone
 
 void dae::CacheTrasherComponent::Update(float)
 {
-	
+	// Update and draw ImGui...
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+
+	ShowEx1UI();
+	ShowEx2UI();
 }
 
 void dae::CacheTrasherComponent::LateUpdate(float)
@@ -25,11 +30,6 @@ void dae::CacheTrasherComponent::LateUpdate(float)
 
 void dae::CacheTrasherComponent::Render() const
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-	ShowEx1UI();
-	ShowEx2UI();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -39,48 +39,43 @@ void dae::CacheTrasherComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::CacheTrasherComponent::ShowEx1UI() const
+void dae::CacheTrasherComponent::ShowEx1UI()
 {
-	static int sampleAmount = 10;
-	static std::vector<float> cachedMeasurements;
-	static bool calculationIsActive;
-
 	ImGui::Begin("Ex1");
 
 	ImGui::PushItemWidth(150);
-	ImGui::InputInt("##samples", &sampleAmount, 0, 0, ImGuiInputTextFlags_CharsDecimal);
+	ImGui::InputInt("##samples", &m_NrOfSamplesEx1, 0, 0, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	if (ImGui::SmallButton("-"))
 	{
-		sampleAmount = std::max(1, --sampleAmount);
+		m_NrOfSamplesEx1 = std::max(1, --m_NrOfSamplesEx1);
 	}
 	ImGui::SameLine();
 	if (ImGui::SmallButton("+"))
 	{
-		++sampleAmount;
+		++m_NrOfSamplesEx1;
 	}
 	ImGui::SameLine();
 	ImGui::Text("# samples");
 
 	if (ImGui::Button("Trash the cache"))
 	{
-		cachedMeasurements.clear();
-		calculationIsActive = CalculateEx1(sampleAmount, cachedMeasurements);
+		m_Ex1Measurements.clear();
+		m_IsEx1GraphActive = CalculateEx1(m_NrOfSamplesEx1, m_Ex1Measurements);
 	}
 
-	if (calculationIsActive && ImPlot::BeginPlot("Ex1 Graph"))
+	if (m_IsEx1GraphActive && ImPlot::BeginPlot("Ex1 Graph"))
 	{
-		ImPlot::PlotLine("Time Measurements", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()));
+		ImPlot::PlotLine("Time Measurements", m_Ex1Measurements.data(), static_cast<int>(m_Ex1Measurements.size()));
 		ImPlot::EndPlot();
-		//ImGui::PlotLines("Ex1 Graph", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
 	}
 
 	ImGui::End();
 }
 
 
-bool dae::CacheTrasherComponent::CalculateEx1(int samples, std::vector<float>& measurements) const
+bool dae::CacheTrasherComponent::CalculateEx1(int samples, std::vector<float>& measurements)
 {
 	constexpr int bufferSize = 67108864;
 
@@ -118,69 +113,61 @@ bool dae::CacheTrasherComponent::CalculateEx1(int samples, std::vector<float>& m
 	return true;
 }
 
-void dae::CacheTrasherComponent::ShowEx2UI() const
+void dae::CacheTrasherComponent::ShowEx2UI()
 {
-	static int sampleAmount = 10;
-	static std::vector<float> cachedMeasurements;
-	static std::vector<float> cachedMeasurementsAlt;
-	static bool calculationRegularIsActive;
-	static bool calculationAltIsActive;
-
 	ImGui::Begin("Ex2");
 
 	ImGui::PushItemWidth(150);
-	ImGui::InputInt("##samples", &sampleAmount, 0, 0, ImGuiInputTextFlags_CharsDecimal);
+	ImGui::InputInt("##samples", &m_NrOfSamplesEx2, 0, 0, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	if (ImGui::SmallButton("-"))
 	{
-		sampleAmount = std::max(1, --sampleAmount);
+		m_NrOfSamplesEx2 = std::max(1, --m_NrOfSamplesEx2);
 	}
 	ImGui::SameLine();
 	if (ImGui::SmallButton("+"))
 	{
-		++sampleAmount;
+		++m_NrOfSamplesEx2;
 	}
 	ImGui::SameLine();
 	ImGui::Text("# samples");
 
 	if (ImGui::Button("Trash the cache with GameObject3D"))
 	{
-		cachedMeasurements.clear();
-		calculationRegularIsActive = CalculateEx2(sampleAmount, cachedMeasurements);
+		m_Ex2Measurements.clear();
+		m_IsEx2GraphActive = CalculateEx2(m_NrOfSamplesEx2, m_Ex2Measurements);
 	}
 
 	if (ImGui::Button("Trash the cache with GameObject3DAlt"))
 	{
-		cachedMeasurementsAlt.clear();
-		calculationAltIsActive = CalculateEx2Alt(sampleAmount, cachedMeasurementsAlt);
+		m_Ex2AltMeasurements.clear();
+		m_IsEx2AltGraphActive = CalculateEx2Alt(m_NrOfSamplesEx2, m_Ex2AltMeasurements);
 	}
 
-	if (calculationRegularIsActive && ImPlot::BeginPlot("Ex2 Graph Regular"))
+	if (m_IsEx2GraphActive && ImPlot::BeginPlot("Ex2 Graph Regular"))
 	{
-		//ImGui::PlotLines("Ex2 Graph Regular", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
-		ImPlot::PlotLine("Time Measurements", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()));
+		ImPlot::PlotLine("Time Measurements", m_Ex2Measurements.data(), static_cast<int>(m_Ex2Measurements.size()));
 		ImPlot::EndPlot();
 	}
 
-	if (calculationAltIsActive && ImPlot::BeginPlot("Ex2 Graph Alt"))
+	if (m_IsEx2AltGraphActive && ImPlot::BeginPlot("Ex2 Graph Alt"))
 	{
-		//ImGui::PlotLines("Ex2 Graph Alt", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()), 0, nullptr, FLT_MAX, FLT_MAX, ImVec2(200, 200));
-		ImPlot::PlotLine("Time Measurements", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()));
+		ImPlot::PlotLine("Time Measurements", m_Ex2AltMeasurements.data(), static_cast<int>(m_Ex2AltMeasurements.size()));
 		ImPlot::EndPlot();
 	}
 
-	if (calculationRegularIsActive && calculationAltIsActive && ImPlot::BeginPlot("Ex2 Graph Combined"))
+	if (m_IsEx2GraphActive && m_IsEx2AltGraphActive && ImPlot::BeginPlot("Ex2 Graph Combined"))
 	{
-		ImPlot::PlotLine("Time Measurements Reg", cachedMeasurements.data(), static_cast<int>(cachedMeasurements.size()));
-		ImPlot::PlotLine("Time Measurements Alt", cachedMeasurementsAlt.data(), static_cast<int>(cachedMeasurementsAlt.size()));
+		ImPlot::PlotLine("Time Measurements Reg", m_Ex2Measurements.data(), static_cast<int>(m_Ex2Measurements.size()));
+		ImPlot::PlotLine("Time Measurements Alt", m_Ex2AltMeasurements.data(), static_cast<int>(m_Ex2AltMeasurements.size()));
 		ImPlot::EndPlot();
 	}
 
 	ImGui::End();
 }
 
-bool dae::CacheTrasherComponent::CalculateEx2(int samples, std::vector<float>& measurements) const
+bool dae::CacheTrasherComponent::CalculateEx2(int samples, std::vector<float>& measurements)
 {
 	constexpr int bufferSize = 16777216; // 2^24
 
@@ -218,7 +205,7 @@ bool dae::CacheTrasherComponent::CalculateEx2(int samples, std::vector<float>& m
 	return true;
 }
 
-bool dae::CacheTrasherComponent::CalculateEx2Alt(int samples, std::vector<float>& measurements) const
+bool dae::CacheTrasherComponent::CalculateEx2Alt(int samples, std::vector<float>& measurements)
 {
 	constexpr int bufferSize = 67108864;
 
