@@ -30,8 +30,6 @@ void dae::CacheTrasherComponent::LateUpdate(float)
 
 void dae::CacheTrasherComponent::Render() const
 {
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void dae::CacheTrasherComponent::SetLocalPosition(float x, float y)
