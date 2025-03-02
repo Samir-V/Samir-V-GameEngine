@@ -205,7 +205,7 @@ bool dae::CacheTrasherComponent::CalculateEx2(int samples, std::vector<float>& m
 
 bool dae::CacheTrasherComponent::CalculateEx2Alt(int samples, std::vector<float>& measurements)
 {
-	constexpr int bufferSize = 67108864;
+	constexpr int bufferSize = 16777216; // 2^24
 
 	const auto buffer = new GameObject3DAlt[bufferSize];
 
