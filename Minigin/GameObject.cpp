@@ -38,6 +38,15 @@ void dae::GameObject::Render() const
 	}
 }
 
+void dae::GameObject::RenderImGui()
+{
+	for (const auto& component : m_Components)
+	{
+		component->RenderImGui();
+	}
+}
+
+
 void dae::GameObject::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);

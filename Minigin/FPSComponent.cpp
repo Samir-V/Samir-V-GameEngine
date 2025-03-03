@@ -25,6 +25,12 @@ void dae::FPSComponent::Render() const
 
 }
 
+void dae::FPSComponent::RenderImGui()
+{
+	
+}
+
+
 void dae::FPSComponent::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);

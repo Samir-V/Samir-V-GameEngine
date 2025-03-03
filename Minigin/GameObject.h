@@ -23,6 +23,7 @@ namespace dae
 		void Update(float elapsedSec);
 		void LateUpdate(float elapsedSec);
 		void Render() const;
+		void RenderImGui();
 
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec3& pos);

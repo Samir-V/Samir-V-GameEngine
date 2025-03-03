@@ -19,6 +19,7 @@ namespace dae
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
+		void RenderImGui() override;
 
 		void SetLocalPosition(float x, float y) override;
 

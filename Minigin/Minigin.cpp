@@ -104,6 +104,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		// Running the late update with elapsedSec
 		sceneManager.LateUpdate(elapsedSec);
 
+		//renderer.RenderImGui();
 		renderer.Render();
 
 		// Preventing additional frame generation by setting a desired frame rate

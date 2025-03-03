@@ -67,6 +67,15 @@ void Scene::Render() const
 	}
 }
 
+void Scene::RenderImGui()
+{
+	for (const auto& object : m_Objects)
+	{
+		object->RenderImGui();
+	}
+}
+
+
 const std::vector<std::unique_ptr<GameObject>>& Scene::GetGameObjects()
 {
 	return m_Objects;

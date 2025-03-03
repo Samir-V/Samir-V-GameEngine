@@ -14,13 +14,6 @@ dae::CacheTrasherComponent::CacheTrasherComponent(GameObject* ownerPtr): Compone
 
 void dae::CacheTrasherComponent::Update(float)
 {
-	// Update and draw ImGui...
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-
-	ShowEx1UI();
-	ShowEx2UI();
 }
 
 void dae::CacheTrasherComponent::LateUpdate(float)
@@ -31,6 +24,13 @@ void dae::CacheTrasherComponent::LateUpdate(float)
 void dae::CacheTrasherComponent::Render() const
 {
 }
+
+void dae::CacheTrasherComponent::RenderImGui()
+{
+	ShowEx1UI();
+	ShowEx2UI();
+}
+
 
 void dae::CacheTrasherComponent::SetLocalPosition(float x, float y)
 {
