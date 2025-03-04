@@ -182,7 +182,7 @@
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
-    <ClInclude Include="GameActorCommand.h" />
+    <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -197,6 +197,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
+    <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RotatorComponent.h" />
@@ -211,10 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CacheTrasherComponent.cpp" />
-    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
-    <ClCompile Include="GameActorCommand.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -228,6 +227,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
+    <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
