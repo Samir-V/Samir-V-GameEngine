@@ -13,7 +13,20 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 
-		if (e.type == SDL_KEYDOWN)
+		const Uint8* keyStates = SDL_GetKeyboardState(nullptr);
+
+		for (const auto& command : m_KeyboardCommands)
+		{
+			if (std::get<2>(command) == ActivationType::Holding)
+			{
+				if (keyStates[std::get<1>(command)])	
+				{
+					std::get<0>(command)->Execute();
+				}
+			}
+		}
+
+		/*if (e.type == SDL_KEYDOWN)
 		{
 			for (const auto& command : m_KeyboardCommands)
 			{
@@ -22,7 +35,7 @@ bool dae::InputManager::ProcessInput()
 					std::get<0>(command)->Execute();
 				}
 			}
-		}
+		}*/
 
 		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 		{

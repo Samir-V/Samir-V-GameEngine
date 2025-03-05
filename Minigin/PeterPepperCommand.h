@@ -31,7 +31,7 @@ public:
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->SetYVelocity(-GetPeterPepperComponent()->GetMaxSpeed());
+		GetPeterPepperComponent()->SetYDirection(-1.0f);
 	}
 };
 
@@ -43,7 +43,7 @@ public:
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->SetYVelocity(GetPeterPepperComponent()->GetMaxSpeed());
+		GetPeterPepperComponent()->SetYDirection(1.0f);
 	}
 };
 
@@ -55,7 +55,7 @@ public:
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->SetXVelocity(-GetPeterPepperComponent()->GetMaxSpeed());
+		GetPeterPepperComponent()->SetXDirection(-1.0f);
 	}
 };
 
@@ -67,7 +67,7 @@ public:
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->SetXVelocity(GetPeterPepperComponent()->GetMaxSpeed());
+		GetPeterPepperComponent()->SetXDirection(1.0f);
 	}
 };
 

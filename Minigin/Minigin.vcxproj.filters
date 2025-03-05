@@ -123,8 +123,11 @@
     <ClInclude Include="Command.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="GameActorCommand.h">
+    <ClInclude Include="PeterPepperCommand.h">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,11 +206,8 @@
     <ClCompile Include="implot.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Source Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="GameActorCommand.cpp">
-      <Filter>Source Files\Input</Filter>
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

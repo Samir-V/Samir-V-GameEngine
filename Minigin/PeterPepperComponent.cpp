@@ -10,14 +10,16 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr, float maxS
 
 void dae::PeterPepperComponent::Update(float elapsedSec)
 {
+	m_Velocity = m_Direction * m_MaxSpeed;
+
+	m_Direction = glm::vec2{ 0.0f, 0.0f };
+
 	const auto pepperPos = GetOwner()->GetWorldTransform().GetPosition();
 
 	const auto newPepperPosX = pepperPos.x + m_Velocity.x * elapsedSec;
 	const auto newPepperPosY = pepperPos.y + m_Velocity.y * elapsedSec;
 
 	GetOwner()->SetLocalPosition(newPepperPosX, newPepperPosY);
-
-	//m_Velocity = glm::vec2{};
 }
 
 void dae::PeterPepperComponent::LateUpdate(float)
@@ -40,20 +42,16 @@ void dae::PeterPepperComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::PeterPepperComponent::SetXVelocity(float x)
+void dae::PeterPepperComponent::SetXDirection(float x)
 {
-	m_Velocity.x = x;
+	m_Direction.x = x;
 }
 
-void dae::PeterPepperComponent::SetYVelocity(float y)
+void dae::PeterPepperComponent::SetYDirection(float y)
 {
-	m_Velocity.y = y;
+	m_Direction.y = y;
 }
 
-float dae::PeterPepperComponent::GetMaxSpeed() const
-{
-	return m_MaxSpeed;
-}
 
 
 

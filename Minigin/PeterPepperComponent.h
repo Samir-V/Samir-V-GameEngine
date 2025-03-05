@@ -22,15 +22,15 @@ namespace dae
 		void RenderImGui() override;
 
 		void SetLocalPosition(float x, float y) override;
-		void SetXVelocity(float x);
-		void SetYVelocity(float y);
-
-		float GetMaxSpeed() const;
+		void SetXDirection(float x);
+		void SetYDirection(float y);
+		void AddInputToDirection(float x, float y);
 
 	private:
 
 		Transform m_LocalTransform{};
 		glm::vec2 m_Velocity{};
+		glm::vec2 m_Direction{};
 
 		const float m_MaxSpeed{};
 	};
