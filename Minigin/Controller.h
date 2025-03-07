@@ -1,16 +1,14 @@
 #pragma once
-
-#include "Windows.h"
-#include "Xinput.h"
+#include <memory>
 
 class Controller final
 {
 public:
 
-	Controller(int index) : m_ControllerIndex{ index } {}
-	~Controller() = default;
+	Controller(int index);
+	~Controller();
 
-	void ProcessInput();
+	void ProcessInput() const;
 	bool IsPressedThisFrame(unsigned int key) const;
 	bool IsReleasedThisFrame(unsigned int key) const;
 	bool IsHeld(unsigned int key) const;
@@ -19,11 +17,9 @@ public:
 
 private:
 
-	XINPUT_STATE m_PreviousState{};
-	XINPUT_STATE m_CurrentState{};
+	class ControllerInputImpl;
 
-	WORD m_KeysPressedThisFrame{};
-	WORD m_KeysReleasedThisFrame{};
+	std::unique_ptr<ControllerInputImpl> m_pImpl;
 
 	int m_ControllerIndex;
 };

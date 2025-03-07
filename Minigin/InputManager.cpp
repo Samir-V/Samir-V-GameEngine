@@ -3,7 +3,7 @@
 
 #include "imgui_impl_sdl2.h"
 
-bool dae::InputManager::ProcessInput()
+bool dae::InputManager::ProcessInput() const
 {
 	HandleControllerInput();
 	return HandleKeyboardInput();

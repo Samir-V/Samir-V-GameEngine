@@ -34,7 +34,7 @@ namespace dae
 			int controllerIndex;
 		};
 
-		bool ProcessInput();
+		bool ProcessInput() const;
 
 		bool HandleKeyboardInput() const;
 		void HandleControllerInput() const;
