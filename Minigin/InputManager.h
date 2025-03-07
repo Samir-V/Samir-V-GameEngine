@@ -31,6 +31,7 @@ namespace dae
 			std::unique_ptr<Command> command;
 			unsigned int controllerKey;
 			ActivationType activationType;
+			int controllerIndex;
 		};
 
 		bool ProcessInput();
@@ -39,7 +40,7 @@ namespace dae
 		void HandleControllerInput() const;
 
 		void RegisterKeyboardCommand(std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType);
-		void RegisterControllerCommand(std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType);
+		void RegisterControllerCommand(std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex);
 
 		void AddController(int index);
 

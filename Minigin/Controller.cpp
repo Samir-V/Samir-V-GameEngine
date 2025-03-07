@@ -26,6 +26,10 @@ bool Controller::IsHeld(unsigned int key) const
 	return m_CurrentState.Gamepad.wButtons & key;
 }
 
+int Controller::GetControllerIndex() const
+{
+	return m_ControllerIndex;
+}
 
 
 

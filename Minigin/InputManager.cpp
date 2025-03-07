@@ -69,6 +69,11 @@ void dae::InputManager::HandleControllerInput() const
 
 		for (const auto& controllerCommand : m_ControllerCommands)
 		{
+			if (controllerCommand.controllerIndex != controller->GetControllerIndex())
+			{
+				continue;
+			}
+
 			bool conditionMet = false;
 
 			switch (controllerCommand.activationType)
@@ -99,9 +104,9 @@ void dae::InputManager::RegisterKeyboardCommand(std::unique_ptr<Command> command
 	m_KeyboardCommands.emplace_back(std::move(command), key, activationType);
 }
 
-void dae::InputManager::RegisterControllerCommand(std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType)
+void dae::InputManager::RegisterControllerCommand(std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex)
 {
-	m_ControllerCommands.emplace_back(std::move(command), controllerKey, activationType);
+	m_ControllerCommands.emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
 }
 
 void dae::InputManager::AddController(int index)

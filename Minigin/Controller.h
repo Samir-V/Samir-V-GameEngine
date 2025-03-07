@@ -15,6 +15,8 @@ public:
 	bool IsReleasedThisFrame(unsigned int key) const;
 	bool IsHeld(unsigned int key) const;
 
+	int GetControllerIndex() const;
+
 private:
 
 	XINPUT_STATE m_PreviousState{};
