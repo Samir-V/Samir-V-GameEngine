@@ -7,7 +7,7 @@ class Controller final
 {
 public:
 
-	Controller() = default;
+	Controller(int index) : m_ControllerIndex{ index } {}
 	~Controller() = default;
 
 	void ProcessInput();
@@ -23,6 +23,6 @@ private:
 	WORD m_KeysPressedThisFrame{};
 	WORD m_KeysReleasedThisFrame{};
 
-	int m_ControllerIndex{ 0 };
+	int m_ControllerIndex;
 };
 

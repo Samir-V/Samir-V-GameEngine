@@ -41,8 +41,7 @@ namespace dae
 		void RegisterKeyboardCommand(std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType);
 		void RegisterControllerCommand(std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType);
 
-		void AddController();
-
+		void AddController(int index);
 
 	private:
 		std::vector<KeyboardCommand> m_KeyboardCommands{};

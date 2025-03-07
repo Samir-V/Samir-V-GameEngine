@@ -5,7 +5,7 @@
 
 bool dae::InputManager::ProcessInput()
 {
-
+	HandleControllerInput();
 	return HandleKeyboardInput();
 }
 
@@ -104,8 +104,8 @@ void dae::InputManager::RegisterControllerCommand(std::unique_ptr<Command> comma
 	m_ControllerCommands.emplace_back(std::move(command), controllerKey, activationType);
 }
 
-void dae::InputManager::AddController()
+void dae::InputManager::AddController(int index)
 {
-	m_Controllers.emplace_back(std::make_unique<Controller>());
+	m_Controllers.emplace_back(std::make_unique<Controller>(index));
 }
 
