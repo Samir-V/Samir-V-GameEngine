@@ -15,6 +15,7 @@ public:
 	bool IsHeld(unsigned int key) const;
 
 private:
+
 	XINPUT_STATE m_PreviousState{};
 	XINPUT_STATE m_CurrentState{};
 
@@ -62,8 +63,6 @@ Controller::Controller(int index) :
 }
 
 Controller::~Controller() = default;
-
-
 
 void Controller::ProcessInput() const
 {
