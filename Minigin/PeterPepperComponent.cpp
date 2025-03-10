@@ -42,14 +42,14 @@ void dae::PeterPepperComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::PeterPepperComponent::SetXDirection(float x)
+void dae::PeterPepperComponent::AddInputToDirection(const glm::vec2& direction)
 {
-	m_Direction.x = x;
-}
+	m_Direction += direction;
 
-void dae::PeterPepperComponent::SetYDirection(float y)
-{
-	m_Direction.y = y;
+	if (m_Direction.length() != 0)
+	{
+		m_Direction = glm::normalize(m_Direction);
+	}
 }
 
 

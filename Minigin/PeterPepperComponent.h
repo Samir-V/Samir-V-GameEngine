@@ -22,9 +22,7 @@ namespace dae
 		void RenderImGui() override;
 
 		void SetLocalPosition(float x, float y) override;
-		void SetXDirection(float x);
-		void SetYDirection(float y);
-		void AddInputToDirection(float x, float y);
+		void AddInputToDirection(const glm::vec2& direction);
 
 	private:
 

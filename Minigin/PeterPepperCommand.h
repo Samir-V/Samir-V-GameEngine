@@ -22,52 +22,24 @@ private:
 	dae::PeterPepperComponent* m_PeterPepperComponentPtr;
 };
 
-class MoveUp : public PeterPepperCommand
+class MoveInDirection : public PeterPepperCommand
 {
 public:
 
-	MoveUp(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {}
+	MoveInDirection(dae::GameObject* peterPepper, const glm::vec2& direction) : PeterPepperCommand(peterPepper), m_Direction{direction}
+	{
+		m_Direction.x = std::clamp(m_Direction.x, -1.0f, 1.0f);
+		m_Direction.y = std::clamp(m_Direction.y, -1.0f, 1.0f);
+	}
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->SetYDirection(-1.0f);
+		GetPeterPepperComponent()->AddInputToDirection(m_Direction);
 	}
-};
 
-class MoveDown : public PeterPepperCommand
-{
-public:
+private:
 
-	MoveDown(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {}
-
-	void Execute() override
-	{
-		GetPeterPepperComponent()->SetYDirection(1.0f);
-	}
-};
-
-class MoveLeft : public PeterPepperCommand
-{
-public:
-
-	MoveLeft(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {}
-
-	void Execute() override
-	{
-		GetPeterPepperComponent()->SetXDirection(-1.0f);
-	}
-};
-
-class MoveRight : public PeterPepperCommand
-{
-public:
-
-	MoveRight(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {}
-
-	void Execute() override
-	{
-		GetPeterPepperComponent()->SetXDirection(1.0f);
-	}
+	glm::vec2 m_Direction;
 };
 
 
