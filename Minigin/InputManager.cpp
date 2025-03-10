@@ -14,24 +14,29 @@ bool dae::InputManager::HandleKeyboardInput() const
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
-		if (e.type == SDL_QUIT)
+		switch (e.type)
 		{
-			return false;
-		}
+		case SDL_QUIT:
 
-		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-		{
-			for (const auto& keyboardCommand : m_KeyboardCommands)
+			return false;
+
+			break;
+		case SDL_KEYDOWN:
+
+			if (e.key.repeat == 0)
 			{
-				if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Pressing)
+				for (const auto& keyboardCommand : m_KeyboardCommands)
 				{
-					keyboardCommand.command->Execute();
+					if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Pressing)
+					{
+						keyboardCommand.command->Execute();
+					}
 				}
 			}
-		}
 
-		if (e.type == SDL_KEYUP)
-		{
+			break;
+		case SDL_KEYUP:
+
 			for (const auto& keyboardCommand : m_KeyboardCommands)
 			{
 				if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Releasing)
@@ -39,6 +44,8 @@ bool dae::InputManager::HandleKeyboardInput() const
 					keyboardCommand.command->Execute();
 				}
 			}
+
+			break;
 		}
 
 		ImGui_ImplSDL2_ProcessEvent(&e);

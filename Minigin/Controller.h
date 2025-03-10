@@ -20,7 +20,5 @@ private:
 	class ControllerInputImpl;
 
 	std::unique_ptr<ControllerInputImpl> m_pImpl;
-
-	int m_ControllerIndex;
 };
 

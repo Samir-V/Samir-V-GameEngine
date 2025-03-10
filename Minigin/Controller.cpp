@@ -13,6 +13,7 @@ public:
 	bool IsPressedThisFrame(unsigned int key) const;
 	bool IsReleasedThisFrame(unsigned int key) const;
 	bool IsHeld(unsigned int key) const;
+	int GetControllerIndex() const;
 
 private:
 
@@ -51,14 +52,17 @@ bool Controller::ControllerInputImpl::IsHeld(unsigned key) const
 	return m_CurrentState.Gamepad.wButtons & key;
 }
 
+int Controller::ControllerInputImpl::GetControllerIndex() const
+{
+	return m_ControllerIndex;
+}
 
 
 
 // Main controller implementation
 
 Controller::Controller(int index) :
-	m_pImpl{ std::make_unique<ControllerInputImpl>(index) },
-	m_ControllerIndex{ index }
+	m_pImpl{ std::make_unique<ControllerInputImpl>(index) }
 {
 }
 
@@ -86,7 +90,7 @@ bool Controller::IsHeld(unsigned int key) const
 
 int Controller::GetControllerIndex() const
 {
-	return m_ControllerIndex;
+	return m_pImpl->GetControllerIndex();
 }
 
 
