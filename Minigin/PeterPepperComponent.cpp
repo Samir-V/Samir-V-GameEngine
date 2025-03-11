@@ -46,7 +46,8 @@ void dae::PeterPepperComponent::AddInputToDirection(const glm::vec2& direction)
 {
 	m_Direction += direction;
 
-	if (m_Direction.length() != 0)
+
+	if (glm::dot(m_Direction, m_Direction) > std::numeric_limits<float>::epsilon())
 	{
 		m_Direction = glm::normalize(m_Direction);
 	}
