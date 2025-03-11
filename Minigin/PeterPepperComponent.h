@@ -1,5 +1,8 @@
 #pragma once
+#include <memory>
+
 #include "ComponentBase.h"
+#include "Subject.h"
 #include "Transform.h"
 
 namespace dae
@@ -24,6 +27,10 @@ namespace dae
 		void SetLocalPosition(float x, float y) override;
 		void AddInputToDirection(const glm::vec2& direction);
 
+		Subject* GetObjectDeathEvent() const;
+		int GetRemainingHealth() const;
+		void Damage(int damage = 1);
+
 	private:
 
 		Transform m_LocalTransform{};
@@ -31,5 +38,9 @@ namespace dae
 		glm::vec2 m_Direction{};
 
 		const float m_MaxSpeed{};
+
+		int m_Health{ 3 };
+
+		std::unique_ptr<Subject> m_ObjectDeathEvent;
 	};
 }

@@ -42,6 +42,21 @@ private:
 	glm::vec2 m_Direction;
 };
 
+class DamageCharacter : public PeterPepperCommand
+{
+public:
+	DamageCharacter(dae::GameObject* peterPepper, int damageAmount) : PeterPepperCommand(peterPepper), m_DamageAmount{ damageAmount } {};
+
+	void Execute() override
+	{
+		GetPeterPepperComponent()->Damage(m_DamageAmount);
+	}
+
+private:
+
+	int m_DamageAmount;
+};
+
 
 
 

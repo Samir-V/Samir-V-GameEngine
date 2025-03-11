@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{3ddf600d-4e2b-4162-aad2-ab83b4f7456f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Observers">
+      <UniqueIdentifier>{d7581462-2f50-48fd-ba0b-5006d53b88bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -132,6 +135,18 @@
     <ClInclude Include="Controller.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="EventType.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplayComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -214,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplayComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

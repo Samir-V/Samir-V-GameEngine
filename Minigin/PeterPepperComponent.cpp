@@ -6,6 +6,7 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr, float maxS
 	ComponentBase(ownerPtr),
 	m_MaxSpeed(maxSpeed)
 {
+	m_ObjectDeathEvent = std::make_unique<Subject>();
 }
 
 void dae::PeterPepperComponent::Update(float elapsedSec)
@@ -51,6 +52,28 @@ void dae::PeterPepperComponent::AddInputToDirection(const glm::vec2& direction)
 	{
 		m_Direction = glm::normalize(m_Direction);
 	}
+}
+
+dae::Subject* dae::PeterPepperComponent::GetObjectDeathEvent() const
+{
+	return m_ObjectDeathEvent.get();
+}
+
+int dae::PeterPepperComponent::GetRemainingHealth() const
+{
+	return m_Health;
+}
+
+void dae::PeterPepperComponent::Damage(int damage)
+{
+	m_Health -= damage;
+
+	if (m_Health <= 0)
+	{
+		m_Health = 0;
+	}
+
+	m_ObjectDeathEvent->NotifyObservers(EventType::PlayerDamaged, GetOwner());
 }
 
 
