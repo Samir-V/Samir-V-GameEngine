@@ -3,5 +3,6 @@
 enum class EventType
 {
 	SubjectDestroyed,
-	PlayerDamaged
+	PlayerDamaged,
+	ScoreChanged
 };

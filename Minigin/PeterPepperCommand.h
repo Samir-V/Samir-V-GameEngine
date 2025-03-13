@@ -57,6 +57,21 @@ private:
 	int m_DamageAmount;
 };
 
+class IncreaseScore : public PeterPepperCommand
+{
+public:
+	IncreaseScore(dae::GameObject* peterPepper, int score) : PeterPepperCommand(peterPepper), m_ScoreAmount{ score } {};
+
+	void Execute() override
+	{
+		GetPeterPepperComponent()->IncreaseScore(m_ScoreAmount);
+	}
+
+private:
+
+	int m_ScoreAmount;
+};
+
 
 
 

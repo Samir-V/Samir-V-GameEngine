@@ -7,7 +7,7 @@ namespace dae
 {
 	class TextComponent;
 
-	class HealthDisplayComponent final: public ComponentBase, public IObserver
+	class HealthDisplayComponent final : public ComponentBase, public IObserver
 	{
 	public:
 
