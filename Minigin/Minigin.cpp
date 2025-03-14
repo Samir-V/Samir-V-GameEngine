@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include "Minigin.h"
 
+#include <steam_api_common.h>
 #include <thread>
 
 #include "InputManager.h"
@@ -103,6 +104,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		// Running the late update with elapsedSec
 		sceneManager.LateUpdate(elapsedSec);
+
+		SteamAPI_RunCallbacks();
 
 		renderer.Render();
 
