@@ -41,10 +41,5 @@ void dae::ScoreDisplayComponent::Notify(EventType event, GameObject* observedGam
 		m_ScoreDisplay->SetText("Score: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetScore()));
 
 		break;
-	case EventType::SubjectDestroyed:
-
-		// Will handle destruction of the subject
-
-		break;
 	}
 }
