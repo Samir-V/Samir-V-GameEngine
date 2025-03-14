@@ -15,12 +15,6 @@ void dae::RotatorComponent::Render() const
 	
 }
 
-void dae::RotatorComponent::RenderImGui()
-{
-	
-}
-
-
 void dae::RotatorComponent::Update(float elapsedSec)
 {
 	m_Angle += m_AngularSpeed * elapsedSec;

@@ -1,8 +1,6 @@
 #include <SDL.h>
 #include "InputManager.h"
 
-#include "imgui_impl_sdl2.h"
-
 bool dae::InputManager::ProcessInput() const
 {
 	HandleControllerInput();
@@ -47,8 +45,6 @@ bool dae::InputManager::HandleKeyboardInput() const
 
 			break;
 		}
-
-		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 

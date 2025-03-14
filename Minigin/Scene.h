@@ -15,7 +15,6 @@ namespace dae
 		void Update(float elapsedSec);
 		void LateUpdate(float elapsedSec);
 		void Render() const;
-		void RenderImGui();
 
 		~Scene();
 		Scene(const Scene& other) = delete;

@@ -27,11 +27,6 @@ void dae::ScoreDisplayComponent::Render() const
 
 }
 
-void dae::ScoreDisplayComponent::RenderImGui()
-{
-
-}
-
 void dae::ScoreDisplayComponent::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);

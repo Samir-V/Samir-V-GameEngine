@@ -26,11 +26,6 @@ void dae::HealthDisplayComponent::Render() const
 	
 }
 
-void dae::HealthDisplayComponent::RenderImGui()
-{
-	
-}
-
 void dae::HealthDisplayComponent::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);

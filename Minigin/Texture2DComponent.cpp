@@ -27,12 +27,6 @@ void dae::Texture2DComponent::Render() const
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
-void dae::Texture2DComponent::RenderImGui()
-{
-	
-}
-
-
 void dae::Texture2DComponent::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);
