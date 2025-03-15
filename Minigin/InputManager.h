@@ -45,11 +45,13 @@ namespace dae
 
 		template <typename CommandType>
 			requires std::derived_from<CommandType, Command>
-		void UnregisterKeyboardCommand()
+		void UnregisterKeyboardCommand(SDL_Scancode key, ActivationType  activationType)
 		{
-			auto commandsToUnregister = std::ranges::remove_if(m_KeyboardCommands, [](const auto& keyboardCommand)
+			auto commandsToUnregister = std::ranges::remove_if(m_KeyboardCommands, [key, activationType](const auto& keyboardCommand)
 				{
-					return dynamic_cast<CommandType*>(keyboardCommand.command.get()) != nullptr;
+					return dynamic_cast<CommandType*>(keyboardCommand.command.get()) != nullptr
+						&& keyboardCommand.key == key
+						&& keyboardCommand.activationType == activationType;
 				});
 
 			m_KeyboardCommands.erase(commandsToUnregister.begin(), m_KeyboardCommands.end());
@@ -57,11 +59,14 @@ namespace dae
 
 		template <typename CommandType>
 			requires std::derived_from<CommandType, Command>
-		void UnregisterControllerCommand(int controllerIndex)
+		void UnregisterControllerCommand(unsigned int controllerKey, ActivationType activationType, int controllerIndex)
 		{
-			auto commandsToUnregister = std::ranges::remove_if(m_ControllerCommands, [controllerIndex](const auto& controllerCommand)
+			auto commandsToUnregister = std::ranges::remove_if(m_ControllerCommands, [controllerKey, activationType, controllerIndex](const auto& controllerCommand)
 				{
-					return (controllerCommand.controllerIndex == controllerIndex && dynamic_cast<CommandType*>(controllerCommand.command.get()) != nullptr);
+					return controllerCommand.controllerIndex == controllerIndex
+						&& dynamic_cast<CommandType*>(controllerCommand.command.get()) != nullptr
+						&& controllerCommand.controllerKey = controllerKey
+						&& controllerCommand.activationType = activationType;
 				});
 
 			m_ControllerCommands.erase(commandsToUnregister.begin(), m_ControllerCommands.end());
