@@ -114,7 +114,7 @@
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy $(SolutionDir)3rdParty\steamworks\redistributable_bin*.dll $(OutputPath) /Y
+xcopy $(SolutionDir)3rdParty\steamworks\redistributable_bin\steam_api.dll $(OutputPath) /Y
 copy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -170,7 +170,7 @@ copy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(TargetDir)</Command>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy $(SolutionDir)3rdParty\steamworks\redistributable_bin*.dll $(OutputPath) /Y
+xcopy $(SolutionDir)3rdParty\steamworks\redistributable_bin\steam_api.dll $(OutputPath) /Y
 copy $(SolutionDir)3rdParty\steamworks\steam_appid.txt $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
