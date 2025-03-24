@@ -69,7 +69,7 @@ void dae::PeterPepperComponent::Damage(int damage)
 		m_Health = 0;
 	}
 
-	m_ObjectDeathEvent->NotifyObservers(EventType::PlayerDamaged, GetOwner());
+	m_ObjectDeathEvent->NotifyObservers(Event(make_sdbm_hash("PlayerDamaged")), GetOwner());
 }
 
 
@@ -87,7 +87,7 @@ void dae::PeterPepperComponent::IncreaseScore(int score)
 {
 	m_Score += score;
 
-	m_ScoreChangedEvent->NotifyObservers(EventType::ScoreChanged, GetOwner());
+	m_ScoreChangedEvent->NotifyObservers(Event(make_sdbm_hash("ScoreChanged")), GetOwner());
 }
 
 

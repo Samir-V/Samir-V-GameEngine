@@ -32,19 +32,24 @@ void dae::ScoreDisplayComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::ScoreDisplayComponent::Notify(EventType event, GameObject* observedGameObject)
+void dae::ScoreDisplayComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
-	switch (event)
+	if (event.id == make_sdbm_hash("ScoreChanged"))
 	{
-	case EventType::ScoreChanged:
-
 		m_ScoreDisplay->SetText("Score: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetScore()));
-
-		break;
-	case EventType::SubjectDestroyed:
-
-		// Will handle destruction of the subject
-
-		break;
 	}
+
+	//switch (event)
+	//{
+	//case EventType::ScoreChanged:
+
+	//	m_ScoreDisplay->SetText("Score: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetScore()));
+
+	//	break;
+	//case EventType::SubjectDestroyed:
+
+	//	// Will handle destruction of the subject
+
+	//	break;
+	//}
 }

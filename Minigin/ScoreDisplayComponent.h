@@ -19,7 +19,7 @@ namespace dae
 		ScoreDisplayComponent& operator=(const ScoreDisplayComponent& other) = delete;
 		ScoreDisplayComponent& operator=(ScoreDisplayComponent&& other) = delete;
 
-		void Notify(EventType event, GameObject* observedGameObject) override;
+		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;

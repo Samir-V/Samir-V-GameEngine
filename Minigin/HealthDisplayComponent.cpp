@@ -31,21 +31,26 @@ void dae::HealthDisplayComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::HealthDisplayComponent::Notify(EventType event, GameObject* observedGameObject)
+void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
-	switch (event)
+	if (event.id == make_sdbm_hash("PlayerDamaged"))
 	{
-	case EventType::PlayerDamaged:
-
 		m_HealthDisplay->SetText("Remaining Health: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingHealth()));
-
-		break;
-	case EventType::SubjectDestroyed:
-
-		// Will handle destruction of the subject
-
-		break;
 	}
+
+	//switch (event)
+	//{
+	//case EventType::PlayerDamaged:
+
+	//	m_HealthDisplay->SetText("Remaining Health: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingHealth()));
+
+	//	break;
+	//case EventType::SubjectDestroyed:
+
+	//	// Will handle destruction of the subject
+
+	//	break;
+	//}
 }
 
 
