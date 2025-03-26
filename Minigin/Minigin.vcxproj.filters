@@ -69,12 +69,6 @@
     <ClInclude Include="Texture2DComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
@@ -83,12 +77,6 @@
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="PeterPepperCommand.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="PeterPepperComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Header Files\Input</Filter>
@@ -101,12 +89,6 @@
     </ClInclude>
     <ClInclude Include="EventType.h">
       <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthDisplayComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreDisplayComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +113,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -146,26 +125,11 @@
     <ClCompile Include="Texture2DComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="PeterPepperComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Source Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthDisplayComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreDisplayComponent.cpp">
-      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{04401fee-e849-4790-93d7-48f2e97fde0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{bfb03c73-7370-4ea3-b19c-c498ba353591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{495c55bb-a084-40b7-b320-1e7da28239ec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplayComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplayComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ScoreDisplayComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplayComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperCommand.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
