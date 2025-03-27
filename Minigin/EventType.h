@@ -1,12 +1,5 @@
 #pragma once
 
-//enum class EventType
-//{
-//	SubjectDestroyed,
-//	PlayerDamaged,
-//	ScoreChanged
-//};
-
 using EventId = unsigned int;
 
 struct Event

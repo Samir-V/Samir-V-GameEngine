@@ -24,6 +24,22 @@
 #include "Windows.h"
 #include "Xinput.h"
 
+void find_resources()
+{
+	constexpr int MAX_TRAVERSAL{ 3 };
+
+	const std::filesystem::path resFolderName{ "Data" };
+	int counter{ 0 };
+
+	while (!std::filesystem::exists(resFolderName) && counter < MAX_TRAVERSAL)
+	{
+		std::filesystem::current_path("..");
+		counter++;
+	}
+
+	std::filesystem::current_path(resFolderName);
+}
+
 void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("MainScene");
@@ -109,7 +125,8 @@ void load()
 }
 
 int main(int, char* []) {
-	dae::Minigin engine("../../Data/");
+	find_resources();
+	dae::Minigin engine{};
 	engine.Run(load);
 	return 0;
 }

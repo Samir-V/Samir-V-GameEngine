@@ -12,7 +12,7 @@ namespace dae
 	class ResourceManager final : public Singleton<ResourceManager>
 	{
 	public:
-		void Init(const std::filesystem::path& data);
+		void Init();
 		std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
 		std::shared_ptr<Font> LoadFont(const std::string& file, uint8_t size);
 	private:
