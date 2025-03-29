@@ -32,7 +32,7 @@ void dae::ScoreComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::ScoreComponent::Notify(const Event& event, GameObject*)
 {
 	if (event.id == make_sdbm_hash("SmallEnemyKilled"))
 	{
