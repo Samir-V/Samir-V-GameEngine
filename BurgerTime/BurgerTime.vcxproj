@@ -514,7 +514,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
-    <ClCompile Include="ScoreDisplayComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h" />
@@ -522,7 +522,7 @@
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="RotatorComponent.h" />
-    <ClInclude Include="ScoreDisplayComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

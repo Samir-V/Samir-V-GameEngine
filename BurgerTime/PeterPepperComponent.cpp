@@ -7,7 +7,7 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr, float maxS
 	m_MaxSpeed(maxSpeed)
 {
 	m_ObjectDeathEvent = std::make_unique<Subject>();
-	m_ScoreChangedEvent = std::make_unique<Subject>();
+	m_EnemyKilledEvent = std::make_unique<Subject>();
 }
 
 void dae::PeterPepperComponent::Update(float elapsedSec)
@@ -73,24 +73,10 @@ void dae::PeterPepperComponent::Damage(int damage)
 }
 
 
-dae::Subject* dae::PeterPepperComponent::GetScoreChangedEvent() const
+dae::Subject* dae::PeterPepperComponent::GetEnemyKilledEvent() const
 {
-	return m_ScoreChangedEvent.get();
+	return m_EnemyKilledEvent.get();
 }
-
-int dae::PeterPepperComponent::GetScore() const
-{
-	return m_Score;
-}
-
-void dae::PeterPepperComponent::IncreaseScore(int score)
-{
-	m_Score += score;
-
-	m_ScoreChangedEvent->NotifyObservers(Event(make_sdbm_hash("ScoreChanged")), GetOwner());
-}
-
-
 
 
 

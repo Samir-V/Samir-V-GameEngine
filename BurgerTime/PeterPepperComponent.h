@@ -30,9 +30,7 @@ namespace dae
 		int GetRemainingHealth() const;
 		void Damage(int damage = 1);
 
-		Subject* GetScoreChangedEvent() const;
-		int GetScore() const;
-		void IncreaseScore(int score = 100);
+		Subject* GetEnemyKilledEvent() const;
 
 	private:
 
@@ -44,9 +42,7 @@ namespace dae
 
 		int m_Health{ 3 };
 
-		int m_Score{};
-
 		std::unique_ptr<Subject> m_ObjectDeathEvent;
-		std::unique_ptr<Subject> m_ScoreChangedEvent;
+		std::unique_ptr<Subject> m_EnemyKilledEvent;
 	};
 }

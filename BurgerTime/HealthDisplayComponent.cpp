@@ -37,20 +37,6 @@ void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observe
 	{
 		m_HealthDisplay->SetText("Remaining Health: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingHealth()));
 	}
-
-	//switch (event)
-	//{
-	//case EventType::PlayerDamaged:
-
-	//	m_HealthDisplay->SetText("Remaining Health: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingHealth()));
-
-	//	break;
-	//case EventType::SubjectDestroyed:
-
-	//	// Will handle destruction of the subject
-
-	//	break;
-	//}
 }
 
 

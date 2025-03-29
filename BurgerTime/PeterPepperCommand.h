@@ -57,19 +57,26 @@ private:
 	int m_DamageAmount;
 };
 
-class IncreaseScore : public PeterPepperCommand
+class KillEnemy : public PeterPepperCommand
 {
 public:
-	IncreaseScore(dae::GameObject* peterPepper, int score) : PeterPepperCommand(peterPepper), m_ScoreAmount{ score } {};
+	KillEnemy(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {};
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->IncreaseScore(m_ScoreAmount);
+		GetPeterPepperComponent()->GetEnemyKilledEvent()->NotifyObservers(Event(make_sdbm_hash("EnemyKilled")), GetPeterPepperObject());
 	}
+};
 
-private:
+class KillSmallEnemy : public PeterPepperCommand
+{
+public:
+	KillSmallEnemy(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {};
 
-	int m_ScoreAmount;
+	void Execute() override
+	{
+		GetPeterPepperComponent()->GetEnemyKilledEvent()->NotifyObservers(Event(make_sdbm_hash("SmallEnemyKilled")), GetPeterPepperObject());
+	}
 };
 
 
