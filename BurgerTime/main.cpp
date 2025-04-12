@@ -20,6 +20,8 @@
 #include "PeterPepperComponent.h"
 #include "Scene.h"
 #include "ScoreComponent.h"
+#include "SDLSoundSystem.h"
+#include "ServiceLocator.h"
 #include "Texture2DComponent.h"
 #include "Windows.h"
 #include "Xinput.h"
@@ -42,6 +44,8 @@ void find_resources()
 
 void load()
 {
+	ServiceLocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
+
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("MainScene");
 	auto& input = dae::InputManager::GetInstance();
 

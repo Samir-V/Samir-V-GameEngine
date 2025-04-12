@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "Minigin.h"
 
 #include <thread>
@@ -50,6 +51,16 @@ dae::Minigin::Minigin()
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
+
+	if (SDL_Init(SDL_INIT_AUDIO) < 0)
+	{
+		throw std::runtime_error(std::string("SDL_Init Sound Error: ") + SDL_GetError());
+	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		throw std::runtime_error(std::string("Mix_OpenAudio failed: ") + Mix_GetError());
 	}
 
 	g_window = SDL_CreateWindow(

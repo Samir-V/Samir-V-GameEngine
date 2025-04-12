@@ -3,6 +3,7 @@
 #include "Command.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
+#include "ServiceLocator.h"
 
 class PeterPepperCommand : public Command
 {
@@ -50,6 +51,7 @@ public:
 	void Execute() override
 	{
 		GetPeterPepperComponent()->Damage(m_DamageAmount);
+		ServiceLocator::GetSoundSystem().Play("BigFileCheck.mp3", 0.1f);
 	}
 
 private:
