@@ -10,7 +10,6 @@ public:
 	~SDLSoundSystem() override;
 
 	void Play(const std::string& sound, const float volume, bool isMusic = false) override;
-	void Update() override;
 	void LoadSound(const std::string& sound, bool isMusic = false) override;
 
 private:
