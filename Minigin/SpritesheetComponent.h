@@ -2,6 +2,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "ComponentBase.h"
 #include "Texture2D.h"
@@ -13,12 +14,14 @@ namespace dae
 	{
 	public:
 
-		struct SpriteData
+		struct SpriteMetaData
 		{
-
+			int numOfCols;
+			int numOfRows;
+			float timeStep;
 		};
 
-		SpritesheetComponent(GameObject* ownerPtr, const std::string& filename);
+		SpritesheetComponent(GameObject* ownerPtr);
 		~SpritesheetComponent() override = default;
 
 		SpritesheetComponent(const SpritesheetComponent& other) = delete;
@@ -31,15 +34,27 @@ namespace dae
 		void Render() const override;
 
 		void Play(const std::string& spriteName);
-		void AddSprite(const std::string& spriteName, SpriteData spriteMetadata);
+		void AddSprite(const std::string& spriteName, SpriteMetaData spriteMetadata);
 
 		void SetLocalPosition(float x, float y) override;
 
 	private:
 
+		struct SpriteData
+		{
+			std::shared_ptr<Texture2D> texture;
+			SpriteMetaData metaData;
+		};
+
 		Transform m_LocalTransform{};
 
-		std::map<std::string, SpriteData> m_SpriteSheet{};
+		int   m_CurrentCol{};
+		int   m_CurrentRow{};
+		float m_Accumulator{};
+
+		SpriteData* m_CurrentSprite{ nullptr };
+
+		std::unordered_map<std::string, SpriteData> m_SpriteSheet{};
 	};
 }
 

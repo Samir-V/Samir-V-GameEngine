@@ -156,11 +156,11 @@ void SDLSoundSystem::SDLSoundSystemImpl::LoadSound(const std::string& sound, boo
 {
 	if (isMusic)
 	{
-		m_Music.insert(std::pair<std::string, Mix_Music*>(sound, Mix_LoadMUS(sound.c_str())));
+		m_Music.insert({ sound, Mix_LoadMUS(sound.c_str()) });
 	}
 	else
 	{
-		m_SoundChunks.insert(std::pair<std::string, Mix_Chunk*>(sound, Mix_LoadWAV(sound.c_str())));
+		m_SoundChunks.insert({ sound, Mix_LoadWAV(sound.c_str()) });
 	}
 }
 
