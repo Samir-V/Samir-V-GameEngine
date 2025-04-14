@@ -46,19 +46,19 @@ public:
 	{
 		if (m_Direction.x < 0)
 		{
-			GetSpritesheetComponent()->Play("PeterPepper/PPWalkingLeft.png");
+			GetSpritesheetComponent()->Play("PPWalkingLeft.png");
 		}
 		else if (m_Direction.x > 0)
 		{
-			GetSpritesheetComponent()->Play("PeterPepper/PPWalkingRight.png");
+			GetSpritesheetComponent()->Play("PPWalkingRight.png");
 		}
 		else if (m_Direction.y > 0)
 		{
-			GetSpritesheetComponent()->Play("PeterPepper/PPWalkingDown.png");
+			GetSpritesheetComponent()->Play("PPWalkingDown.png");
 		}
 		else if (m_Direction.y < 0)
 		{
-			GetSpritesheetComponent()->Play("PeterPepper/PPWalkingUp.png");
+			GetSpritesheetComponent()->Play("PPWalkingUp.png");
 		}
 
 		GetPeterPepperComponent()->AddInputToDirection(m_Direction);

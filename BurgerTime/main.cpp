@@ -106,13 +106,13 @@ void load()
 	// Keyboard Peter Pepper
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 300.0f);
-	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>();
+	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
 
-	spriteSheetComp->AddSprite("PeterPepper/PPWalkingDown.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PeterPepper/PPWalkingUp.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PeterPepper/PPWalkingLeft.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PeterPepper/PPWalkingRight.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->Play("PeterPepper/PPWalkingDown.png");
+	spriteSheetComp->AddSprite("PPWalkingDown.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingUp.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingLeft.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingRight.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->Play("PPWalkingDown.png");
 
 	//go->AddComponent<dae::Texture2DComponent>("PeterPepper.png");
 	const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>(150.0f);

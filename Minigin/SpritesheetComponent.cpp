@@ -4,7 +4,9 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 
-dae::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr): ComponentBase(ownerPtr)
+dae::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr, std::string folderPath):
+	ComponentBase(ownerPtr),
+	m_FolderPath(std::move(folderPath))
 {
 }
 
@@ -78,7 +80,18 @@ void dae::SpritesheetComponent::SetLocalPosition(float x, float y)
 
 void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteMetaData spriteMetadata)
 {
-	auto texture = ResourceManager::GetInstance().LoadTexture(spriteName);
+	std::string fullPath{};
+
+	if (!m_FolderPath.empty())
+	{
+		fullPath = m_FolderPath + "/" + spriteName;
+	}
+	else
+	{
+		fullPath = spriteName;
+	}
+
+	auto texture = ResourceManager::GetInstance().LoadTexture(fullPath);
 	m_SpriteSheet.insert({spriteName, SpriteData{ texture, spriteMetadata }});
 }
 

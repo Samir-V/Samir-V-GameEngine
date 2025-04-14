@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -21,7 +20,7 @@ namespace dae
 			float timeStep;
 		};
 
-		SpritesheetComponent(GameObject* ownerPtr);
+		SpritesheetComponent(GameObject* ownerPtr, std::string folderPath = {});
 		~SpritesheetComponent() override = default;
 
 		SpritesheetComponent(const SpritesheetComponent& other) = delete;
@@ -51,6 +50,8 @@ namespace dae
 		int   m_CurrentCol{};
 		int   m_CurrentRow{};
 		float m_Accumulator{};
+
+		std::string m_FolderPath{};
 
 		SpriteData* m_CurrentSprite{ nullptr };
 
