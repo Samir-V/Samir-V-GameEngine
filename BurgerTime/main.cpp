@@ -22,6 +22,7 @@
 #include "ScoreComponent.h"
 #include "SDLSoundSystem.h"
 #include "ServiceLocator.h"
+#include "SpritesheetComponent.h"
 #include "Texture2DComponent.h"
 #include "Windows.h"
 #include "Xinput.h"
@@ -105,7 +106,15 @@ void load()
 	// Keyboard Peter Pepper
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 300.0f);
-	go->AddComponent<dae::Texture2DComponent>("PeterPepper.png");
+	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>();
+
+	spriteSheetComp->AddSprite("PeterPepper/PPWalkingDown.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PeterPepper/PPWalkingUp.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PeterPepper/PPWalkingLeft.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PeterPepper/PPWalkingRight.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->Play("PeterPepper/PPWalkingDown.png");
+
+	//go->AddComponent<dae::Texture2DComponent>("PeterPepper.png");
 	const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>(150.0f);
 
 	const auto scoreComponentKeyboard = go->AddComponent<dae::ScoreComponent>(textComp);

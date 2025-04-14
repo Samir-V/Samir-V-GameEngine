@@ -53,7 +53,7 @@ void dae::SpritesheetComponent::Render() const
 	auto metaData = m_CurrentSprite->metaData;
 
 	auto frameWidth = textureSize.x / metaData.numOfCols;
-	auto frameHeight = textureSize.y / metaData.numOfRows;
+	auto frameHeight = textureSize.y;
 
 	SDL_Rect sourceRect{};
 
@@ -61,11 +61,12 @@ void dae::SpritesheetComponent::Render() const
 
 	if (metaData.numOfRows != 0)
 	{
+		frameHeight = textureSize.y / metaData.numOfRows;
 		sourceRect.y = frameHeight * m_CurrentRow;
 	}
 
-	sourceRect.w = textureSize.x / metaData.numOfCols;
-	sourceRect.h = textureSize.y / metaData.numOfRows;
+	sourceRect.w = frameWidth;
+	sourceRect.h = frameHeight;
 
 	Renderer::GetInstance().RenderTexture(*m_CurrentSprite->texture, pos.x, pos.y, &sourceRect);
 }
@@ -83,6 +84,15 @@ void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteM
 
 void dae::SpritesheetComponent::Play(const std::string& spriteName)
 {
+	if (m_CurrentSprite == nullptr)
+	{
+		m_CurrentCol = 0;
+		m_CurrentRow = 0;
+		m_Accumulator = 0.0f;
+		m_CurrentSprite = &m_SpriteSheet.at(spriteName);
+		return;
+	}
+
 	if (m_SpriteSheet.at(spriteName).texture == m_CurrentSprite->texture)
 	{
 		return;
@@ -91,7 +101,6 @@ void dae::SpritesheetComponent::Play(const std::string& spriteName)
 	m_CurrentCol = 0;
 	m_CurrentRow = 0;
 	m_Accumulator = 0.0f;
-
 	m_CurrentSprite = &m_SpriteSheet.at(spriteName);
 }
 

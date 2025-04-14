@@ -10,7 +10,7 @@
 
 namespace dae
 {
-	class SpritesheetComponent final : ComponentBase
+	class SpritesheetComponent final : public ComponentBase
 	{
 	public:
 

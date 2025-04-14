@@ -1,5 +1,7 @@
 #include "PeterPepperComponent.h"
 
+#include <algorithm>
+
 #include "GameObject.h"
 
 dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr, float maxSpeed):
@@ -43,7 +45,6 @@ void dae::PeterPepperComponent::AddInputToDirection(const glm::vec2& direction)
 {
 	m_Direction += direction;
 
-
 	if (glm::dot(m_Direction, m_Direction) > std::numeric_limits<float>::epsilon())
 	{
 		m_Direction = glm::normalize(m_Direction);
@@ -64,10 +65,7 @@ void dae::PeterPepperComponent::Damage(int damage)
 {
 	m_Health -= damage;
 
-	if (m_Health <= 0)
-	{
-		m_Health = 0;
-	}
+	m_Health = std::max(m_Health, 0);
 
 	m_ObjectDeathEvent->NotifyObservers(Event(make_sdbm_hash("PlayerDamaged")), GetOwner());
 }
