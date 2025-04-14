@@ -51,7 +51,6 @@ public:
 	void Execute() override
 	{
 		GetPeterPepperComponent()->Damage(m_DamageAmount);
-		ServiceLocator::GetSoundSystem().Play("BigFileCheck.mp3", 0.1f);
 	}
 
 private:
