@@ -86,6 +86,7 @@ dae::Minigin::~Minigin()
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
 	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	g_window = nullptr;
 	SDL_Quit();

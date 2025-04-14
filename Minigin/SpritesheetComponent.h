@@ -7,6 +7,8 @@
 #include "Texture2D.h"
 #include "Transform.h"
 
+using SpriteID = unsigned int;
+
 namespace dae
 {
 	class SpritesheetComponent final : public ComponentBase

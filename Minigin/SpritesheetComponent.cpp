@@ -97,24 +97,15 @@ void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteM
 
 void dae::SpritesheetComponent::Play(const std::string& spriteName)
 {
-	if (m_CurrentSprite == nullptr)
+	auto& newSprite = m_SpriteSheet.at(spriteName);
+
+	if (m_CurrentSprite == nullptr || newSprite.texture != m_CurrentSprite->texture)
 	{
 		m_CurrentCol = 0;
 		m_CurrentRow = 0;
 		m_Accumulator = 0.0f;
-		m_CurrentSprite = &m_SpriteSheet.at(spriteName);
-		return;
+		m_CurrentSprite = &newSprite;
 	}
-
-	if (m_SpriteSheet.at(spriteName).texture == m_CurrentSprite->texture)
-	{
-		return;
-	}
-
-	m_CurrentCol = 0;
-	m_CurrentRow = 0;
-	m_Accumulator = 0.0f;
-	m_CurrentSprite = &m_SpriteSheet.at(spriteName);
 }
 
 
