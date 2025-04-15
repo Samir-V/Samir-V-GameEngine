@@ -3,7 +3,6 @@
 #include "Command.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
-#include "ServiceLocator.h"
 #include "SpritesheetComponent.h"
 
 class PeterPepperCommand : public Command
