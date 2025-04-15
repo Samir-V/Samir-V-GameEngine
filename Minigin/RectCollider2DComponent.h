@@ -36,6 +36,10 @@ namespace dae
 		void SetShouldTriggerEvents(bool triggerEvents);
 		void SetShouldCollide(bool shouldCollide);
 
+		Subject* GetCollisionEnterEvent() const;
+		Subject* GetCollisionExitEvent() const;
+		Subject* GetCollisionStayEvent() const;
+
 	private:
 
 		bool IsOverlapping(const Rect& rect1, const Rect& rect2) const;

@@ -1,6 +1,7 @@
 #include "PeterPepperComponent.h"
 
 #include <algorithm>
+#include <iostream>
 
 #include "GameObject.h"
 
@@ -28,12 +29,10 @@ void dae::PeterPepperComponent::Update(float elapsedSec)
 
 void dae::PeterPepperComponent::LateUpdate(float)
 {
-	
 }
 
 void dae::PeterPepperComponent::Render() const
 {
-	
 }
 
 void dae::PeterPepperComponent::SetLocalPosition(float x, float y)
@@ -75,6 +74,15 @@ dae::Subject* dae::PeterPepperComponent::GetEnemyKilledEvent() const
 {
 	return m_EnemyKilledEvent.get();
 }
+
+void dae::PeterPepperComponent::Notify(const Event& event, GameObject*)
+{
+	if (event.id == make_sdbm_hash("OnCollisionStay"))
+	{
+		std::cout << "Colliding! \n";
+	}
+}
+
 
 
 

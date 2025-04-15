@@ -1,10 +1,17 @@
 #include "RectCollider2DComponent.h"
+
+#include <iostream>
+
 #include "GameObject.h"
 
 std::vector<dae::RectCollider2DComponent*> dae::RectCollider2DComponent::m_Colliders{};
 
 dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, int collisionRectWidth, int collisionRectHeight): ComponentBase(ownerPtr)
 {
+	auto& ownerPos = ownerPtr->GetWorldTransform().GetPosition();
+
+	m_CollisionRect.posX = static_cast<int>(ownerPos.x);
+	m_CollisionRect.posY = static_cast<int>(ownerPos.y);
 	m_CollisionRect.width = collisionRectWidth;
 	m_CollisionRect.height = collisionRectHeight;
 
@@ -17,6 +24,10 @@ dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, int 
 
 void dae::RectCollider2DComponent::Update(float)
 {
+	auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();
+	m_CollisionRect.posX = static_cast<int>(ownerPos.x + m_LocalTransform.GetPosition().x);
+	m_CollisionRect.posY = static_cast<int>(ownerPos.y + m_LocalTransform.GetPosition().y);
+
 	for (auto otherCollider : m_Colliders)
 	{
 		if (otherCollider == this)
@@ -79,6 +90,24 @@ bool dae::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& 
 	}
 	return false;
 }
+
+dae::Subject* dae::RectCollider2DComponent::GetCollisionEnterEvent() const
+{
+	return m_CollisionEnterEvent.get();
+}
+
+dae::Subject* dae::RectCollider2DComponent::GetCollisionExitEvent() const
+{
+	return m_CollisionExitEvent.get();
+}
+
+dae::Subject* dae::RectCollider2DComponent::GetCollisionStayEvent() const
+{
+	return m_CollisionStayEvent.get();
+}
+
+
+
 
 
 

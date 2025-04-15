@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	class PeterPepperComponent final : public ComponentBase
+	class PeterPepperComponent final : public ComponentBase, public IObserver
 	{
 	public:
 
@@ -24,6 +24,8 @@ namespace dae
 		void Render() const override;
 
 		void SetLocalPosition(float x, float y) override;
+		void Notify(const Event& event, GameObject* observedGameObject) override;
+
 		void AddInputToDirection(const glm::vec2& direction);
 
 		Subject* GetObjectDeathEvent() const;
