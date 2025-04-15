@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <unordered_set>
 
 #include "ComponentBase.h"
 #include "Subject.h"
@@ -13,13 +14,13 @@ namespace dae
 
 		struct Rect
 		{
-			int posX;
-			int posY;
-			int width;
-			int height;
+			float posX;
+			float posY;
+			float width;
+			float height;
 		};
 
-		RectCollider2DComponent(GameObject* ownerPtr, int collisionRectWidth, int collisionRectHeight);
+		RectCollider2DComponent(GameObject* ownerPtr, float collisionRectWidth, float collisionRectHeight);
 		~RectCollider2DComponent() override = default;
 
 		RectCollider2DComponent(const RectCollider2DComponent& other) = delete;
@@ -35,6 +36,7 @@ namespace dae
 
 		void SetShouldTriggerEvents(bool triggerEvents);
 		void SetShouldCollide(bool shouldCollide);
+		void SetIsStatic(bool isStatic);
 
 		Subject* GetCollisionEnterEvent() const;
 		Subject* GetCollisionExitEvent() const;
@@ -43,6 +45,7 @@ namespace dae
 	private:
 
 		bool IsOverlapping(const Rect& rect1, const Rect& rect2) const;
+		glm::vec2 GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2) const;
 
 		static std::vector<RectCollider2DComponent*> m_Colliders;
 
@@ -51,10 +54,13 @@ namespace dae
 
 		bool m_ShouldTriggerEvents	{ };
 		bool m_ShouldCollide		{ true };
+		bool m_IsStatic				{ };
 
 		std::unique_ptr<Subject> m_CollisionEnterEvent;
 		std::unique_ptr<Subject> m_CollisionExitEvent;
 		std::unique_ptr<Subject> m_CollisionStayEvent;
+
+		std::unordered_set<RectCollider2DComponent*> m_PreviousFrameCollisions;
 	};
 }
 

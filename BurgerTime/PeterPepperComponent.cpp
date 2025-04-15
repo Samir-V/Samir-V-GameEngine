@@ -77,9 +77,19 @@ dae::Subject* dae::PeterPepperComponent::GetEnemyKilledEvent() const
 
 void dae::PeterPepperComponent::Notify(const Event& event, GameObject*)
 {
-	if (event.id == make_sdbm_hash("OnCollisionStay"))
+	/*if (event.id == make_sdbm_hash("OnCollisionStay"))
 	{
 		std::cout << "Colliding! \n";
+	}*/
+
+	if (event.id == make_sdbm_hash("OnCollisionEnter"))
+	{
+		std::cout << "Entered collision! \n";
+	}
+
+	if (event.id == make_sdbm_hash("OnCollisionExit"))
+	{
+		std::cout << "Exited collision! \n";
 	}
 }
 
