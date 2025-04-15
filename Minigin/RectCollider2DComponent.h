@@ -33,17 +33,14 @@ namespace dae
 
 		void SetLocalPosition(float x, float y) override;
 
-		Subject* GetCollisionEnterEvent() const;
-		Subject* GetCollisionExitEvent() const;
-		Subject* GetCollisionStayEvent() const;
-
 		void SetShouldTriggerEvents(bool triggerEvents);
 		void SetShouldCollide(bool shouldCollide);
 
-		bool GetShouldTriggerEvents() const;
-		bool GetShouldCollide() const;
-
 	private:
+
+		bool IsOverlapping(const Rect& rect1, const Rect& rect2) const;
+
+		static std::vector<RectCollider2DComponent*> m_Colliders;
 
 		Transform m_LocalTransform	{ };
 		Rect m_CollisionRect		{ };
