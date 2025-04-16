@@ -30,7 +30,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 	{
 		if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength, hitDistance))
 		{
-			//std::cout << "Raycast sees collision \n";
+			std::cout << "Raycast sees collision \n";
 			verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
 			m_CanGoHorizontally = true;
 			break;
@@ -39,10 +39,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 
 	m_CanGoVertically = false;
 
-	/*rayOrigin = { ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height / 2.0f };
-	rayLength = 10.0f;*/
-
-	if (!m_CurrentPlatformsColliders.empty())
+	if (!m_CurrentLadderColliders.empty())
 	{
 		m_CanGoVertically = true;
 	}
