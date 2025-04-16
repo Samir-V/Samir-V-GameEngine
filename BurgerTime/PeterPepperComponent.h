@@ -7,6 +7,8 @@
 
 namespace dae
 {
+	class SpritesheetComponent;
+
 	class PeterPepperComponent final : public ComponentBase, public IObserver
 	{
 	public:
@@ -39,10 +41,13 @@ namespace dae
 		Transform m_LocalTransform{};
 		glm::vec2 m_Velocity{};
 		glm::vec2 m_Direction{};
+		glm::vec2 m_LastNonZeroDirection{};
 
 		const float m_MaxSpeed{};
 
 		int m_Health{ 3 };
+
+		SpritesheetComponent* m_SpritesheetComponentPtr{};
 
 		std::unique_ptr<Subject> m_ObjectDeathEvent;
 		std::unique_ptr<Subject> m_EnemyKilledEvent;

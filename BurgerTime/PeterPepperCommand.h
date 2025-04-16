@@ -3,7 +3,6 @@
 #include "Command.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
-#include "SpritesheetComponent.h"
 
 class PeterPepperCommand : public Command
 {
@@ -12,7 +11,6 @@ public:
 	PeterPepperCommand(dae::GameObject* peterPepper) : m_PeterPepperObjectPtr(peterPepper)
 	{
 		m_PeterPepperComponentPtr = peterPepper->GetComponent<dae::PeterPepperComponent>();
-		m_SpritesheetComponentPtr = peterPepper->GetComponent<dae::SpritesheetComponent>();
 	}
 	virtual ~PeterPepperCommand() override = default;
 
@@ -20,14 +18,11 @@ protected:
 
 	dae::GameObject* GetPeterPepperObject() const { return m_PeterPepperObjectPtr; }
 	dae::PeterPepperComponent* GetPeterPepperComponent() const { return m_PeterPepperComponentPtr; }
-	dae::SpritesheetComponent* GetSpritesheetComponent() const { return m_SpritesheetComponentPtr; }
 
 private:
 
 	dae::GameObject* m_PeterPepperObjectPtr;
 	dae::PeterPepperComponent* m_PeterPepperComponentPtr;
-
-	dae::SpritesheetComponent* m_SpritesheetComponentPtr;
 };
 
 class MoveInDirection : public PeterPepperCommand
@@ -43,23 +38,6 @@ public:
 
 	void Execute() override
 	{
-		if (m_Direction.x < 0)
-		{
-			GetSpritesheetComponent()->Play("PPWalkingLeft.png");
-		}
-		else if (m_Direction.x > 0)
-		{
-			GetSpritesheetComponent()->Play("PPWalkingRight.png");
-		}
-		else if (m_Direction.y > 0)
-		{
-			GetSpritesheetComponent()->Play("PPWalkingDown.png");
-		}
-		else if (m_Direction.y < 0)
-		{
-			GetSpritesheetComponent()->Play("PPWalkingUp.png");
-		}
-
 		GetPeterPepperComponent()->AddInputToDirection(m_Direction);
 	}
 

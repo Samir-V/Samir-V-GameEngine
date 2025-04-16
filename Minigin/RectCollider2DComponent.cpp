@@ -1,7 +1,4 @@
 #include "RectCollider2DComponent.h"
-
-#include <iostream>
-
 #include "GameObject.h"
 
 std::vector<dae::RectCollider2DComponent*> dae::RectCollider2DComponent::m_Colliders{};

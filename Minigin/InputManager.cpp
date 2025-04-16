@@ -47,7 +47,6 @@ bool dae::InputManager::HandleKeyboardInput() const
 		}
 	}
 
-
 	const Uint8* keyStates = SDL_GetKeyboardState(nullptr);
 
 	for (const auto& keyboardCommand : m_KeyboardCommands)

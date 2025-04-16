@@ -113,7 +113,11 @@ void load()
 	spriteSheetComp->AddSprite("PPWalkingUp.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
 	spriteSheetComp->AddSprite("PPWalkingLeft.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
 	spriteSheetComp->AddSprite("PPWalkingRight.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->Play("PPWalkingDown.png");
+	spriteSheetComp->AddSprite("PPIdleDown.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleUp.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleLeft.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleRight.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->Play("PPIdleDown.png");
 
 	const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>(150.0f);
 

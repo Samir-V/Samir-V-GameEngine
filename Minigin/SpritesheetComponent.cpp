@@ -14,9 +14,14 @@ void dae::SpritesheetComponent::Update(float elapsedSec)
 {
 	assert(m_CurrentSprite != nullptr);
 
-	m_Accumulator += elapsedSec;
-
 	auto metaData = m_CurrentSprite->metaData;
+
+	if (metaData.numOfCols <= 1 && metaData.numOfRows == 0)
+	{
+		return;
+	}
+
+	m_Accumulator += elapsedSec;
 
 	if (m_Accumulator < metaData.timeStep)
 	{
