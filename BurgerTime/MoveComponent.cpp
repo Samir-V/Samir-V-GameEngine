@@ -17,42 +17,62 @@ void dae::MoveComponent::Update(float elapsedSec)
 {
 	// Walking opportunities checking
 
-	auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
-	glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-	glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
-	float rayLength = 2.0f;
-	float hitDistance = 0.0f;
+	if (m_CurrentPlatformsColliders.empty())
+	{
+		m_CanGoHorizontally = false;
+	}
 
-	m_CanGoHorizontally = false;
+	if (m_CurrentLadderColliders.empty())
+	{
+		m_CanGoVertically = false;
+	}
+
 	glm::vec2 verticalCollisionShift{};
 
-	for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
+	if (m_Direction.x != 0.0f && !m_CanGoHorizontally)
 	{
-		if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength, hitDistance))
+		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
+		float rayLength = 2.0f;
+		float hitDistance = 0.0f;
+
+		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
 		{
-			std::cout << "Raycast sees collision \n";
-			verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
-			m_CanGoHorizontally = true;
-			break;
+			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength, hitDistance))
+			{
+				std::cout << "Raycast sees collision \n";
+				verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
+				m_CanGoHorizontally = true;
+				break;
+			}
 		}
 	}
 
-	m_CanGoVertically = false;
-
-	if (!m_CurrentLadderColliders.empty())
+	if (m_Direction.y != 0.0f && !m_CanGoVertically)
 	{
-		m_CanGoVertically = true;
+		// This allows general movement UP, which is not performance heavy
+		if (m_Direction.y < 0.0f && !m_CurrentLadderColliders.empty())
+		{
+			m_CanGoVertically = true;
+		}
+		// Additional checking here with passing a raycast to the collider component should return the set of GAME OBJECTS pointers with colliders intersecting with the raycast.
+		// If any of these objects has a TAG that it is a ladder, movement sideways is allowed
+		// The raycast starts from feet and generally serves to be able to find ladders that go DOWN. But also helps with walking up the ladder
+		// (since the character cannot while climbing up can hit a point where it already does not collide with the ladder and is midway in the platform above it
+		else
+		{
+			// Make a raycast
+
+			// Get the objects that intersect with it
+
+			// If there are any ladders - allow movement
+		}
 	}
 
 	// Movement prevention
 
-	if (m_Direction.y != 0.0f && !m_CanGoVertically)
-	{
-		m_Direction = glm::vec2{ 0.0f, 0.0f };
-		return;
-	}
-
-	if (m_Direction.x != 0.0f && !m_CanGoHorizontally)
+	if ((m_Direction.y != 0.0f && !m_CanGoVertically) || (m_Direction.x != 0.0f && !m_CanGoHorizontally))
 	{
 		m_Direction = glm::vec2{ 0.0f, 0.0f };
 		return;
@@ -65,7 +85,6 @@ void dae::MoveComponent::Update(float elapsedSec)
 		auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();
 		GetOwner()->SetLocalPosition(ownerPos.x + verticalCollisionShift.x, ownerPos.y + verticalCollisionShift.y);
 	}
-
 
 
 	// Set the correct animation -- TEMPORARY IMPLEMENTATION
@@ -146,6 +165,7 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 	{
 		std::cout << "Entered Collision! \n";
 
+		// This should be replaced with TAGS
 		auto levelPartComponent = observedGameObject->GetComponent<LevelPartComponent>();
 
 		if (levelPartComponent)
@@ -193,6 +213,7 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 	{
 		std::cout << "Exited Collision! \n";
 
+		// This should be replaced with TAGS
 		auto levelPartComponent = observedGameObject->GetComponent<LevelPartComponent>();
 
 		if (levelPartComponent)
