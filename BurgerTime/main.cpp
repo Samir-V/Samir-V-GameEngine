@@ -119,12 +119,14 @@ void load()
 	spriteSheetComp->AddSprite("PPIdleRight.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->Play("PPIdleDown.png");
 
-	const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>(150.0f);
+	const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>();
+
+	const auto moveComp = go->AddComponent<dae::MoveComponent>(150.0f);
 
 	const auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
-	rectColliderComp->GetCollisionEnterEvent()->AddObserver(peterPepperComp);
-	rectColliderComp->GetCollisionStayEvent()->AddObserver(peterPepperComp);
-	rectColliderComp->GetCollisionExitEvent()->AddObserver(peterPepperComp);
+	rectColliderComp->GetCollisionEnterEvent()->AddObserver(moveComp);
+	rectColliderComp->GetCollisionStayEvent()->AddObserver(moveComp);
+	rectColliderComp->GetCollisionExitEvent()->AddObserver(moveComp);
 	rectColliderComp->SetShouldTriggerEvents(true);
 
 	const auto scoreComponentKeyboard = go->AddComponent<dae::ScoreComponent>(textComp);
@@ -173,7 +175,7 @@ void load()
 	go->AddComponent<dae::Texture2DComponent>("PeterPepper.png");
 	const auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	rectColliderCompController->SetIsStatic(true);
-	const auto peterPepperCompController = go->AddComponent<dae::PeterPepperComponent>(300.0f);
+	const auto peterPepperCompController = go->AddComponent<dae::PeterPepperComponent>();
 	const auto scoreComponentController = go->AddComponent<dae::ScoreComponent>(textComp);
 
 	// Subscribing to event

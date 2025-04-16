@@ -2,6 +2,7 @@
 
 #include "Command.h"
 #include "GameObject.h"
+#include "MoveComponent.h"
 #include "PeterPepperComponent.h"
 
 class PeterPepperCommand : public Command
@@ -11,6 +12,7 @@ public:
 	PeterPepperCommand(dae::GameObject* peterPepper) : m_PeterPepperObjectPtr(peterPepper)
 	{
 		m_PeterPepperComponentPtr = peterPepper->GetComponent<dae::PeterPepperComponent>();
+		m_MoveComponentPtr = peterPepper->GetComponent<dae::MoveComponent>();
 	}
 	virtual ~PeterPepperCommand() override = default;
 
@@ -18,11 +20,13 @@ protected:
 
 	dae::GameObject* GetPeterPepperObject() const { return m_PeterPepperObjectPtr; }
 	dae::PeterPepperComponent* GetPeterPepperComponent() const { return m_PeterPepperComponentPtr; }
+	dae::MoveComponent* GetMoveComponent() const { return m_MoveComponentPtr; }
 
 private:
 
 	dae::GameObject* m_PeterPepperObjectPtr;
 	dae::PeterPepperComponent* m_PeterPepperComponentPtr;
+	dae::MoveComponent* m_MoveComponentPtr;
 };
 
 class MoveInDirection : public PeterPepperCommand
@@ -38,7 +42,7 @@ public:
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->AddInputToDirection(m_Direction);
+		GetMoveComponent()->SetDirection(m_Direction);
 	}
 
 private:

@@ -506,7 +506,9 @@
   <ItemGroup>
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
+    <ClCompile Include="LevelPartComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
@@ -514,6 +516,8 @@
   <ItemGroup>
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="LevelPartComponent.h" />
+    <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="RotatorComponent.h" />
