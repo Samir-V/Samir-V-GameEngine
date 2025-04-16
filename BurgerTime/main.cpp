@@ -16,6 +16,7 @@
 #include "GameObject.h"
 #include "HealthDisplayComponent.h"
 #include "InputManager.h"
+#include "LevelPartComponent.h"
 #include "PeterPepperCommand.h"
 #include "PeterPepperComponent.h"
 #include "RectCollider2DComponent.h"
@@ -51,61 +52,61 @@ void load()
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("MainScene");
 	auto& input = dae::InputManager::GetInstance();
 
-	auto go = std::make_unique<dae::GameObject>();
+	/*auto go = std::make_unique<dae::GameObject>();
 	go->AddComponent<dae::Texture2DComponent>("background.tga");
-	scene.Add(std::move(go));
+	scene.Add(std::move(go));*/
 
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	const auto textureComp = go->AddComponent<dae::Texture2DComponent>("logo.tga");
 	textureComp->SetLocalPosition(216, 180);
-	scene.Add(std::move(go));
+	scene.Add(std::move(go));*/
 
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
 	auto textComp = go->AddComponent<dae::TextComponent>("Programming 4 Assignment", font);
 	textComp->SetLocalPosition(140, 40);
-	scene.Add(std::move(go));
+	scene.Add(std::move(go));*/
 
 	// FPS display
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	textComp = go->AddComponent<dae::TextComponent>("60.0 FPS", font);
 	textComp->SetLocalPosition(10, 10);
 	go->AddComponent<dae::FPSComponent>(textComp);
 	scene.Add(std::move(go));
 
-	auto displaysFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
+	auto displaysFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);*/
 
 	// Keyboard how to play
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	textComp = go->AddComponent<dae::TextComponent>("Use WASD to move left Peter Pepper, H to inflict damage, J and K to increase score", displaysFont);
 	textComp->SetLocalPosition(20, 100);
-	scene.Add(std::move(go));
+	scene.Add(std::move(go));*/
 
 	// Controller how to play
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	textComp = go->AddComponent<dae::TextComponent>("Use DPAD to move right Peter Pepper, X to inflict damage, A and B to increase score", displaysFont);
 	textComp->SetLocalPosition(20, 120);
-	scene.Add(std::move(go));
+	scene.Add(std::move(go));*/
 
 	// Health Display
-	auto healthDisplayGO = std::make_unique<dae::GameObject>();
+	/*auto healthDisplayGO = std::make_unique<dae::GameObject>();
 
 	textComp = healthDisplayGO->AddComponent<dae::TextComponent>("Remaining Health: 3", displaysFont);
 	const auto healthDisplayCompKeyboard = healthDisplayGO->AddComponent<dae::HealthDisplayComponent>(textComp);
 	healthDisplayGO->SetLocalPosition(20.0f, 165.0f);
 
-	scene.Add(std::move(healthDisplayGO));
+	scene.Add(std::move(healthDisplayGO));*/
 
 	// Score Display
-	auto scoreDisplayGO = std::make_unique<dae::GameObject>();
+	/*auto scoreDisplayGO = std::make_unique<dae::GameObject>();
 
 	textComp = scoreDisplayGO->AddComponent<dae::TextComponent>("Score: 0", displaysFont);
 	scoreDisplayGO->SetLocalPosition(20.0f, 150.0f);
-	scene.Add(std::move(scoreDisplayGO));
+	scene.Add(std::move(scoreDisplayGO));*/
 
 
 	// Keyboard Peter Pepper
-	go = std::make_unique<dae::GameObject>();
+	auto go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 300.0f);
 	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
 
@@ -119,21 +120,25 @@ void load()
 	spriteSheetComp->AddSprite("PPIdleRight.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->Play("PPIdleDown.png");
 
-	const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>();
+	//const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>();
 
-	const auto moveComp = go->AddComponent<dae::MoveComponent>(150.0f);
+
 
 	const auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	const auto moveComp = go->AddComponent<dae::MoveComponent>(100.0f);
+
 	rectColliderComp->GetCollisionEnterEvent()->AddObserver(moveComp);
 	rectColliderComp->GetCollisionStayEvent()->AddObserver(moveComp);
 	rectColliderComp->GetCollisionExitEvent()->AddObserver(moveComp);
 	rectColliderComp->SetShouldTriggerEvents(true);
 
-	const auto scoreComponentKeyboard = go->AddComponent<dae::ScoreComponent>(textComp);
+
+
+	//const auto scoreComponentKeyboard = go->AddComponent<dae::ScoreComponent>(textComp);
 
 	// Subscribing to event
-	peterPepperComp->GetObjectDeathEvent()->AddObserver(healthDisplayCompKeyboard);
-	peterPepperComp->GetEnemyKilledEvent()->AddObserver(scoreComponentKeyboard);
+	/*peterPepperComp->GetObjectDeathEvent()->AddObserver(healthDisplayCompKeyboard);
+	peterPepperComp->GetEnemyKilledEvent()->AddObserver(scoreComponentKeyboard);*/
 
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), SDL_SCANCODE_W, dae::InputManager::ActivationType::Holding);
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(-1.0f, 0.0f)), SDL_SCANCODE_A, dae::InputManager::ActivationType::Holding);
@@ -149,22 +154,22 @@ void load()
 
 	// Health Display for Controller Peter Pepper
 
-	auto healthDisplayGOController = std::make_unique<dae::GameObject>();
+	/*auto healthDisplayGOController = std::make_unique<dae::GameObject>();
 
 	textComp = healthDisplayGOController->AddComponent<dae::TextComponent>("Remaining Health: 3", displaysFont);
 	const auto healthDisplayCompController = healthDisplayGOController->AddComponent<dae::HealthDisplayComponent>(textComp);
 	healthDisplayGOController->SetLocalPosition(20.0f, 215.0f);
 
-	scene.Add(std::move(healthDisplayGOController));
+	scene.Add(std::move(healthDisplayGOController));*/
 
 	// Score Display
 
-	auto scoreDisplayGOController = std::make_unique<dae::GameObject>();
+	/*auto scoreDisplayGOController = std::make_unique<dae::GameObject>();
 
 	textComp = scoreDisplayGOController->AddComponent<dae::TextComponent>("Score: 0", displaysFont);
 	scoreDisplayGOController->SetLocalPosition(20.0f, 200.0f);
 
-	scene.Add(std::move(scoreDisplayGOController));
+	scene.Add(std::move(scoreDisplayGOController));*/
 
 	// Controller Peter Pepper
 
@@ -175,12 +180,13 @@ void load()
 	go->AddComponent<dae::Texture2DComponent>("PeterPepper.png");
 	const auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	rectColliderCompController->SetIsStatic(true);
-	const auto peterPepperCompController = go->AddComponent<dae::PeterPepperComponent>();
-	const auto scoreComponentController = go->AddComponent<dae::ScoreComponent>(textComp);
+	//const auto peterPepperCompController = go->AddComponent<dae::PeterPepperComponent>();
+
+	//const auto scoreComponentController = go->AddComponent<dae::ScoreComponent>(textComp);
 
 	// Subscribing to event
-	peterPepperCompController->GetObjectDeathEvent()->AddObserver(healthDisplayCompController);
-	peterPepperCompController->GetEnemyKilledEvent()->AddObserver(scoreComponentController);
+	/*peterPepperCompController->GetObjectDeathEvent()->AddObserver(healthDisplayCompController);
+	peterPepperCompController->GetEnemyKilledEvent()->AddObserver(scoreComponentController);*/
 
 
 	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Holding, 0);
@@ -192,6 +198,34 @@ void load()
 	input.RegisterControllerCommand(std::make_unique<KillSmallEnemy>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
 	input.RegisterControllerCommand(std::make_unique<KillEnemy>(go.get()), XINPUT_GAMEPAD_B, dae::InputManager::ActivationType::Pressing, 0);
 
+	scene.Add(std::move(go));
+
+
+
+	// Level addition
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(200.0f, 280.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
+	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
+	auto partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
+	partCollider->SetShouldCollide(false);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(232.0f, 280.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
+	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
+	partCollider->SetShouldCollide(false);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(264.0f, 280.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
+	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
+	partCollider->SetShouldCollide(false);
 	scene.Add(std::move(go));
 }
 

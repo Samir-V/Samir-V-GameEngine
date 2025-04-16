@@ -115,7 +115,7 @@ void dae::RectCollider2DComponent::SetIsStatic(bool isStatic)
 	m_IsStatic = isStatic;
 }
 
-bool dae::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& rect2) const
+bool dae::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& rect2)
 {
 	if (rect1.posX < rect2.posX + rect2.width &&
 		rect1.posX + rect1.width > rect2.posX &&
@@ -127,7 +127,7 @@ bool dae::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& 
 	return false;
 }
 
-glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2) const
+glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2)
 {
 	constexpr float epsilon = 0.001f;
 
@@ -171,6 +171,61 @@ glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rec
 	}
 }
 
+bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength, float& outDistance) const
+{
+	float minX = m_CollisionRect.posX;
+	float maxX = m_CollisionRect.posX + m_CollisionRect.width;
+	float minY = m_CollisionRect.posY;
+	float maxY = m_CollisionRect.posY + m_CollisionRect.height;
+
+	glm::vec2 invDir{};
+	if (rayDirection.x != 0.0f)
+	{
+		invDir.x = 1.0f / rayDirection.x;
+	}
+	else
+	{
+		invDir.x = std::numeric_limits<float>::max();
+	}
+
+	if (rayDirection.y != 0.0f)
+	{
+		invDir.y = 1.0f / rayDirection.y;
+	}
+	else
+	{
+		invDir.y = std::numeric_limits<float>::max();
+	}
+
+	float t1 = (minX - rayOrigin.x) * invDir.x;
+	float t2 = (maxX - rayOrigin.x) * invDir.x;
+	float t3 = (minY - rayOrigin.y) * invDir.y;
+	float t4 = (maxY - rayOrigin.y) * invDir.y;
+
+	float tmin = std::max(std::min(t1, t2), std::min(t3, t4));
+	float tmax = std::min(std::max(t1, t2), std::max(t3, t4));
+
+	if (tmax < 0 || tmin > tmax)
+	{
+		return false;
+	}
+
+	if (tmin < 0.0f)
+	{
+		outDistance = 0.0f;
+	}
+	else
+	{
+		outDistance = tmin;
+	}
+
+	if (outDistance > rayLength)
+	{
+		return false;
+	}
+
+	return true;
+}
 
 dae::Subject* dae::RectCollider2DComponent::GetCollisionEnterEvent() const
 {
@@ -187,15 +242,7 @@ dae::Subject* dae::RectCollider2DComponent::GetCollisionStayEvent() const
 	return m_CollisionStayEvent.get();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+dae::RectCollider2DComponent::Rect dae::RectCollider2DComponent::GetCollisionRect() const
+{
+	return m_CollisionRect;
+}

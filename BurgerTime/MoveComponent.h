@@ -1,10 +1,18 @@
 #pragma once
+#include <set>
+
 #include "ComponentBase.h"
 #include "IObserver.h"
 #include "Transform.h"
 
 namespace dae
 {
+	class RectCollider2DComponent;
+}
+
+namespace dae
+{
+	class LevelPartComponent;
 	class SpritesheetComponent;
 
 	class MoveComponent final : public ComponentBase, public IObserver
@@ -35,9 +43,15 @@ namespace dae
 		glm::vec2 m_Direction{};
 		glm::vec2 m_LastNonZeroDirection{};
 
+		bool m_CanGoHorizontally	{ false };
+		bool m_CanGoVertically		{ true };
+
+		std::set<RectCollider2DComponent*> m_CurrentPlatformsColliders;
+
 		const float m_MaxSpeed{};
 
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
+		RectCollider2DComponent* m_OwnerColliderPtr{};
 	};
 }
 

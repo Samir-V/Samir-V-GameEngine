@@ -38,14 +38,18 @@ namespace dae
 		void SetShouldCollide(bool shouldCollide);
 		void SetIsStatic(bool isStatic);
 
+		bool RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength, float& outDistance) const;
+
 		Subject* GetCollisionEnterEvent() const;
 		Subject* GetCollisionExitEvent() const;
 		Subject* GetCollisionStayEvent() const;
 
-	private:
+		Rect GetCollisionRect() const;
 
-		bool IsOverlapping(const Rect& rect1, const Rect& rect2) const;
-		glm::vec2 GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2) const;
+		static bool IsOverlapping(const Rect& rect1, const Rect& rect2);
+		static glm::vec2 GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2);
+
+	private:
 
 		static std::vector<RectCollider2DComponent*> m_Colliders;
 
