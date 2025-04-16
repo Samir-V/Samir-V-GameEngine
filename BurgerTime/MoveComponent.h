@@ -44,9 +44,10 @@ namespace dae
 		glm::vec2 m_LastNonZeroDirection{};
 
 		bool m_CanGoHorizontally	{ false };
-		bool m_CanGoVertically		{ true };
+		bool m_CanGoVertically		{ false };
 
 		std::set<RectCollider2DComponent*> m_CurrentPlatformsColliders;
+		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
 
 		const float m_MaxSpeed{};
 

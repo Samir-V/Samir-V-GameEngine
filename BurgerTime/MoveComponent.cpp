@@ -30,12 +30,24 @@ void dae::MoveComponent::Update(float elapsedSec)
 	{
 		if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength, hitDistance))
 		{
-			std::cout << "Raycast sees collision \n";
+			//std::cout << "Raycast sees collision \n";
 			verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
 			m_CanGoHorizontally = true;
 			break;
 		}
 	}
+
+	m_CanGoVertically = false;
+
+	/*rayOrigin = { ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height / 2.0f };
+	rayLength = 10.0f;*/
+
+	if (!m_CurrentPlatformsColliders.empty())
+	{
+		m_CanGoVertically = true;
+	}
+
+	// Movement prevention
 
 	if (m_Direction.y != 0.0f && !m_CanGoVertically)
 	{
@@ -49,6 +61,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 		return;
 	}
 
+	// If movement allowed
 	if (m_Direction.x != 0.0f && m_CanGoHorizontally)
 	{
 		// Apply the shift for the character to stay on the platform
@@ -146,7 +159,7 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 				m_CurrentPlatformsColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
 				break;
 			case LevelPartComponent::LevelPartType::Ladder:
-				//m_IntersectsWithLadder = true;
+				m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
 				break;
 			}
 			
@@ -193,7 +206,7 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 				m_CurrentPlatformsColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
 				break;
 			case LevelPartComponent::LevelPartType::Ladder:
-				//m_IntersectsWithLadder = false;
+				m_CurrentLadderColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
 				break;
 			}
 		}

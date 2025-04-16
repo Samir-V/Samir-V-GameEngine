@@ -107,7 +107,7 @@ void load()
 
 	// Keyboard Peter Pepper
 	auto go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200.0f, 300.0f);
+	go->SetLocalPosition(200.0f, 265.0f);
 	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
 
 	spriteSheetComp->AddSprite("PPWalkingDown.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
@@ -222,6 +222,46 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(264.0f, 280.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
+	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
+	partCollider->SetShouldCollide(false);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(243.0f, 263.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Ladder);
+	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
+	partCollider->SetShouldCollide(false);
+
+	scene.Add(std::move(go));
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(243.0f, 247.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Ladder);
+	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
+	partCollider->SetShouldCollide(false);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(200.0f, 243.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
+	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
+	partCollider->SetShouldCollide(false);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(232.0f, 243.0f);
+	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
+	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
+	partCollider->SetShouldCollide(false);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(264.0f, 243.0f);
 	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
