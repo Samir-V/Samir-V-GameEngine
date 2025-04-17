@@ -232,7 +232,7 @@ void load()
 	go->SetLocalPosition(243.0f, 263.0f);
 	go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Ladder);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
-	partCollider = go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	partCollider->SetShouldCollide(false);
 
 	scene.Add(std::move(go));

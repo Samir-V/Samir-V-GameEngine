@@ -35,11 +35,10 @@ void dae::MoveComponent::Update(float elapsedSec)
 		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
 		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
 		float rayLength = 2.0f;
-		float hitDistance = 0.0f;
 
 		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
 		{
-			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength, hitDistance))
+			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength))
 			{
 				std::cout << "Raycast sees collision \n";
 				verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
@@ -49,25 +48,80 @@ void dae::MoveComponent::Update(float elapsedSec)
 		}
 	}
 
-	if (m_Direction.y != 0.0f && !m_CanGoVertically)
+	if (m_Direction.y < 0.0f)
 	{
 		// This allows general movement UP, which is not performance heavy
-		if (m_Direction.y < 0.0f && !m_CurrentLadderColliders.empty())
+		if (!m_CurrentLadderColliders.empty())
 		{
 			m_CanGoVertically = true;
 		}
-		// Additional checking here with passing a raycast to the collider component should return the set of GAME OBJECTS pointers with colliders intersecting with the raycast.
-		// If any of these objects has a TAG that it is a ladder, movement sideways is allowed
-		// The raycast starts from feet and generally serves to be able to find ladders that go DOWN. But also helps with walking up the ladder
-		// (since the character cannot while climbing up can hit a point where it already does not collide with the ladder and is midway in the platform above it
 		else
 		{
-			// Make a raycast
+			auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+			glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+			glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
+			float rayLength = 3.0f;
 
-			// Get the objects that intersect with it
+			auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
+
+			bool ladderBelow = false;
 
 			// If there are any ladders - allow movement
+			for (auto gameObject : intersectedGameObjects)
+			{
+				auto levelPart = gameObject->GetComponent<LevelPartComponent>();
+
+				if (levelPart)
+				{
+					if (levelPart->GetLevelPartType() == LevelPartComponent::LevelPartType::Ladder)
+					{
+						ladderBelow = true;
+						break;
+					}
+				}
+			}
+			m_CanGoVertically = ladderBelow;
+			// Since this code is active only when movement on y axis nears the end, the chance for the character to go sideways is blocked
+			m_CanGoHorizontally = false;
 		}
+	}
+
+	if (m_Direction.y > 0.0f)
+	{
+		// Additional checking here with passing a raycast to the collider component should return the set of GAME OBJECTS pointers with colliders intersecting with the raycast.
+		// If any of these objects has a TAG that it is a ladder, movement up and down is allowed
+		// The raycast starts from feet and generally serves to be able to find ladders that go DOWN. But also helps with walking up the ladder
+		// (since the character cannot while climbing up can hit a point where it already does not collide with the ladder and is midway in the platform above it
+
+		// When going down you can't just rely on .empty() of the collider list, because it is needed to know if there are any ladders UNDER the character
+
+		// Make a raycast
+		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
+		float rayLength = 5.0f;
+
+		// Get the objects that intersect with it
+		auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
+
+		bool ladderBelow = false;
+
+		// If there are any ladders - allow movement
+		for (auto gameObject : intersectedGameObjects)
+		{
+			auto levelPart = gameObject->GetComponent<LevelPartComponent>();
+
+			if (levelPart)
+			{
+				if (levelPart->GetLevelPartType() == LevelPartComponent::LevelPartType::Ladder)
+				{
+					ladderBelow = true;
+					break;
+				}
+			}
+		}
+		m_CanGoVertically = ladderBelow;
+		m_CanGoHorizontally = false;
 	}
 
 	// Movement prevention

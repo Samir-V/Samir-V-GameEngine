@@ -171,12 +171,14 @@ glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rec
 	}
 }
 
-bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength, float& outDistance) const
+bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength) const
 {
 	float minX = m_CollisionRect.posX;
 	float maxX = m_CollisionRect.posX + m_CollisionRect.width;
 	float minY = m_CollisionRect.posY;
 	float maxY = m_CollisionRect.posY + m_CollisionRect.height;
+
+	float distance{};
 
 	glm::vec2 invDir{};
 	if (rayDirection.x != 0.0f)
@@ -212,20 +214,37 @@ bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, cons
 
 	if (tmin < 0.0f)
 	{
-		outDistance = 0.0f;
+		distance = 0.0f;
 	}
 	else
 	{
-		outDistance = tmin;
+		distance = tmin;
 	}
 
-	if (outDistance > rayLength)
+	if (distance > rayLength)
 	{
 		return false;
 	}
 
 	return true;
 }
+
+std::unordered_set<dae::GameObject*> dae::RectCollider2DComponent::GetRayIntersectedGameObjects(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength)
+{
+	// Can be further optimized by limiting the area for checking the intersections (since many colliders may exist and not all of them are close to the ray)
+	std::unordered_set<GameObject*> intersectedGameObjects{};
+
+	for (auto collider : m_Colliders)
+	{
+		if (collider->RayIntersect(rayOrigin, rayDirection, rayLength))
+		{
+			intersectedGameObjects.insert(collider->GetOwner());
+		}
+	}
+
+	return intersectedGameObjects;
+}
+
 
 dae::Subject* dae::RectCollider2DComponent::GetCollisionEnterEvent() const
 {

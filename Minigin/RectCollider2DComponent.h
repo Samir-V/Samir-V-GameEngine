@@ -38,7 +38,7 @@ namespace dae
 		void SetShouldCollide(bool shouldCollide);
 		void SetIsStatic(bool isStatic);
 
-		bool RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength, float& outDistance) const;
+		bool RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength) const;
 
 		Subject* GetCollisionEnterEvent() const;
 		Subject* GetCollisionExitEvent() const;
@@ -48,6 +48,7 @@ namespace dae
 
 		static bool IsOverlapping(const Rect& rect1, const Rect& rect2);
 		static glm::vec2 GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2);
+		static std::unordered_set<GameObject*> GetRayIntersectedGameObjects(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength);
 
 	private:
 
