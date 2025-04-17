@@ -11,7 +11,7 @@ dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : Compon
 	m_SpritesheetComponentPtr = ownerPtr->GetComponent<SpritesheetComponent>();
 	m_OwnerColliderPtr = ownerPtr->GetComponent<RectCollider2DComponent>();
 }
-
+	
 void dae::MoveComponent::Update(float elapsedSec)
 {
 	// Walking opportunities checking
@@ -26,91 +26,8 @@ void dae::MoveComponent::Update(float elapsedSec)
 		m_CanGoVertically = false;
 	}
 
-	glm::vec2 verticalCollisionShift{};
-
-	if (m_Direction.x != 0.0f && !m_CanGoHorizontally)
-	{
-		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
-		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
-		float rayLength = 2.0f;
-
-		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
-		{
-			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength))
-			{
-				verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
-				m_CanGoHorizontally = true;
-				break;
-			}
-		}
-	}
-
-	if (m_Direction.y < 0.0f)
-	{
-		// This allows general movement UP, which is not performance heavy
-		if (!m_CurrentLadderColliders.empty())
-		{
-			m_CanGoVertically = true;
-		}
-		else
-		{
-			auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
-			glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-			glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
-			float rayLength = 3.0f;
-
-			auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
-
-			bool ladderBelow = false;
-
-			// If there are any ladders - allow movement
-			for (auto gameObject : intersectedGameObjects)
-			{
-				if (gameObject->GetTag() == make_sdbm_hash("Ladder"))
-				{
-					ladderBelow = true;
-					break;
-				}
-			}
-			m_CanGoVertically = ladderBelow;
-			// Since this code is active only when movement on y axis nears the end, the chance for the character to go sideways is blocked
-			m_CanGoHorizontally = false;
-		}
-	}
-
-	if (m_Direction.y > 0.0f)
-	{
-		// Additional checking here with passing a raycast to the collider component should return the set of GAME OBJECTS pointers with colliders intersecting with the raycast.
-		// If any of these objects has a TAG that it is a ladder, movement up and down is allowed
-		// The raycast starts from feet and generally serves to be able to find ladders that go DOWN. But also helps with walking up the ladder
-		// (since the character cannot while climbing up can hit a point where it already does not collide with the ladder and is midway in the platform above it
-
-		// When going down you can't just rely on .empty() of the collider list, because it is needed to know if there are any ladders UNDER the character
-
-		// Make a raycast
-		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
-		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
-		float rayLength = 5.0f;
-
-		// Get the objects that intersect with it
-		auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
-
-		bool ladderBelow = false;
-
-		// If there are any ladders - allow movement
-		for (auto gameObject : intersectedGameObjects)
-		{
-			if (gameObject->GetTag() == make_sdbm_hash("Ladder"))
-			{
-				ladderBelow = true;
-				break;
-			}
-		}
-		m_CanGoVertically = ladderBelow;
-		m_CanGoHorizontally = false;
-	}
+	glm::vec2 verticalCollisionShift = UpdateHorizontalMovement();
+	UpdateVerticalMovement();
 
 	// Movement prevention
 
@@ -242,6 +159,66 @@ void dae::MoveComponent::SetDirection(const glm::vec2& direction)
 		m_Direction = direction;
 	}
 }
+
+void dae::MoveComponent::UpdateVerticalMovement()
+{
+	if (m_Direction.y == 0.0f)
+	{
+		return;
+	}
+
+	if (m_Direction.y < 0.0f && !m_CurrentLadderColliders.empty())
+	{
+		m_CanGoVertically = true;
+		return;
+	}
+
+	auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+	glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+	glm::vec2 rayDirection{ 0.0f, 1.0f };
+	float rayLength;
+
+	if (m_Direction.y < 0.0f)
+	{
+		rayLength = 3.0f;
+	}
+	else
+	{
+		rayLength = 5.0f;
+	}
+
+	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
+
+	bool ladderFound = std::ranges::any_of(intersectedGameObjects, [](const GameObject* gameObject) {
+		return gameObject->GetTag() == make_sdbm_hash("Ladder");
+		});
+
+	m_CanGoVertically = ladderFound;
+	m_CanGoHorizontally = false;
+}
+
+glm::vec2 dae::MoveComponent::UpdateHorizontalMovement()
+{
+	if (m_Direction.x != 0.0f && !m_CanGoHorizontally)
+	{
+		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
+		float rayLength = 2.0f;
+
+		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
+		{
+			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength))
+			{
+				m_CanGoHorizontally = true;
+				return RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
+			}
+		}
+	}
+
+	return {};
+}
+
 
 
 

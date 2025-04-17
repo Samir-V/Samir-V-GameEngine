@@ -38,6 +38,9 @@ namespace dae
 
 	private:
 
+		void UpdateVerticalMovement();
+		glm::vec2 UpdateHorizontalMovement();
+
 		Transform m_LocalTransform{};
 		glm::vec2 m_Velocity{};
 		glm::vec2 m_Direction{};
