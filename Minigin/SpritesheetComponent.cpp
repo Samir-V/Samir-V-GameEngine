@@ -83,7 +83,7 @@ void dae::SpritesheetComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteMetaData spriteMetadata)
+void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata)
 {
 	std::string fullPath{};
 
@@ -97,12 +97,12 @@ void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteM
 	}
 
 	auto texture = ResourceManager::GetInstance().LoadTexture(fullPath);
-	m_SpriteSheet.insert({spriteName, SpriteData{ texture, spriteMetadata }});
+	m_SpriteSheet.insert({ spriteId, SpriteData{ texture, spriteMetadata }});
 }
 
-void dae::SpritesheetComponent::Play(const std::string& spriteName)
+void dae::SpritesheetComponent::Play(SpriteID spriteId)
 {
-	auto& newSprite = m_SpriteSheet.at(spriteName);
+	auto& newSprite = m_SpriteSheet.at(spriteId);
 
 	if (m_CurrentSprite == nullptr || newSprite.texture != m_CurrentSprite->texture)
 	{

@@ -34,8 +34,8 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void Play(const std::string& spriteName);
-		void AddSprite(const std::string& spriteName, SpriteMetaData spriteMetadata);
+		void Play(SpriteID spriteId);
+		void AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata);
 
 		void SetLocalPosition(float x, float y) override;
 
@@ -57,7 +57,7 @@ namespace dae
 
 		SpriteData* m_CurrentSprite{ nullptr };
 
-		std::unordered_map<std::string, SpriteData> m_SpriteSheet{};
+		std::unordered_map<SpriteID, SpriteData> m_SpriteSheet{};
 	};
 }
 

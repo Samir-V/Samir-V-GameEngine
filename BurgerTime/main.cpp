@@ -109,15 +109,15 @@ void load()
 	go->SetLocalPosition(200.0f, 265.0f);
 	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
 
-	spriteSheetComp->AddSprite("PPWalkingDown.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingUp.png", dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingLeft.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingRight.png", dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPIdleDown.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleUp.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleLeft.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleRight.png", dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->Play("PPIdleDown.png");
+	spriteSheetComp->AddSprite("PPWalkingDown.png", make_sdbm_hash("PPWalkingDown") ,dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingUp.png", make_sdbm_hash("PPWalkingUp"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingLeft.png", make_sdbm_hash("PPWalkingLeft"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingRight.png", make_sdbm_hash("PPWalkingRight"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPIdleDown.png", make_sdbm_hash("PPIdleDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleLeft.png", make_sdbm_hash("PPIdleLeft"),  dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
 	//const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>();
 

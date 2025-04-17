@@ -54,37 +54,37 @@ void dae::MoveComponent::Update(float elapsedSec)
 
 	if (m_Direction.x < 0)
 	{
-		m_SpritesheetComponentPtr->Play("PPWalkingLeft.png");
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingLeft"));
 	}
 	else if (m_Direction.x > 0)
 	{
-		m_SpritesheetComponentPtr->Play("PPWalkingRight.png");
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingRight"));
 	}
 	else if (m_Direction.y > 0)
 	{
-		m_SpritesheetComponentPtr->Play("PPWalkingDown.png");
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingDown"));
 	}
 	else if (m_Direction.y < 0)
 	{
-		m_SpritesheetComponentPtr->Play("PPWalkingUp.png");
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingUp"));
 	}
 	else
 	{
 		if (m_LastNonZeroDirection.x < 0)
 		{
-			m_SpritesheetComponentPtr->Play("PPIdleLeft.png");
+			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleLeft"));
 		}
 		else if (m_LastNonZeroDirection.x > 0)
 		{
-			m_SpritesheetComponentPtr->Play("PPIdleRight.png");
+			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleRight"));
 		}
 		else if (m_LastNonZeroDirection.y > 0)
 		{
-			m_SpritesheetComponentPtr->Play("PPIdleDown.png");
+			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleDown"));
 		}
 		else if (m_LastNonZeroDirection.y < 0)
 		{
-			m_SpritesheetComponentPtr->Play("PPIdleUp.png");
+			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleUp"));
 		}
 	}
 
