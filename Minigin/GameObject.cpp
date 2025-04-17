@@ -164,5 +164,17 @@ bool dae::GameObject::IsMarkedToDestroy() const
 	return m_MarkedToDestroy;
 }
 
+Tag dae::GameObject::GetTag() const
+{
+	return m_Tag;
+}
+
+void dae::GameObject::SetTag(Tag tag)
+{
+	m_Tag = tag;
+}
+
+
+
 
 

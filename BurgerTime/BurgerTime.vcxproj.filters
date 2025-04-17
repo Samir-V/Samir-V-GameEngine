@@ -42,9 +42,6 @@
     <ClCompile Include="FPSComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="LevelPartComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -67,9 +64,6 @@
     </ClInclude>
     <ClInclude Include="PeterPepperCommand.h">
       <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelPartComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
       <Filter>Header Files\Components</Filter>

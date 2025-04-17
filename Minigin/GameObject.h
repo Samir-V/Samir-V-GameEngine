@@ -5,7 +5,10 @@
 #include <algorithm>
 
 #include "ComponentBase.h"
+#include "EventType.h"
 #include "Transform.h"
+
+using Tag = unsigned int;
 
 namespace dae
 {
@@ -91,6 +94,9 @@ namespace dae
 			}
 		}
 
+		Tag GetTag() const;
+		void SetTag(Tag tag);
+
 	private:
 
 		bool IsNotInChildren(GameObject* gameObject) const;
@@ -98,6 +104,8 @@ namespace dae
 
 		bool m_PositionIsDirty		{ true };
 		bool m_MarkedToDestroy		{ };
+
+		Tag m_Tag					{ make_sdbm_hash("DefaultTag") };
 
 		Transform m_LocalTransform	{ };
 		Transform m_WorldTransform	{ };

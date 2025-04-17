@@ -4,7 +4,6 @@
 
 #include "GameObject.h"
 #include "SpritesheetComponent.h"
-#include "LevelPartComponent.h"
 #include "RectCollider2DComponent.h"
 
 dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_MaxSpeed{ maxSpeed }
@@ -40,7 +39,6 @@ void dae::MoveComponent::Update(float elapsedSec)
 		{
 			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength))
 			{
-				std::cout << "Raycast sees collision \n";
 				verticalCollisionShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
 				m_CanGoHorizontally = true;
 				break;
@@ -69,15 +67,10 @@ void dae::MoveComponent::Update(float elapsedSec)
 			// If there are any ladders - allow movement
 			for (auto gameObject : intersectedGameObjects)
 			{
-				auto levelPart = gameObject->GetComponent<LevelPartComponent>();
-
-				if (levelPart)
+				if (gameObject->GetTag() == make_sdbm_hash("Ladder"))
 				{
-					if (levelPart->GetLevelPartType() == LevelPartComponent::LevelPartType::Ladder)
-					{
-						ladderBelow = true;
-						break;
-					}
+					ladderBelow = true;
+					break;
 				}
 			}
 			m_CanGoVertically = ladderBelow;
@@ -109,15 +102,10 @@ void dae::MoveComponent::Update(float elapsedSec)
 		// If there are any ladders - allow movement
 		for (auto gameObject : intersectedGameObjects)
 		{
-			auto levelPart = gameObject->GetComponent<LevelPartComponent>();
-
-			if (levelPart)
+			if (gameObject->GetTag() == make_sdbm_hash("Ladder"))
 			{
-				if (levelPart->GetLevelPartType() == LevelPartComponent::LevelPartType::Ladder)
-				{
-					ladderBelow = true;
-					break;
-				}
+				ladderBelow = true;
+				break;
 			}
 		}
 		m_CanGoVertically = ladderBelow;
@@ -217,70 +205,32 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
-		std::cout << "Entered Collision! \n";
-
-		// This should be replaced with TAGS
-		auto levelPartComponent = observedGameObject->GetComponent<LevelPartComponent>();
-
-		if (levelPartComponent)
+		if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
 		{
-			switch (levelPartComponent->GetLevelPartType())
-			{
-			case LevelPartComponent::LevelPartType::Platform:
-				m_CurrentPlatformsColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
-				break;
-			case LevelPartComponent::LevelPartType::Ladder:
-				m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
-				break;
-			}
-			
+			m_CurrentPlatformsColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+		}
+
+		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+		{
+			m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
 		}
 	}
 
 	if (event.id == make_sdbm_hash("OnCollisionStay"))
 	{
-		/*std::cout << "Colliding! \n";
-
-		bool isStandingOnPlatform{};
-		constexpr float threshold{ 0.8f };
-
-		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
-		{
-			auto platformColliderRect = currentPlatformCollider->GetCollisionRect();
-
-			auto ownerCollider = GetOwner()->GetComponent<RectCollider2DComponent>();
-			auto ownerColliderRect = ownerCollider->GetCollisionRect();
-
-			float ownerBottomPos = ownerColliderRect.posY + ownerColliderRect.height;
-
-			if (std::abs(ownerBottomPos - platformColliderRect.posY) < threshold)
-			{
-				isStandingOnPlatform = true;
-				break;
-			}
-		}
-
-		m_CanGoHorizontally = isStandingOnPlatform;*/
+		
 	}
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))
 	{
-		std::cout << "Exited Collision! \n";
-
-		// This should be replaced with TAGS
-		auto levelPartComponent = observedGameObject->GetComponent<LevelPartComponent>();
-
-		if (levelPartComponent)
+		if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
 		{
-			switch (levelPartComponent->GetLevelPartType())
-			{
-			case LevelPartComponent::LevelPartType::Platform:
-				m_CurrentPlatformsColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
-				break;
-			case LevelPartComponent::LevelPartType::Ladder:
-				m_CurrentLadderColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
-				break;
-			}
+			m_CurrentPlatformsColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
+		}
+
+		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+		{
+			m_CurrentLadderColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
 		}
 	}
 }
