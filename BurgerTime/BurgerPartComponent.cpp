@@ -42,7 +42,7 @@ void dae::BurgerPartComponent::LateUpdate(float)
 
 void dae::BurgerPartComponent::Render() const
 {
-	const auto& pos = GetOwner()->GetLocalTransform().GetPosition();
+	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + m_LocalTransform.GetPosition();
 	for (int index = 0; index < m_NrOfSlices; ++index)
 	{
 		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x + index * m_SrcRects[index].w, pos.y + m_OffsetsY[index], &m_SrcRects[index]);
