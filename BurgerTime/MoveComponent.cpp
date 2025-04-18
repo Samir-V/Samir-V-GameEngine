@@ -41,7 +41,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 	if (m_Direction.x != 0.0f && m_CanGoHorizontally)
 	{
 		// Apply the shift for the character to stay on the platform
-		auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();
+		auto& ownerPos = GetOwner()->GetLocalTransform().GetPosition();
 		GetOwner()->SetLocalPosition(ownerPos.x + verticalCollisionShift.x, ownerPos.y + verticalCollisionShift.y);
 	}
 
@@ -95,7 +95,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 
 	m_Direction = glm::vec2{ 0.0f, 0.0f };
 
-	const auto& pepperPos = GetOwner()->GetWorldTransform().GetPosition();
+	const auto& pepperPos = GetOwner()->GetLocalTransform().GetPosition();
 
 	const auto newPepperPosX = pepperPos.x + m_Velocity.x * elapsedSec;
 	const auto newPepperPosY = pepperPos.y + m_Velocity.y * elapsedSec;

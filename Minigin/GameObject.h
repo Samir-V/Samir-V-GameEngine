@@ -33,6 +33,7 @@ namespace dae
 		std::vector<GameObject*>& GetChildrenVector();
 
 		const Transform& GetWorldTransform();
+		const Transform& GetLocalTransform() const;
 		GameObject* GetParent() const;
 		void SetPositionIsDirty();
 

@@ -60,6 +60,12 @@ const dae::Transform& dae::GameObject::GetWorldTransform()
 	return m_WorldTransform;
 }
 
+const dae::Transform& dae::GameObject::GetLocalTransform() const
+{
+	return m_LocalTransform;
+}
+
+
 void dae::GameObject::UpdateWorldPosition()
 {
 	if (m_PositionIsDirty)

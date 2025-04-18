@@ -288,7 +288,7 @@ void load()
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(264.0f, 241.0f);
 	go->SetTag(make_sdbm_hash("BurgerPart"));
-	auto burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Burger.png");
+	auto burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Burger.png", 8);
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 7.0f);
 	partCollider->SetShouldCollide(false);
 
@@ -303,7 +303,7 @@ void load()
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(264.0f, 278.0f);
 	go->SetTag(make_sdbm_hash("BurgerPart"));
-	burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/BurgerBunBottom.png");
+	burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/BurgerBunBottom.png", 8);
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 7.0f);
 	partCollider->SetShouldCollide(false);
 
