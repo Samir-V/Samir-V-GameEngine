@@ -7,6 +7,7 @@
 #endif
 #endif
 
+#include "BurgerPartComponent.h"
 #include "Minigin.h"
 
 #include "FPSComponent.h"
@@ -107,6 +108,7 @@ void load()
 	// Keyboard Peter Pepper
 	auto go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 265.0f);
+	go->SetTag(make_sdbm_hash("Player"));
 	const auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
 
 	spriteSheetComp->AddSprite("PPWalkingDown.png", make_sdbm_hash("PPWalkingDown") ,dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
@@ -127,7 +129,6 @@ void load()
 	const auto moveComp = go->AddComponent<dae::MoveComponent>(100.0f);
 
 	rectColliderComp->GetCollisionEnterEvent()->AddObserver(moveComp);
-	rectColliderComp->GetCollisionStayEvent()->AddObserver(moveComp);
 	rectColliderComp->GetCollisionExitEvent()->AddObserver(moveComp);
 	rectColliderComp->SetShouldTriggerEvents(true);
 
@@ -205,7 +206,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 280.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	auto partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	partCollider->SetShouldCollide(false);
@@ -215,7 +215,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(232.0f, 280.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	partCollider->SetShouldCollide(false);
@@ -225,7 +224,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(264.0f, 280.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	partCollider->SetShouldCollide(false);
@@ -235,7 +233,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(243.0f, 263.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Ladder);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	partCollider->SetShouldCollide(false);
@@ -245,7 +242,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(243.0f, 247.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Ladder);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	partCollider->SetShouldCollide(false);
@@ -255,7 +251,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 243.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	partCollider->SetShouldCollide(false);
@@ -265,7 +260,6 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(232.0f, 243.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	partCollider->SetShouldCollide(false);
@@ -275,12 +269,49 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(264.0f, 243.0f);
-	//go->AddComponent<dae::LevelPartComponent>(dae::LevelPartComponent::LevelPartType::Platform);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	partCollider->SetShouldCollide(false);
 
 	go->SetTag(make_sdbm_hash("Platform"));
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(261.0f, 310.0f);
+	go->AddComponent<dae::Texture2DComponent>("Level/Plate.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(38.0f, 5.0f);
+	partCollider->SetShouldCollide(false);
+
+	go->SetTag(make_sdbm_hash("Plate"));
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(264.0f, 241.0f);
+	go->SetTag(make_sdbm_hash("BurgerPart"));
+	auto burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Burger.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 7.0f);
+	partCollider->SetShouldCollide(false);
+
+	partCollider->GetCollisionEnterEvent()->AddObserver(burgerPartComp);
+	partCollider->GetCollisionStayEvent()->AddObserver(burgerPartComp);
+	partCollider->GetCollisionExitEvent()->AddObserver(burgerPartComp);
+	partCollider->SetShouldTriggerEvents(true);
+
+	scene.Add(std::move(go));
+
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(264.0f, 278.0f);
+	go->SetTag(make_sdbm_hash("BurgerPart"));
+	burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/BurgerBunBottom.png");
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 7.0f);
+	partCollider->SetShouldCollide(false);
+
+	partCollider->GetCollisionEnterEvent()->AddObserver(burgerPartComp);
+	partCollider->GetCollisionStayEvent()->AddObserver(burgerPartComp);
+	partCollider->GetCollisionExitEvent()->AddObserver(burgerPartComp);
+	partCollider->SetShouldTriggerEvents(true);
+
 	scene.Add(std::move(go));
 }
 

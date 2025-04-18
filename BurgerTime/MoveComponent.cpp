@@ -95,7 +95,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 
 	m_Direction = glm::vec2{ 0.0f, 0.0f };
 
-	const auto pepperPos = GetOwner()->GetWorldTransform().GetPosition();
+	const auto& pepperPos = GetOwner()->GetWorldTransform().GetPosition();
 
 	const auto newPepperPosX = pepperPos.x + m_Velocity.x * elapsedSec;
 	const auto newPepperPosY = pepperPos.y + m_Velocity.y * elapsedSec;
@@ -131,11 +131,6 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 		{
 			m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
 		}
-	}
-
-	if (event.id == make_sdbm_hash("OnCollisionStay"))
-	{
-		
 	}
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))

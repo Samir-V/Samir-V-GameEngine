@@ -504,6 +504,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BurgerPartComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="main.cpp" />
@@ -513,6 +514,7 @@
     <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BurgerPartComponent.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
     <ClInclude Include="MoveComponent.h" />

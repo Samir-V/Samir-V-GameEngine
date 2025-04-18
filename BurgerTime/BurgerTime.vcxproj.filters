@@ -45,6 +45,9 @@
     <ClCompile Include="MoveComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerPartComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScoreComponent.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerPartComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
