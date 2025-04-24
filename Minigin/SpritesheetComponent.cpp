@@ -49,7 +49,6 @@ void dae::SpritesheetComponent::Update(float elapsedSec)
 
 void dae::SpritesheetComponent::LateUpdate(float)
 {
-	
 }
 
 void dae::SpritesheetComponent::Render() const

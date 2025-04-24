@@ -1,7 +1,4 @@
 #include "MoveComponent.h"
-
-#include <iostream>
-
 #include "GameObject.h"
 #include "SpritesheetComponent.h"
 #include "RectCollider2DComponent.h"
@@ -46,7 +43,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 	}
 
 
-	// Set the correct animation -- TEMPORARY IMPLEMENTATION
+	// Set the correct animation -- TEMPORARY IMPLEMENTATION -- Should be handled in transition code of the Finite State Machine
 	if (m_Direction != glm::vec2{ 0.0f, 0.0f })
 	{
 		m_LastNonZeroDirection = m_Direction;

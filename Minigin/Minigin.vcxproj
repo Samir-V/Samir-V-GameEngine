@@ -197,7 +197,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="EventType.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="GameObject.h" />

@@ -1,14 +1,5 @@
 #pragma once
 
-using EventId = unsigned int;
-
-struct Event
-{
-	const EventId id;
-
-	explicit Event(EventId _id) : id{ _id } {}
-};
-
 template <int length> struct sdbm_hash
 {
 	consteval static unsigned int _calculate(const char* const text, unsigned int& value) {
