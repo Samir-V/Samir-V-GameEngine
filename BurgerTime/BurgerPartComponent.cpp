@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 #include "RectCollider2DComponent.h"
+#include "ServiceLocator.h"
 
 dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices): ComponentBase(ownerPtr), m_NrOfSlices{nrOfSlices}
 {
@@ -56,6 +57,8 @@ void dae::BurgerPartComponent::SetLocalPosition(float x, float y)
 
 void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
+	auto& soundSystem = ServiceLocator::GetSoundSystem();
+
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
 		// Checking when falling if burger part collided with platform, to stop
@@ -69,6 +72,8 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 			m_BurgerPartState = BurgerPartState::Idle;
 			std::ranges::fill(m_OffsetsY, 0.0f);
+
+			soundSystem.Play("BurgerLand.wav", 0.5f);
 		}
 
 		// Checking when falling if burger part collided with another burger part, that is already in final position
@@ -84,6 +89,8 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 				m_BurgerPartState = BurgerPartState::Assembled;
 				std::ranges::fill(m_OffsetsY, 0.0f);
+
+				soundSystem.Play("BurgerLand.wav", 0.5f);
 			}
 		}
 
@@ -93,6 +100,8 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		{
 			m_BurgerPartState = BurgerPartState::Falling;
 			std::ranges::fill(m_OffsetsY, 2.0f);
+
+			soundSystem.Play("BurgerFall.wav", 0.5f);
 		}
 
 		// Checking if burger part has hit final plate
@@ -106,6 +115,8 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 			m_BurgerPartState = BurgerPartState::Assembled;
 			std::ranges::fill(m_OffsetsY, 0.0f);
+
+			soundSystem.Play("BurgerLand.wav", 0.5f);
 		}
 
 
@@ -131,7 +142,11 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			int idx = static_cast<int>(playerCenterX - pos.x) / sliceWidth;
 			idx = std::clamp(idx, 0, static_cast<int>(m_SrcRects.size()) - 1);
 
-			m_OffsetsY[idx] = 2.0f;
+			if (m_OffsetsY[idx] < 2.0f)
+			{
+				m_OffsetsY[idx] = 2.0f;
+				soundSystem.Play("BurgerStep.wav", 0.3f);
+			}
 		}
 
 		if (m_BurgerPartState == BurgerPartState::Idle && observedGameObject->GetTag() == make_sdbm_hash("Player"))
@@ -144,6 +159,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			if (everyPartHasOffset)
 			{
 				m_BurgerPartState = BurgerPartState::Falling;
+				soundSystem.Play("BurgerFall.wav", 0.5f);
 			}
 		}
 	}

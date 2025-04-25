@@ -20,6 +20,7 @@ public:
 	void Play(const std::string& sound, const float volume, bool isMusic = false);
 	void Update(std::stop_token stopToken);
 	void LoadSound(const std::string& sound, bool isMusic = false);
+	void SetFolder(std::string folderName);
 
 private:
 	struct PlayMessage
@@ -35,15 +36,17 @@ private:
 	int m_Head		 { 0 };
 	int m_Tail		 { 0 };
 
-	std::jthread			m_SoundUpdateThread{ };
+	std::string m_FolderName { };
+
+	std::jthread			m_SoundUpdateThread { };
 
 	std::mutex				m_Mtx { };
 	std::condition_variable m_CV  { };
 
-	std::array<PlayMessage, m_MaxPending> m_Pending{};
+	std::array<PlayMessage, m_MaxPending> m_Pending{ };
 
-	std::unordered_map<std::string, Mix_Chunk*> m_SoundChunks{};
-	std::unordered_map<std::string, Mix_Music*> m_Music{};
+	std::unordered_map<std::string, Mix_Chunk*> m_SoundChunks{ };
+	std::unordered_map<std::string, Mix_Music*> m_Music{ };
 };
 
 SDLSoundSystem::SDLSoundSystemImpl::SDLSoundSystemImpl()
@@ -154,14 +157,21 @@ void SDLSoundSystem::SDLSoundSystemImpl::Update(std::stop_token stopToken)
 
 void SDLSoundSystem::SDLSoundSystemImpl::LoadSound(const std::string& sound, bool isMusic)
 {
+	std::string fullPath = m_FolderName + "/" + sound;
+
 	if (isMusic)
 	{
-		m_Music.insert({ sound, Mix_LoadMUS(sound.c_str()) });
+		m_Music.insert({ sound, Mix_LoadMUS(fullPath.c_str()) });
 	}
 	else
 	{
-		m_SoundChunks.insert({ sound, Mix_LoadWAV(sound.c_str()) });
+		m_SoundChunks.insert({ sound, Mix_LoadWAV(fullPath.c_str()) });
 	}
+}
+
+void SDLSoundSystem::SDLSoundSystemImpl::SetFolder(std::string folderName)
+{
+	m_FolderName = std::move(folderName);
 }
 
 SDLSoundSystem::SDLSoundSystem()
@@ -180,6 +190,11 @@ void SDLSoundSystem::Play(const std::string& sound, const float volume, bool isM
 void SDLSoundSystem::LoadSound(const std::string& sound, bool isMusic)
 {
 	m_pImpl->LoadSound(sound, isMusic);
+}
+
+void SDLSoundSystem::SetFolder(std::string folderName)
+{
+	m_pImpl->SetFolder(folderName);
 }
 
 

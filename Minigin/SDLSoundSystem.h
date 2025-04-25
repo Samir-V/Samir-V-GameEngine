@@ -11,6 +11,7 @@ public:
 
 	void Play(const std::string& sound, const float volume, bool isMusic = false) override;
 	void LoadSound(const std::string& sound, bool isMusic = false) override;
+	void SetFolder(std::string folderName) override;
 
 private:
 

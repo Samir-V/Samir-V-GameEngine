@@ -53,7 +53,7 @@ void load()
 	auto& input = dae::InputManager::GetInstance();
 
 	// Keyboard Peter Pepper
-	auto go = std::make_unique<dae::GameObject>();
+	/*auto go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 265.0f);
 	go->SetTag(make_sdbm_hash("Player"));
 	auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
@@ -66,16 +66,16 @@ void load()
 	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPIdleLeft.png", make_sdbm_hash("PPIdleLeft"),  dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
+	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));*/
 
 	//const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>();
 
-	auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	/*auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	auto moveComp = go->AddComponent<dae::MoveComponent>(100.0f);
 
 	rectColliderComp->GetCollisionEnterEvent()->AddObserver(moveComp);
 	rectColliderComp->GetCollisionExitEvent()->AddObserver(moveComp);
-	rectColliderComp->SetShouldTriggerEvents(true);
+	rectColliderComp->SetShouldTriggerEvents(true);*/
 
 	//const auto scoreComponentKeyboard = go->AddComponent<dae::ScoreComponent>(textComp);
 
@@ -83,16 +83,16 @@ void load()
 	/*peterPepperComp->GetObjectDeathEvent()->AddObserver(healthDisplayCompKeyboard);
 	peterPepperComp->GetEnemyKilledEvent()->AddObserver(scoreComponentKeyboard);*/
 
-	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), SDL_SCANCODE_W, dae::InputManager::ActivationType::Holding);
+	/*input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), SDL_SCANCODE_W, dae::InputManager::ActivationType::Holding);
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(-1.0f, 0.0f)), SDL_SCANCODE_A, dae::InputManager::ActivationType::Holding);
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, 1.0f)), SDL_SCANCODE_S, dae::InputManager::ActivationType::Holding);
-	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), SDL_SCANCODE_D, dae::InputManager::ActivationType::Holding);
+	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), SDL_SCANCODE_D, dae::InputManager::ActivationType::Holding);*/
 
 	//input.RegisterKeyboardCommand(std::make_unique<DamageCharacter>(go.get(), 1), SDL_SCANCODE_H, dae::InputManager::ActivationType::Pressing);
 	//input.RegisterKeyboardCommand(std::make_unique<KillSmallEnemy>(go.get()), SDL_SCANCODE_J, dae::InputManager::ActivationType::Pressing);
 	//input.RegisterKeyboardCommand(std::make_unique<KillEnemy>(go.get()), SDL_SCANCODE_K, dae::InputManager::ActivationType::Pressing);
 
-	scene.Add(std::move(go));
+	//scene.Add(std::move(go));
 
 
 
@@ -100,10 +100,11 @@ void load()
 
 	input.AddController(0);
 
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(400.0f, 300.0f);
+	auto go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(200, 265);
+	go->SetTag(make_sdbm_hash("Player"));
 
-	spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
+	auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
 
 	spriteSheetComp->AddSprite("PPWalkingDown.png", make_sdbm_hash("PPWalkingDown"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
 	spriteSheetComp->AddSprite("PPWalkingUp.png", make_sdbm_hash("PPWalkingUp"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
@@ -142,7 +143,7 @@ void load()
 
 
 
-	// Level addition
+	// Level temporary addition
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 280.0f);
@@ -253,6 +254,18 @@ void load()
 	partCollider->SetShouldTriggerEvents(true);
 
 	scene.Add(std::move(go));
+
+
+
+	auto& sound = ServiceLocator::GetSoundSystem();
+
+	sound.SetFolder("Sound");
+
+	sound.LoadSound("BurgerStep.wav");
+	sound.LoadSound("BurgerLand.wav");
+	sound.LoadSound("BurgerFall.wav");
+	sound.LoadSound("MainTheme.mp3", true);
+	sound.Play("MainTheme.mp3", 0.8f, true);
 }
 
 int main(int, char* []) {
