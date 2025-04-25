@@ -52,6 +52,15 @@ void load()
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("MainScene");
 	auto& input = dae::InputManager::GetInstance();
 
+	auto go = std::make_unique<dae::GameObject>();
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	auto textComp = go->AddComponent<dae::TextComponent>("Use D-PAD to move Peter Pepper", font);
+	textComp->SetLocalPosition(5, 40);
+	textComp = go->AddComponent<dae::TextComponent>("Stepping on burger parts, them falling and landing - produce sounds", font);
+	textComp->SetLocalPosition(5, 70);
+	scene.Add(std::move(go));
+
+
 	// Keyboard Peter Pepper
 	/*auto go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 265.0f);
@@ -100,7 +109,7 @@ void load()
 
 	input.AddController(0);
 
-	auto go = std::make_unique<dae::GameObject>();
+	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200, 265);
 	go->SetTag(make_sdbm_hash("Player"));
 
@@ -256,6 +265,23 @@ void load()
 	scene.Add(std::move(go));
 
 
+	// Invisible walls
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(300.0f, 220.0f);
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(4.0f, 100.0f);
+	partCollider->SetIsStatic(true);
+
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(196.0f, 220.0f);
+	partCollider = go->AddComponent<dae::RectCollider2DComponent>(4.0f, 100.0f);
+	partCollider->SetIsStatic(true);
+
+	scene.Add(std::move(go));
+
+
+	// Sound addition
 
 	auto& sound = ServiceLocator::GetSoundSystem();
 

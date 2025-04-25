@@ -36,7 +36,7 @@ private:
 	int m_Head		 { 0 };
 	int m_Tail		 { 0 };
 
-	std::string m_FolderName { };
+	std::string				m_FolderName { };
 
 	std::jthread			m_SoundUpdateThread { };
 
