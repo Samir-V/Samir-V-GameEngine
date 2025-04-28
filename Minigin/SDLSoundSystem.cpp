@@ -116,6 +116,11 @@ void SDLSoundSystem::SDLSoundSystemImpl::Update(std::stop_token stopToken)
 
 		const auto& playMessage = m_Pending[m_Head];
 
+		m_Head = (m_Head + 1) % m_MaxPending;
+		m_NumPending--;
+
+		lck.unlock();
+
 		if (playMessage.isMusic)
 		{
 			auto it = m_Music.find(playMessage.name);
@@ -150,8 +155,6 @@ void SDLSoundSystem::SDLSoundSystemImpl::Update(std::stop_token stopToken)
 				Mix_PlayChannel(-1, soundChunk, 0);
 			}
 		}
-		m_Head = (m_Head + 1) % m_MaxPending;
-		m_NumPending--;
 	}
 }
 
