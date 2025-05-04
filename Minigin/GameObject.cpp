@@ -50,6 +50,16 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 	SetPositionIsDirty();
 }
 
+void dae::GameObject::SetWorldPosition(float x, float y)
+{
+	m_WorldTransform.SetPosition(x, y, 0.0f);
+}
+
+void dae::GameObject::SetWorldPosition(const glm::vec3& pos)
+{
+	m_WorldTransform.SetPosition(pos);
+}
+
 
 const dae::Transform& dae::GameObject::GetWorldTransform()
 {

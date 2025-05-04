@@ -29,11 +29,11 @@ void dae::BurgerPartComponent::Update(float elapsedSec)
 {
 	if (m_BurgerPartState == BurgerPartState::Falling)
 	{
-		const auto& burgerPartPos = GetOwner()->GetLocalTransform().GetPosition();
+		const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
 		const auto newBurgerPartPosY = burgerPartPos.y + m_Velocity.y * elapsedSec;
 
-		GetOwner()->SetLocalPosition(burgerPartPos.x, newBurgerPartPosY);
+		GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
 	}
 }
 
@@ -64,11 +64,11 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		// Checking when falling if burger part collided with platform, to stop
 		if (m_BurgerPartState == BurgerPartState::Falling && observedGameObject->GetTag() == make_sdbm_hash("Platform"))
 		{
-			const auto& burgerPartPos = GetOwner()->GetLocalTransform().GetPosition();
+			const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
-			const auto newBurgerPartPosY = observedGameObject->GetLocalTransform().GetPosition().y - 2.0f;
+			const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 2.0f;
 
-			GetOwner()->SetLocalPosition(burgerPartPos.x, newBurgerPartPosY);
+			GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
 
 			m_BurgerPartState = BurgerPartState::Idle;
 			std::ranges::fill(m_OffsetsY, 0.0f);
@@ -81,11 +81,11 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		{
 			if (observedGameObject->GetComponent<BurgerPartComponent>()->m_BurgerPartState == BurgerPartState::Assembled)
 			{
-				const auto& burgerPartPos = GetOwner()->GetLocalTransform().GetPosition();
+				const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
-				const auto newBurgerPartPosY = observedGameObject->GetLocalTransform().GetPosition().y - 7.0f;
+				const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 7.0f;
 
-				GetOwner()->SetLocalPosition(burgerPartPos.x, newBurgerPartPosY);
+				GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
 
 				m_BurgerPartState = BurgerPartState::Assembled;
 				std::ranges::fill(m_OffsetsY, 0.0f);
@@ -107,11 +107,11 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		// Checking if burger part has hit final plate
 		if (m_BurgerPartState == BurgerPartState::Falling && observedGameObject->GetTag() == make_sdbm_hash("Plate"))
 		{
-			const auto& burgerPartPos = GetOwner()->GetLocalTransform().GetPosition();
+			const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
-			const auto newBurgerPartPosY = observedGameObject->GetLocalTransform().GetPosition().y - 3.0f;
+			const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 3.0f;
 
-			GetOwner()->SetLocalPosition(burgerPartPos.x, newBurgerPartPosY);
+			GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
 
 			m_BurgerPartState = BurgerPartState::Assembled;
 			std::ranges::fill(m_OffsetsY, 0.0f);
@@ -134,7 +134,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		{
 			const auto playerColliderRect = m_PlayerCollider->GetCollisionRect();
 
-			const auto& pos = GetOwner()->GetLocalTransform().GetPosition();
+			const auto& pos = GetOwner()->GetWorldTransform().GetPosition();
 			const int sliceWidth = m_SrcRects[0].w;
 
 			const float playerCenterX = playerColliderRect.posX + playerColliderRect.width * 0.5f;

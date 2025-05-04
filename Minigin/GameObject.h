@@ -29,6 +29,8 @@ namespace dae
 
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec3& pos);
+		void SetWorldPosition(float x, float y);
+		void SetWorldPosition(const glm::vec3& pos);
 		void SetParent(GameObject* newParentPtr, bool worldPositionStays);
 		std::vector<GameObject*>& GetChildrenVector();
 
