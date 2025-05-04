@@ -355,7 +355,7 @@ void load()
 	go->SetTag(make_sdbm_hash("Platform"));
 	scene.Add(std::move(go));*/
 
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(296.0f, 241.0f);
 	go->SetTag(make_sdbm_hash("BurgerPart"));
 	auto burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Burger.png", 8);
@@ -366,7 +366,7 @@ void load()
 	partCollider->GetCollisionExitEvent()->AddObserver(burgerPartComp);
 	partCollider->SetShouldTriggerEvents(true);
 
-	scene.Add(std::move(go));
+	scene.Add(std::move(go));*/
 
 
 	go = std::make_unique<dae::GameObject>();
