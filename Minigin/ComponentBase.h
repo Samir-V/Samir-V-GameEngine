@@ -3,7 +3,7 @@
 namespace dae
 {
 	class GameObject;
-
+	// Add the identifier method that allows to get the component by string.
 	class ComponentBase
 	{
 	public:

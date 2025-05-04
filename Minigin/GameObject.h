@@ -3,6 +3,7 @@
 #include <vector>
 #include <ranges>
 #include <algorithm>
+#include <string>
 
 #include "ComponentBase.h"
 #include "Utils.h"
@@ -80,6 +81,13 @@ namespace dae
 			return nullptr;
 		}
 
+	
+		ComponentBase* GetComponentByName(std::string componentName) const
+		{
+			componentName;
+			return nullptr;
+		}
+
 		template <typename ComponentType>
 			requires std::derived_from<ComponentType, ComponentBase>
 		void DeleteComponent() const
@@ -96,6 +104,8 @@ namespace dae
 				component->Destroy();
 			}
 		}
+
+
 
 		Tag GetTag() const;
 		void SetTag(Tag tag);

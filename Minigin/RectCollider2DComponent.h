@@ -58,7 +58,7 @@ namespace dae
 		Rect m_CollisionRect		{ };
 
 		bool m_ShouldTriggerEvents	{ };
-		bool m_ShouldCollide		{ true };
+		bool m_ShouldCollide		{ };
 		bool m_IsStatic				{ };
 
 		std::unique_ptr<Subject> m_CollisionEnterEvent;
