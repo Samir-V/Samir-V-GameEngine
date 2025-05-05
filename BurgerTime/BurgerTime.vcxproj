@@ -520,6 +520,7 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
+    <ClInclude Include="PeterPepperStates.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>

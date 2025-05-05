@@ -4,6 +4,15 @@
 
 dae::GameObject::~GameObject() = default;
 
+void dae::GameObject::Start()
+{
+	for (const auto& component : m_Components)
+	{
+		component->Start();
+	}
+}
+
+
 void dae::GameObject::Update(float elapsedSec)
 { 
 	for (const auto& component : m_Components)

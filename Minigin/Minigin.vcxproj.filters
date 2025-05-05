@@ -99,9 +99,6 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="SpritesheetComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

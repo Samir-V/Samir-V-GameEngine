@@ -16,6 +16,7 @@ namespace dae
 		RotatorComponent& operator=(const RotatorComponent& other) = delete;
 		RotatorComponent& operator=(RotatorComponent&& other) = delete;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;

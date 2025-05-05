@@ -25,6 +25,11 @@ dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::s
 	}
 }
 
+void dae::BurgerPartComponent::Start()
+{
+}
+
+
 void dae::BurgerPartComponent::Update(float elapsedSec)
 {
 	if (m_BurgerPartState == BurgerPartState::Falling)

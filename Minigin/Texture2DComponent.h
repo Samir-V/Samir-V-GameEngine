@@ -20,6 +20,7 @@ namespace dae
 		Texture2DComponent& operator=(const Texture2DComponent& other) = delete;
 		Texture2DComponent& operator=(Texture2DComponent&& other) = delete;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;

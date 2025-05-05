@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "ComponentBase.h"
+#include "PeterPepperStates.h"
 #include "Subject.h"
 #include "Transform.h"
 
@@ -19,6 +20,7 @@ namespace dae
 		PeterPepperComponent& operator=(const PeterPepperComponent& other) = delete;
 		PeterPepperComponent& operator=(PeterPepperComponent&& other) = delete;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
@@ -31,6 +33,8 @@ namespace dae
 
 		Subject* GetEnemyKilledEvent() const;
 
+		void ChangeState(std::unique_ptr<PeterPepperState> newState);
+
 	private:
 
 		Transform m_LocalTransform{};
@@ -39,5 +43,9 @@ namespace dae
 
 		std::unique_ptr<Subject> m_ObjectDeathEvent;
 		std::unique_ptr<Subject> m_EnemyKilledEvent;
+
+		std::unique_ptr<PeterPepperState> m_State;
+
+		float m_SprayingTime	{ 0.0f };
 	};
 }

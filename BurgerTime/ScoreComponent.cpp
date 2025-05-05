@@ -12,19 +12,21 @@ dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textCom
 
 }
 
+void dae::ScoreComponent::Start()
+{
+}
+
+
 void dae::ScoreComponent::Update(float)
 {
-
 }
 
 void dae::ScoreComponent::LateUpdate(float)
 {
-
 }
 
 void dae::ScoreComponent::Render() const
 {
-
 }
 
 void dae::ScoreComponent::SetLocalPosition(float x, float y)

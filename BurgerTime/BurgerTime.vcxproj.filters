@@ -19,7 +19,7 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{bfb03c73-7370-4ea3-b19c-c498ba353591}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Input">
+    <Filter Include="Header Files\Misc">
       <UniqueIdentifier>{495c55bb-a084-40b7-b320-1e7da28239ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -66,13 +66,16 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="PeterPepperCommand.h">
-      <Filter>Header Files\Input</Filter>
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="BurgerPartComponent.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperStates.h">
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

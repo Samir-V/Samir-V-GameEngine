@@ -28,6 +28,7 @@ namespace dae
 		RectCollider2DComponent& operator=(const RectCollider2DComponent& other) = delete;
 		RectCollider2DComponent& operator=(RectCollider2DComponent&& other) = delete;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;

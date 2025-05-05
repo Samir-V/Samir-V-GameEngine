@@ -30,6 +30,7 @@ namespace dae
 		BurgerPartComponent& operator=(const BurgerPartComponent& other) = delete;
 		BurgerPartComponent& operator=(BurgerPartComponent&& other) = delete;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;

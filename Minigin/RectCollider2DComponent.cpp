@@ -19,6 +19,10 @@ dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, floa
 	m_Colliders.push_back(this);
 }
 
+void dae::RectCollider2DComponent::Start()
+{
+}
+
 void dae::RectCollider2DComponent::Update(float)
 {
 	auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();

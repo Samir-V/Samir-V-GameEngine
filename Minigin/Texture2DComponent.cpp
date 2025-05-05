@@ -11,14 +11,16 @@ dae::Texture2DComponent::Texture2DComponent(GameObject* ownerPtr, const std::str
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
+void dae::Texture2DComponent::Start()
+{
+}
+
 void dae::Texture2DComponent::Update(float)
 {
-
 }
 
 void dae::Texture2DComponent::LateUpdate(float)
 {
-
 }
 
 void dae::Texture2DComponent::Render() const

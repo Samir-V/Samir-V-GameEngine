@@ -83,44 +83,6 @@ void register_factories()
 			{
 				collider->SetIsStatic(true);
 			}
-
-			if (args.contains("subscribers"))
-			{
-				for (auto& sub : args["subscribers"])
-				{
-					std::string compType = sub.at("component").get<std::string>();
-
-					auto* targetComp = go->GetComponentByName(compType);
-
-					if (!targetComp)
-					{
-						continue;
-					}
-
-					auto* targetCompObserver = dynamic_cast<dae::IObserver*>(targetComp);
-
-					if (!targetCompObserver)
-					{
-						continue;
-					}
-
-					for (auto& evName : sub.at("events"))
-					{
-						if (evName == "enter")
-						{
-							collider->GetCollisionEnterEvent()->AddObserver(targetCompObserver);
-						}
-						else if (evName == "stay")
-						{
-							collider->GetCollisionStayEvent()->AddObserver(targetCompObserver);
-						}
-						else if (evName == "exit")
-						{
-							collider->GetCollisionExitEvent()->AddObserver(targetCompObserver);
-						}
-					}
-				}
-			}
 		};
 
 	g_ComponentFactories["BurgerPartComponent"] =
@@ -202,7 +164,7 @@ void load()
 	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
-	//const auto peterPepperComp = go->AddComponent<dae::PeterPepperComponent>();
+	go->AddComponent<dae::PeterPepperComponent>();
 
 	auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	auto moveComp = go->AddComponent<dae::MoveComponent>(100.0f);

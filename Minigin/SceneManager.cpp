@@ -1,6 +1,15 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void dae::SceneManager::Start()
+{
+	for (auto& scene : m_Scenes)
+	{
+		scene->Start();
+	}
+}
+
+
 void dae::SceneManager::Update(float elapsedSec)
 {
 	for(auto& scene : m_Scenes)

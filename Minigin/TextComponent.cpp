@@ -15,6 +15,10 @@ dae::TextComponent::TextComponent(GameObject* ownerPtr, const std::string& text,
 {
 }
 
+void dae::TextComponent::Start()
+{
+}
+
 void dae::TextComponent::Update(float)
 {
 	if (m_NeedsUpdate)

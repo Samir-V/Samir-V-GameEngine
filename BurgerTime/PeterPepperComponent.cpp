@@ -11,8 +11,20 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	m_EnemyKilledEvent = std::make_unique<Subject>();
 }
 
-void dae::PeterPepperComponent::Update(float)
+void dae::PeterPepperComponent::Start()
 {
+	m_State = std::make_unique<WalkingState>();
+	m_State->OnEnter(GetOwner());
+}
+
+void dae::PeterPepperComponent::Update(float elapsedSec)
+{
+	auto newState = m_State->Update(GetOwner(), elapsedSec);
+
+	if (newState != nullptr)
+	{
+		ChangeState(std::move(newState));
+	}
 }
 
 void dae::PeterPepperComponent::LateUpdate(float)
@@ -51,6 +63,15 @@ void dae::PeterPepperComponent::Damage(int damage)
 dae::Subject* dae::PeterPepperComponent::GetEnemyKilledEvent() const
 {
 	return m_EnemyKilledEvent.get();
+}
+
+void dae::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> newState)
+{
+	m_State->OnExit(GetOwner());
+
+	m_State = std::move(newState);
+
+	m_State->OnEnter(GetOwner());
 }
 
 

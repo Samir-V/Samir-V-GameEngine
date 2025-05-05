@@ -8,22 +8,22 @@ dae::HealthDisplayComponent::HealthDisplayComponent(GameObject* ownerPtr, TextCo
 	ComponentBase(ownerPtr),
 	m_HealthDisplay(textComponent)
 {
+}
 
+void dae::HealthDisplayComponent::Start()
+{
 }
 
 void dae::HealthDisplayComponent::Update(float)
 {
-	
 }
 
 void dae::HealthDisplayComponent::LateUpdate(float)
 {
-	
 }
 
 void dae::HealthDisplayComponent::Render() const
 {
-	
 }
 
 void dae::HealthDisplayComponent::SetLocalPosition(float x, float y)

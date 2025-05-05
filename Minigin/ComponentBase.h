@@ -14,6 +14,7 @@ namespace dae
 		ComponentBase& operator=(const ComponentBase& other) = delete;
 		ComponentBase& operator=(ComponentBase&& other) = delete;
 
+		virtual void Start() = 0;
 		virtual void Update(float elapsedSec) = 0;
 		virtual void LateUpdate(float elapsedSec) = 0;
 		virtual void Render() const = 0; // Not every component will implement the Render Function

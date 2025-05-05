@@ -11,7 +11,11 @@ dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : Compon
 	m_SpritesheetComponentPtr = ownerPtr->GetComponent<SpritesheetComponent>();
 	m_OwnerColliderPtr = ownerPtr->GetComponent<RectCollider2DComponent>();
 }
-	
+
+void dae::MoveComponent::Start()
+{
+}
+
 void dae::MoveComponent::Update(float elapsedSec)
 {
 	// Walking opportunities checking
@@ -52,7 +56,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 		m_LastNonZeroDirection = m_Direction;
 	}
 
-	if (m_Direction.x < 0)
+	/*if (m_Direction.x < 0)
 	{
 		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingLeft"));
 	}
@@ -86,7 +90,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 		{
 			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleUp"));
 		}
-	}
+	}*/
 
 
 	// Position update
@@ -105,12 +109,10 @@ void dae::MoveComponent::Update(float elapsedSec)
 
 void dae::MoveComponent::LateUpdate(float)
 {
-	
 }
 
 void dae::MoveComponent::Render() const
 {
-	
 }
 
 void dae::MoveComponent::SetLocalPosition(float x, float y)
@@ -147,6 +149,15 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 	}
 }
 
+const glm::vec2& dae::MoveComponent::GetLastDirection() const
+{
+	return m_LastNonZeroDirection;
+}
+
+const glm::vec2& dae::MoveComponent::GetVelocity() const
+{
+	return m_Velocity;
+}
 
 // This handles input for movement
 void dae::MoveComponent::SetDirection(const glm::vec2& direction)

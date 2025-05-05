@@ -24,6 +24,7 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		void Start();
 		void Update(float elapsedSec);
 		void LateUpdate(float elapsedSec);
 		void Render() const;

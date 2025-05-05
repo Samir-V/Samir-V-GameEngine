@@ -21,6 +21,7 @@ namespace dae
 
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;

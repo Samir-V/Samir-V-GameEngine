@@ -12,6 +12,7 @@ namespace dae
 	public:
 		Scene& CreateScene(const std::string& name);
 
+		void Start();
 		void Update(float elapsedSec);
 		void LateUpdate(float elapsedSec);
 		void Render();

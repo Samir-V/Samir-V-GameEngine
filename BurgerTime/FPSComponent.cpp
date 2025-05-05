@@ -6,6 +6,12 @@ dae::FPSComponent::FPSComponent(GameObject* ownerPtr, TextComponent* textCompone
 	m_AssignedTextComponentPtr = textComponentPtr;
 }
 
+void dae::FPSComponent::Start()
+{
+	
+}
+
+
 void dae::FPSComponent::Update(float elapsedSec)
 {
 	assert(m_AssignedTextComponentPtr && "m_AssignedTextComponentPtr is null!");
@@ -17,12 +23,10 @@ void dae::FPSComponent::Update(float elapsedSec)
 
 void dae::FPSComponent::LateUpdate(float)
 {
-
 }
 
 void dae::FPSComponent::Render() const
 {
-
 }
 
 void dae::FPSComponent::SetLocalPosition(float x, float y)

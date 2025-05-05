@@ -10,6 +10,10 @@ dae::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr, std::strin
 {
 }
 
+void dae::SpritesheetComponent::Start()
+{
+}
+
 void dae::SpritesheetComponent::Update(float elapsedSec)
 {
 	assert(m_CurrentSprite != nullptr);

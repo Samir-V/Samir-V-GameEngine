@@ -101,8 +101,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
-	bool doContinue = true;
+	sceneManager.Start();
 
+	bool doContinue = true;
 	auto previous = std::chrono::high_resolution_clock::now();
 
 	while (doContinue)

@@ -12,8 +12,12 @@ dae::RotatorComponent::RotatorComponent(GameObject* ownerPtr, float radius, floa
 
 void dae::RotatorComponent::Render() const
 {
-	
 }
+
+void dae::RotatorComponent::Start()
+{
+}
+
 
 void dae::RotatorComponent::Update(float elapsedSec)
 {
@@ -26,7 +30,6 @@ void dae::RotatorComponent::Update(float elapsedSec)
 
 void dae::RotatorComponent::LateUpdate(float)
 {
-	
 }
 
 void dae::RotatorComponent::SetLocalPosition(float x, float y)

@@ -27,6 +27,7 @@ namespace dae
 		MoveComponent& operator=(const MoveComponent& other) = delete;
 		MoveComponent& operator=(MoveComponent&& other) = delete;
 
+		void Start() override;
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
@@ -35,6 +36,9 @@ namespace dae
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		void SetDirection(const glm::vec2& direction);
+
+		const glm::vec2& GetVelocity() const;
+		const glm::vec2& GetLastDirection() const;
 
 	private:
 
