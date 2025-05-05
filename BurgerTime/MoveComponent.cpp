@@ -1,4 +1,7 @@
 #include "MoveComponent.h"
+
+#include <iostream>
+
 #include "GameObject.h"
 #include "SpritesheetComponent.h"
 #include "RectCollider2DComponent.h"
@@ -144,6 +147,8 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 	}
 }
 
+
+// This handles input for movement
 void dae::MoveComponent::SetDirection(const glm::vec2& direction)
 {
 	if (m_Direction == glm::vec2{ 0.0f, 0.0f })
@@ -161,6 +166,18 @@ void dae::MoveComponent::UpdateVerticalMovement()
 
 	if (m_Direction.y < 0.0f && !m_CurrentLadderColliders.empty())
 	{
+		auto randomLadderCollider = *m_CurrentLadderColliders.begin();
+		auto randomLadderColliderRect = randomLadderCollider->GetCollisionRect();
+
+		auto ladderWidth = randomLadderColliderRect.width;
+		auto widthDifferenceSplit = (m_OwnerColliderPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
+
+		float xWorld = randomLadderColliderRect.posX - widthDifferenceSplit;
+
+		auto characterPos = GetOwner()->GetWorldTransform().GetPosition();
+
+		GetOwner()->SetWorldPosition(xWorld, characterPos.y);
+
 		m_CanGoVertically = true;
 		return;
 	}
@@ -181,12 +198,36 @@ void dae::MoveComponent::UpdateVerticalMovement()
 
 	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
 
-	bool ladderFound = std::ranges::any_of(intersectedGameObjects, [](const GameObject* gameObject) {
+	bool ladderFound{ false };
+	GameObject* ladderGameObject{ nullptr };
+
+	for (auto intersectedGameObject : intersectedGameObjects)
+	{
+		if (intersectedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+		{
+			ladderFound = true;
+			ladderGameObject = intersectedGameObject;
+		}
+	}
+
+	/*bool ladderFound = std::ranges::any_of(intersectedGameObjects, [](const GameObject* gameObject) {
 		return gameObject->GetTag() == make_sdbm_hash("Ladder");
-		});
+		});*/
 
 	m_CanGoVertically = ladderFound;
 	m_CanGoHorizontally = false;
+
+	if (ladderGameObject != nullptr)
+	{
+		auto ladderWidth = ladderGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+		auto widthDifferenceSplit = (ownerColliderRect.width - ladderWidth) / 2.0f;
+
+		float xWorld = ladderGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+
+		auto characterPos = GetOwner()->GetWorldTransform().GetPosition();
+
+		GetOwner()->SetWorldPosition(xWorld, characterPos.y);
+	}
 }
 
 glm::vec2 dae::MoveComponent::UpdateHorizontalMovement()
