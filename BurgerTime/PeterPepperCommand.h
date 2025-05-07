@@ -50,6 +50,18 @@ private:
 	glm::vec2 m_Direction;
 };
 
+class SprayPepper : public PeterPepperCommand
+{
+public:
+
+	SprayPepper(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {};
+
+	void Execute() override
+	{
+		GetPeterPepperComponent()->ChangeState(std::make_unique<dae::SprayingState>());
+	}
+};
+
 class DamageCharacter : public PeterPepperCommand
 {
 public:

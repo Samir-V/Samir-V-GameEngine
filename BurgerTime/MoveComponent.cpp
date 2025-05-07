@@ -1,7 +1,4 @@
 #include "MoveComponent.h"
-
-#include <iostream>
-
 #include "GameObject.h"
 #include "SpritesheetComponent.h"
 #include "RectCollider2DComponent.h"
@@ -49,49 +46,10 @@ void dae::MoveComponent::Update(float elapsedSec)
 		GetOwner()->SetWorldPosition(ownerPos.x + verticalCollisionShift.x, ownerPos.y + verticalCollisionShift.y);
 	}
 
-
-	// Set the correct animation -- TEMPORARY IMPLEMENTATION -- Should be handled in transition code of the Finite State Machine
 	if (m_Direction != glm::vec2{ 0.0f, 0.0f })
 	{
 		m_LastNonZeroDirection = m_Direction;
 	}
-
-	/*if (m_Direction.x < 0)
-	{
-		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingLeft"));
-	}
-	else if (m_Direction.x > 0)
-	{
-		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingRight"));
-	}
-	else if (m_Direction.y > 0)
-	{
-		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingDown"));
-	}
-	else if (m_Direction.y < 0)
-	{
-		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPWalkingUp"));
-	}
-	else
-	{
-		if (m_LastNonZeroDirection.x < 0)
-		{
-			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleLeft"));
-		}
-		else if (m_LastNonZeroDirection.x > 0)
-		{
-			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleRight"));
-		}
-		else if (m_LastNonZeroDirection.y > 0)
-		{
-			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleDown"));
-		}
-		else if (m_LastNonZeroDirection.y < 0)
-		{
-			m_SpritesheetComponentPtr->Play(make_sdbm_hash("PPIdleUp"));
-		}
-	}*/
-
 
 	// Position update
 

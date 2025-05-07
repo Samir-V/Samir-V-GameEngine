@@ -3,7 +3,6 @@
 namespace dae
 {
 	class GameObject;
-	// Add the identifier method that allows to get the component by string.
 	class ComponentBase
 	{
 	public:
@@ -22,14 +21,17 @@ namespace dae
 		virtual void SetLocalPosition(float x, float y) = 0;
 		virtual void Destroy() { m_MarkedToDestroy = true; }
 		virtual bool IsMarkedToDestroy() const { return m_MarkedToDestroy; }
+		virtual void SetIsActive(bool newIsActive) { m_IsActive = newIsActive; }
+		virtual bool IsActive() const { return m_IsActive; }
 
 	protected:
-		explicit ComponentBase(GameObject* ownerPtr) : m_OwnerPtr(ownerPtr), m_MarkedToDestroy(false) {}
+		explicit ComponentBase(GameObject* ownerPtr) : m_OwnerPtr(ownerPtr), m_MarkedToDestroy(false), m_IsActive(true) {}
 		GameObject* GetOwner() const { return m_OwnerPtr; }
 
 	private:
 		GameObject* m_OwnerPtr;
 		bool m_MarkedToDestroy;
+		bool m_IsActive;
 	};
 }
 

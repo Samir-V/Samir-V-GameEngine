@@ -32,7 +32,10 @@ void Scene::Start()
 {
 	for (auto& object : m_Objects)
 	{
-		object->Start();
+		if (object->IsActive())
+		{
+			object->Start();
+		}
 	}
 }
 
@@ -41,15 +44,22 @@ void Scene::Update(float elapsedSec)
 {
 	for(auto& object : m_Objects)
 	{
-		object->Update(elapsedSec);
+		if (object->IsActive())
+		{
+			object->Update(elapsedSec);
+		}
 	}
 }
 
 void Scene::LateUpdate(float elapsedSec)
 {
+
 	for (auto& object : m_Objects)
 	{
-		object->LateUpdate(elapsedSec);
+		if (object->IsActive())
+		{
+			object->LateUpdate(elapsedSec);
+		}
 	}
 
 	// Deletion of marked objects happens at the very end
@@ -72,7 +82,10 @@ void Scene::Render() const
 {
 	for (const auto& object : m_Objects)
 	{
-		object->Render();
+		if (object->IsActive())
+		{
+			object->Render();
+		}
 	}
 }
 

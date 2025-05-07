@@ -37,6 +37,7 @@ namespace dae
 
 		void Play(SpriteID spriteId);
 		void AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata);
+		void ResetSpriteTiming();
 
 		void SetLocalPosition(float x, float y) override;
 

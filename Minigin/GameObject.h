@@ -44,6 +44,9 @@ namespace dae
 		void Destroy();
 		bool IsMarkedToDestroy() const;
 
+		void SetIsActive(bool newIsActive);
+		bool IsActive() const;
+
 		template <typename ComponentType, typename... Args>
 			requires std::derived_from<ComponentType, ComponentBase>
 		ComponentType* AddComponent(Args&&... args)
@@ -82,13 +85,6 @@ namespace dae
 			return nullptr;
 		}
 
-	
-		ComponentBase* GetComponentByName(std::string componentName) const
-		{
-			componentName;
-			return nullptr;
-		}
-
 		template <typename ComponentType>
 			requires std::derived_from<ComponentType, ComponentBase>
 		void DeleteComponent() const
@@ -118,6 +114,7 @@ namespace dae
 
 		bool m_PositionIsDirty		{ true };
 		bool m_MarkedToDestroy		{ };
+		bool m_IsActive				{ true };
 
 		Tag m_Tag					{ make_sdbm_hash("DefaultTag") };
 

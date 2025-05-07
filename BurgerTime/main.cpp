@@ -31,6 +31,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "RotatorComponent.h"
+
 void find_resources()
 {
 	constexpr int MAX_TRAVERSAL{ 3 };
@@ -160,8 +162,10 @@ void load()
 	spriteSheetComp->AddSprite("PPWalkingRight.png", make_sdbm_hash("PPWalkingRight"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
 	spriteSheetComp->AddSprite("PPIdleDown.png", make_sdbm_hash("PPIdleDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleLeft.png", make_sdbm_hash("PPIdleLeft"),  dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayDown.png", make_sdbm_hash("PPSprayDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayUp.png", make_sdbm_hash("PPSprayUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayLeft.png", make_sdbm_hash("PPSprayLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayRight.png", make_sdbm_hash("PPSprayRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
 	go->AddComponent<dae::PeterPepperComponent>();
@@ -189,9 +193,29 @@ void load()
 	input.RegisterKeyboardCommand(std::make_unique<KillSmallEnemy>(go.get()), SDL_SCANCODE_J, dae::InputManager::ActivationType::Pressing);
 	input.RegisterKeyboardCommand(std::make_unique<KillEnemy>(go.get()), SDL_SCANCODE_K, dae::InputManager::ActivationType::Pressing);
 
+	input.RegisterKeyboardCommand(std::make_unique<SprayPepper>(go.get()), SDL_SCANCODE_P, dae::InputManager::ActivationType::Pressing);
+
+	dae::GameObject* parentPtr = go.get();
+
 	scene.Add(std::move(go));
 
+	go = std::make_unique<dae::GameObject>();
+	go->SetParent(parentPtr, false);
+	go->SetLocalPosition(16.0f, 0.0f);
+	go->SetTag(make_sdbm_hash("PepperSpray"));
 
+	spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
+	spriteSheetComp->AddSprite("SprayDown.png", make_sdbm_hash("SprayDown"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
+	spriteSheetComp->AddSprite("SprayUp.png", make_sdbm_hash("SprayUp"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
+	spriteSheetComp->AddSprite("SpraySideways.png", make_sdbm_hash("SpraySideways"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
+	spriteSheetComp->Play(make_sdbm_hash("SpraySideways"));
+
+	rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	rectColliderComp->SetShouldTriggerEvents(true);
+
+	go->SetIsActive(false);
+
+	scene.Add(std::move(go));
 
 	// Controller Peter Pepper
 

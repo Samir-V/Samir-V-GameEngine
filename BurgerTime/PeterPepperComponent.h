@@ -45,7 +45,5 @@ namespace dae
 		std::unique_ptr<Subject> m_EnemyKilledEvent;
 
 		std::unique_ptr<PeterPepperState> m_State;
-
-		float m_SprayingTime	{ 0.0f };
 	};
 }

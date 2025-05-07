@@ -8,16 +8,21 @@ void dae::GameObject::Start()
 {
 	for (const auto& component : m_Components)
 	{
-		component->Start();
+		if (component->IsActive())
+		{
+			component->Start();
+		}
 	}
 }
-
 
 void dae::GameObject::Update(float elapsedSec)
 { 
 	for (const auto& component : m_Components)
 	{
-		component->Update(elapsedSec);
+		if (component->IsActive())
+		{
+			component->Update(elapsedSec);
+		}
 	}
 }
 
@@ -25,7 +30,10 @@ void dae::GameObject::LateUpdate(float elapsedSec)
 {
 	for (const auto& component : m_Components)
 	{
-		component->LateUpdate(elapsedSec);
+		if (component->IsActive())
+		{
+			component->LateUpdate(elapsedSec);
+		}
 	}
 
 	// Deletion of marked objects happens at the very end
@@ -43,7 +51,10 @@ void dae::GameObject::Render() const
 {
 	for (const auto& component : m_Components)
 	{
-		component->Render();
+		if (component->IsActive())
+		{
+			component->Render();
+		}
 	}
 }
 
@@ -62,13 +73,32 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 void dae::GameObject::SetWorldPosition(float x, float y)
 {
 	m_WorldTransform.SetPosition(x, y, 0.0f);
+
+	for (const auto child : m_Children)
+	{
+		child->SetPositionIsDirty();
+	}
 }
 
 void dae::GameObject::SetWorldPosition(const glm::vec3& pos)
 {
 	m_WorldTransform.SetPosition(pos);
+
+	for (const auto child : m_Children)
+	{
+		child->SetPositionIsDirty();
+	}
 }
 
+void dae::GameObject::SetIsActive(bool newIsActive)
+{
+	m_IsActive = newIsActive;
+}
+
+bool dae::GameObject::IsActive() const
+{
+	return m_IsActive;
+}
 
 const dae::Transform& dae::GameObject::GetWorldTransform()
 {

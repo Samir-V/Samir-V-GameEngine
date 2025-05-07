@@ -116,6 +116,14 @@ void dae::SpritesheetComponent::Play(SpriteID spriteId)
 	}
 }
 
+void dae::SpritesheetComponent::ResetSpriteTiming()
+{
+	m_CurrentCol = 0;
+	m_CurrentRow = 0;
+	m_Accumulator = 0.0f;
+}
+
+
 
 
 

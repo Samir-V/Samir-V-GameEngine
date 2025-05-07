@@ -85,8 +85,45 @@ namespace dae
 
 			// TODO: Disable movement (deactivate component)
 			moveComponent->SetDirection(glm::vec2(0.0f, 0.0f));
+			moveComponent->SetIsActive(false);
 
 			m_SpritesheetComponentPtr = peterPepperObject->GetComponent<SpritesheetComponent>();
+
+			// Here also needed to get the child object of PeterPepper and activate it, which is the pepper spray object
+			auto it = std::ranges::find_if(peterPepperObject->GetChildrenVector(), [](GameObject* child)
+				{
+					return child->GetTag() == make_sdbm_hash("PepperSpray");
+				});
+
+			m_PepperSprayObjectPtr = *it;
+
+			assert(m_PepperSprayObjectPtr != nullptr);
+
+			m_PepperSprayObjectPtr->SetIsActive(true);
+
+			auto spraySpriteSheetComp = m_PepperSprayObjectPtr->GetComponent<SpritesheetComponent>();
+			spraySpriteSheetComp->ResetSpriteTiming();
+
+			if (m_LastDirection.y > 0)
+			{
+				spraySpriteSheetComp->Play(make_sdbm_hash("SprayDown"));
+				m_PepperSprayObjectPtr->SetLocalPosition(0.0f, 16.0f);
+			}
+			else if (m_LastDirection.y < 0)
+			{
+				spraySpriteSheetComp->Play(make_sdbm_hash("SprayUp"));
+				m_PepperSprayObjectPtr->SetLocalPosition(0.0f, -16.0f);
+			}
+			else if (m_LastDirection.x < 0)
+			{
+				spraySpriteSheetComp->Play(make_sdbm_hash("SpraySideways"));
+				m_PepperSprayObjectPtr->SetLocalPosition(-16.0f, 0.0f);
+			}
+			else if (m_LastDirection.x > 0)
+			{
+				spraySpriteSheetComp->Play(make_sdbm_hash("SpraySideways"));
+				m_PepperSprayObjectPtr->SetLocalPosition(16.0f, 0.0f);
+			}
 		}
 
 		std::unique_ptr<PeterPepperState> Update(GameObject*, float elapsedSec) override
@@ -118,12 +155,14 @@ namespace dae
 			return nullptr;
 		}
 
-		void OnExit(GameObject*) override
+		void OnExit(GameObject* peterPepperObject) override
 		{
-			//auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
-
 			// TODO: Enable movement (Reactivate component)
+			auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+			moveComponent->SetIsActive(true);
 
+			// Here also needed to get the child object of PeterPepper and deactivate it, which is the pepper spray object
+			m_PepperSprayObjectPtr->SetIsActive(false);
 		}
 
 	private:
@@ -133,6 +172,7 @@ namespace dae
 		glm::vec2 m_LastDirection{};
 
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
+		GameObject* m_PepperSprayObjectPtr{};
 	};
 }
 

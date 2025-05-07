@@ -67,6 +67,11 @@ dae::Subject* dae::PeterPepperComponent::GetEnemyKilledEvent() const
 
 void dae::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> newState)
 {
+	if (newState && typeid(*m_State) == typeid(*newState))
+	{
+		return;
+	}
+
 	m_State->OnExit(GetOwner());
 
 	m_State = std::move(newState);
