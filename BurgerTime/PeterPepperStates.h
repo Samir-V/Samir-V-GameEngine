@@ -83,7 +83,6 @@ namespace dae
 			auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 			m_LastDirection = moveComponent->GetLastDirection();
 
-			// TODO: Disable movement (deactivate component)
 			moveComponent->SetDirection(glm::vec2(0.0f, 0.0f));
 			moveComponent->SetIsActive(false);
 
@@ -157,7 +156,6 @@ namespace dae
 
 		void OnExit(GameObject* peterPepperObject) override
 		{
-			// TODO: Enable movement (Reactivate component)
 			auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 			moveComponent->SetIsActive(true);
 
@@ -173,6 +171,16 @@ namespace dae
 
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
 		GameObject* m_PepperSprayObjectPtr{};
+	};
+
+	class WinningState final : public PeterPepperState
+	{
+		// To be implemented
+	};
+
+	class DyingState final : public PeterPepperState
+	{
+		// To be implemented
 	};
 }
 

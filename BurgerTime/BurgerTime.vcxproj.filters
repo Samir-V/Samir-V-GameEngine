@@ -77,5 +77,11 @@
     <ClInclude Include="PeterPepperStates.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyStates.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStates.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

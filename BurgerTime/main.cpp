@@ -147,11 +147,13 @@ void load()
 	textComp->SetLocalPosition(5, 40);
 	textComp = go->AddComponent<dae::TextComponent>("Stepping on burger parts, them falling and landing - produce sounds", font);
 	textComp->SetLocalPosition(5, 70);
+	textComp = go->AddComponent<dae::TextComponent>("Press X to spray pepper", font);
+	textComp->SetLocalPosition(5, 100);
 	scene.Add(std::move(go));
 
 
 	// Keyboard Peter Pepper
-	go = std::make_unique<dae::GameObject>();
+	/*go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(200.0f, 265.0f);
 	go->SetTag(make_sdbm_hash("Player"));
 	auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
@@ -176,7 +178,7 @@ void load()
 	rectColliderComp->GetCollisionEnterEvent()->AddObserver(moveComp);
 	rectColliderComp->GetCollisionExitEvent()->AddObserver(moveComp);
 	rectColliderComp->SetShouldTriggerEvents(true);
-	rectColliderComp->SetShouldCollide(true);
+	rectColliderComp->SetShouldCollide(true);*/
 
 	//const auto scoreComponentKeyboard = go->AddComponent<dae::ScoreComponent>(textComp);
 
@@ -184,7 +186,7 @@ void load()
 	/*peterPepperComp->GetObjectDeathEvent()->AddObserver(healthDisplayCompKeyboard);
 	peterPepperComp->GetEnemyKilledEvent()->AddObserver(scoreComponentKeyboard);*/
 
-	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), SDL_SCANCODE_W, dae::InputManager::ActivationType::Holding);
+	/*input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), SDL_SCANCODE_W, dae::InputManager::ActivationType::Holding);
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(-1.0f, 0.0f)), SDL_SCANCODE_A, dae::InputManager::ActivationType::Holding);
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, 1.0f)), SDL_SCANCODE_S, dae::InputManager::ActivationType::Holding);
 	input.RegisterKeyboardCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), SDL_SCANCODE_D, dae::InputManager::ActivationType::Holding);
@@ -194,6 +196,78 @@ void load()
 	input.RegisterKeyboardCommand(std::make_unique<KillEnemy>(go.get()), SDL_SCANCODE_K, dae::InputManager::ActivationType::Pressing);
 
 	input.RegisterKeyboardCommand(std::make_unique<SprayPepper>(go.get()), SDL_SCANCODE_P, dae::InputManager::ActivationType::Pressing);
+
+	dae::GameObject* parentPtr = go.get();
+
+	scene.Add(std::move(go));*/
+
+	/*go = std::make_unique<dae::GameObject>();
+	go->SetParent(parentPtr, false);
+	go->SetLocalPosition(16.0f, 0.0f);
+	go->SetTag(make_sdbm_hash("PepperSpray"));
+
+	spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
+	spriteSheetComp->AddSprite("SprayDown.png", make_sdbm_hash("SprayDown"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
+	spriteSheetComp->AddSprite("SprayUp.png", make_sdbm_hash("SprayUp"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
+	spriteSheetComp->AddSprite("SpraySideways.png", make_sdbm_hash("SpraySideways"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
+	spriteSheetComp->Play(make_sdbm_hash("SpraySideways"));
+
+	rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	rectColliderComp->SetShouldTriggerEvents(true);
+
+	go->SetIsActive(false);
+
+	scene.Add(std::move(go));*/
+
+	// Controller Peter Pepper
+
+	input.AddController(0);
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition(200, 265);
+	go->SetTag(make_sdbm_hash("Player"));
+
+	auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
+
+	spriteSheetComp->AddSprite("PPWalkingDown.png", make_sdbm_hash("PPWalkingDown"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingUp.png", make_sdbm_hash("PPWalkingUp"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingLeft.png", make_sdbm_hash("PPWalkingLeft"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingRight.png", make_sdbm_hash("PPWalkingRight"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPIdleDown.png", make_sdbm_hash("PPIdleDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleLeft.png", make_sdbm_hash("PPIdleLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayDown.png", make_sdbm_hash("PPSprayDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayUp.png", make_sdbm_hash("PPSprayUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayLeft.png", make_sdbm_hash("PPSprayLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayRight.png", make_sdbm_hash("PPSprayRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
+
+	auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	auto moveCompController = go->AddComponent<dae::MoveComponent>(100.0f);
+
+	rectColliderCompController->GetCollisionEnterEvent()->AddObserver(moveCompController);
+	rectColliderCompController->GetCollisionExitEvent()->AddObserver(moveCompController);
+	rectColliderCompController->SetShouldTriggerEvents(true);
+	rectColliderCompController->SetShouldCollide(true);
+
+	go->AddComponent<dae::PeterPepperComponent>();
+
+	// Subscribing to event
+	/*peterPepperCompController->GetObjectDeathEvent()->AddObserver(healthDisplayCompController);
+	peterPepperCompController->GetEnemyKilledEvent()->AddObserver(scoreComponentController);*/
+
+
+	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Holding, 0);
+	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(-1.0f, 0.0f)), XINPUT_GAMEPAD_DPAD_LEFT, dae::InputManager::ActivationType::Holding, 0);
+	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, 1.0f)), XINPUT_GAMEPAD_DPAD_DOWN, dae::InputManager::ActivationType::Holding, 0);
+	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputManager::ActivationType::Holding, 0);
+
+	input.RegisterControllerCommand(std::make_unique<SprayPepper>(go.get()), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
+
+	//input.RegisterControllerCommand(std::make_unique<DamageCharacter>(go.get(), 1), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
+	//input.RegisterControllerCommand(std::make_unique<KillSmallEnemy>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
+	//input.RegisterControllerCommand(std::make_unique<KillEnemy>(go.get()), XINPUT_GAMEPAD_B, dae::InputManager::ActivationType::Pressing, 0);
 
 	dae::GameObject* parentPtr = go.get();
 
@@ -210,60 +284,12 @@ void load()
 	spriteSheetComp->AddSprite("SpraySideways.png", make_sdbm_hash("SpraySideways"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
 	spriteSheetComp->Play(make_sdbm_hash("SpraySideways"));
 
-	rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	rectColliderComp->SetShouldTriggerEvents(true);
 
 	go->SetIsActive(false);
 
 	scene.Add(std::move(go));
-
-	// Controller Peter Pepper
-
-	/*input.AddController(0);
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200, 265);
-	go->SetTag(make_sdbm_hash("Player"));
-
-	auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
-
-	spriteSheetComp->AddSprite("PPWalkingDown.png", make_sdbm_hash("PPWalkingDown"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingUp.png", make_sdbm_hash("PPWalkingUp"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingLeft.png", make_sdbm_hash("PPWalkingLeft"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingRight.png", make_sdbm_hash("PPWalkingRight"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPIdleDown.png", make_sdbm_hash("PPIdleDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleLeft.png", make_sdbm_hash("PPIdleLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
-
-	auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
-	auto moveCompController = go->AddComponent<dae::MoveComponent>(100.0f);
-
-	rectColliderCompController->GetCollisionEnterEvent()->AddObserver(moveCompController);
-	rectColliderCompController->GetCollisionExitEvent()->AddObserver(moveCompController);
-	rectColliderCompController->SetShouldTriggerEvents(true);
-	rectColliderCompController->SetShouldCollide(true);*/
-
-	//const auto peterPepperCompController = go->AddComponent<dae::PeterPepperComponent>();
-
-	// Subscribing to event
-	/*peterPepperCompController->GetObjectDeathEvent()->AddObserver(healthDisplayCompController);
-	peterPepperCompController->GetEnemyKilledEvent()->AddObserver(scoreComponentController);*/
-
-
-	/*input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Holding, 0);
-	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(-1.0f, 0.0f)), XINPUT_GAMEPAD_DPAD_LEFT, dae::InputManager::ActivationType::Holding, 0);
-	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, 1.0f)), XINPUT_GAMEPAD_DPAD_DOWN, dae::InputManager::ActivationType::Holding, 0);
-	input.RegisterControllerCommand(std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputManager::ActivationType::Holding, 0);*/
-
-	//input.RegisterControllerCommand(std::make_unique<DamageCharacter>(go.get(), 1), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
-	//input.RegisterControllerCommand(std::make_unique<KillSmallEnemy>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
-	//input.RegisterControllerCommand(std::make_unique<KillEnemy>(go.get()), XINPUT_GAMEPAD_B, dae::InputManager::ActivationType::Pressing, 0);
-
-	//scene.Add(std::move(go));
-
-
 
 	// Level temporary addition
 

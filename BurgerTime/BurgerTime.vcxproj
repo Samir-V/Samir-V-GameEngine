@@ -515,7 +515,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerPartComponent.h" />
+    <ClInclude Include="EnemyStates.h" />
     <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="GameStates.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="PeterPepperCommand.h" />
