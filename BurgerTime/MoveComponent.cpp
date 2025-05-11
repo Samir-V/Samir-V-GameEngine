@@ -1,11 +1,12 @@
 #include "MoveComponent.h"
+
+#include <iostream>
+
 #include "GameObject.h"
-#include "SpritesheetComponent.h"
 #include "RectCollider2DComponent.h"
 
 dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_MaxSpeed{ maxSpeed }
 {
-	m_SpritesheetComponentPtr = ownerPtr->GetComponent<SpritesheetComponent>();
 	m_OwnerColliderPtr = ownerPtr->GetComponent<RectCollider2DComponent>();
 }
 

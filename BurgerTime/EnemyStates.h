@@ -17,6 +17,16 @@ namespace dae
 		// Regular state
 	};
 
+	class ClimbingState final : public EnemyState
+	{
+		
+	};
+
+	class FinishedClimbingState final : public EnemyState
+	{
+		
+	};
+
 	class StunnedState final : public EnemyState
 	{
 		// State when enemy was sprayed

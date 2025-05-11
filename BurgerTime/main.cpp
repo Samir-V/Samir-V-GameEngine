@@ -31,8 +31,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include "RotatorComponent.h"
-
 void find_resources()
 {
 	constexpr int MAX_TRAVERSAL{ 3 };
@@ -235,8 +233,6 @@ void load()
 	spriteSheetComp->AddSprite("PPWalkingRight.png", make_sdbm_hash("PPWalkingRight"), dae::SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
 	spriteSheetComp->AddSprite("PPIdleDown.png", make_sdbm_hash("PPIdleDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleLeft.png", make_sdbm_hash("PPIdleLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleRight.png", make_sdbm_hash("PPIdleRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPSprayDown.png", make_sdbm_hash("PPSprayDown"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPSprayUp.png", make_sdbm_hash("PPSprayUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPSprayLeft.png", make_sdbm_hash("PPSprayLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));

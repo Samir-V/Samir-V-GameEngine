@@ -505,6 +505,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerPartComponent.cpp" />
+    <ClCompile Include="EnemyMoveComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="main.cpp" />
@@ -515,6 +516,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerPartComponent.h" />
+    <ClInclude Include="EnemyMoveComponent.h" />
     <ClInclude Include="EnemyStates.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameStates.h" />

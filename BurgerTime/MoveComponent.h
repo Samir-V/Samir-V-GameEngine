@@ -12,9 +12,6 @@ namespace dae
 
 namespace dae
 {
-	class LevelPartComponent;
-	class SpritesheetComponent;
-
 	class MoveComponent final : public ComponentBase, public IObserver
 	{
 	public:
@@ -58,7 +55,6 @@ namespace dae
 
 		const float m_MaxSpeed{};
 
-		SpritesheetComponent* m_SpritesheetComponentPtr{};
 		RectCollider2DComponent* m_OwnerColliderPtr{};
 	};
 }
