@@ -33,11 +33,6 @@ void dae::EnemyMoveComponent::Update(float elapsedSec)
 	//ChangeState(ClimbingState);
 
 
-	if (m_Direction != glm::vec2{ 0.0f, 0.0f })
-	{
-		m_LastNonZeroDirection = m_Direction;
-	}
-
 	// Position update
 
 	m_Velocity = m_Direction * m_MaxSpeed;
@@ -125,6 +120,17 @@ void dae::EnemyMoveComponent::Notify(const Event& event, GameObject* observedGam
 		}
 	}
 }
+
+const glm::vec2& dae::EnemyMoveComponent::GetVelocity() const
+{
+	return m_Velocity;
+}
+
+dae::EnemyMoveComponent::EnemyType dae::EnemyMoveComponent::GetEnemyType() const
+{
+	return m_EnemyType;
+}
+
 
 void dae::EnemyMoveComponent::CalculateDirectionDirectives()
 {
