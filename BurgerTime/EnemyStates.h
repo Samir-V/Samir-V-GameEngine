@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "SpritesheetComponent.h"
 #include "EnemyMoveComponent.h"
+#include "EnemyComponent.h"
 
 namespace dae
 {
@@ -21,6 +22,7 @@ namespace dae
 
 		void OnEnter(GameObject* peterPepperObject) override
 		{
+			m_EnemyComponentPtr = peterPepperObject->GetComponent<EnemyComponent>();
 			m_EnemyMoveComponentPtr = peterPepperObject->GetComponent<EnemyMoveComponent>();
 			m_SpritesheetComponentPtr = peterPepperObject->GetComponent<SpritesheetComponent>();
 		}
@@ -29,9 +31,9 @@ namespace dae
 		{
 			auto velocity = m_EnemyMoveComponentPtr->GetVelocity();
 
-			switch (m_EnemyMoveComponentPtr->GetEnemyType())
+			switch (m_EnemyComponentPtr->GetEnemyType())
 			{
-			case EnemyMoveComponent::EnemyType::Egg:
+			case EnemyComponent::EnemyType::Egg:
 				if (velocity.x < 0)
 				{
 					m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggWalkingLeft"));
@@ -49,7 +51,7 @@ namespace dae
 					m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggWalkingUp"));
 				}
 				break;
-			case EnemyMoveComponent::EnemyType::HotDog:
+			case EnemyComponent::EnemyType::HotDog:
 				if (velocity.x < 0)
 				{
 					m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogWalkingLeft"));
@@ -67,7 +69,7 @@ namespace dae
 					m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogWalkingUp"));
 				}
 				break;
-			case EnemyMoveComponent::EnemyType::Pickle:
+			case EnemyComponent::EnemyType::Pickle:
 				if (velocity.x < 0)
 				{
 					m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleWalkingLeft"));
@@ -96,6 +98,7 @@ namespace dae
 
 	private:
 
+		EnemyComponent* m_EnemyComponentPtr{};
 		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
 	};

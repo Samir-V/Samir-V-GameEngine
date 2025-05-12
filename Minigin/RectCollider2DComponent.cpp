@@ -50,6 +50,8 @@ void dae::RectCollider2DComponent::Update(float)
 		// If turned on both, adjusts parent game objects position to prevent it from stepping over the other object
 		if (m_ShouldCollide && otherCollider->m_ShouldCollide)
 		{
+			
+
 			if (!m_IsStatic)
 			{
 				auto shiftVector = GetCollisionOverlapShift(m_CollisionRect, otherCollider->m_CollisionRect);

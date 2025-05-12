@@ -15,9 +15,11 @@ void dae::EnemyMoveComponent::Start()
 
 void dae::EnemyMoveComponent::Update(float elapsedSec)
 {
-	//if (GetEnemyState == WalkingState)
+	//if (GetEnemyState == WalkingState)?
 
 	// Raycast down 5.0f
+
+	// if ladder is found by raycast
 
 	//CalculateDirectionDirectives()
 
@@ -126,14 +128,10 @@ const glm::vec2& dae::EnemyMoveComponent::GetVelocity() const
 	return m_Velocity;
 }
 
-dae::EnemyMoveComponent::EnemyType dae::EnemyMoveComponent::GetEnemyType() const
-{
-	return m_EnemyType;
-}
-
-
 void dae::EnemyMoveComponent::CalculateDirectionDirectives()
 {
+	// Probably worth rewriting as a struct and return it (for usage in states)
+	
 	auto playerWorldPos = m_PlayerTargetPtr->GetWorldTransform().GetPosition();
 	auto worldPos = GetOwner()->GetWorldTransform().GetPosition();
 
@@ -151,7 +149,7 @@ void dae::EnemyMoveComponent::CalculateDirectionDirectives()
 	if (diff.y >= 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Down;
-	}
+	}	
 	else
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Up;

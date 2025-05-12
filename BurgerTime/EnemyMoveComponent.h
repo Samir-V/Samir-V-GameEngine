@@ -13,12 +13,6 @@ namespace dae
 	class EnemyMoveComponent final : public ComponentBase, public IObserver
 	{
 	public:
-		enum class EnemyType
-		{
-			HotDog,
-			Egg,
-			Pickle
-		};
 
 		EnemyMoveComponent(GameObject* ownerPtr, GameObject* playerPtr, float maxSpeed);
 		~EnemyMoveComponent() override = default;
@@ -37,7 +31,6 @@ namespace dae
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		const glm::vec2& GetVelocity() const;
-		EnemyType GetEnemyType() const;
 
 	private:
 
@@ -54,8 +47,6 @@ namespace dae
 			Up,
 			Down
 		};
-
-		EnemyType m_EnemyType{};
 
 		GameObject* m_PlayerTargetPtr{};
 

@@ -1,7 +1,4 @@
 #include "MoveComponent.h"
-
-#include <iostream>
-
 #include "GameObject.h"
 #include "RectCollider2DComponent.h"
 
