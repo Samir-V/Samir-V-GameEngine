@@ -1,116 +1,88 @@
 #pragma once
-#include "GameObject.h"
-#include "SpritesheetComponent.h"
-#include "EnemyMoveComponent.h"
-#include "EnemyComponent.h"
+#include <memory>
 
 namespace dae
 {
+	class GameObject;
+	class SpritesheetComponent;
+	class EnemyComponent;
+	class EnemyMoveComponent;
+	class RectCollider2DComponent;
+
 	class EnemyState
 	{
 	public:
+
+		enum class EnemyType
+		{
+			HotDog,
+			Egg,
+			Pickle
+		};
+
 		virtual ~EnemyState() = default;
 		virtual void OnEnter(GameObject*) {}
 		virtual std::unique_ptr<EnemyState> Update(GameObject*, float) { return nullptr; }
 		virtual void OnExit(GameObject*) {}
+
+		virtual std::unique_ptr<EnemyState> OnCollisionEnter(GameObject*, GameObject*) { return nullptr; }
+		virtual std::unique_ptr<EnemyState> OnCollisionStay(GameObject*, GameObject*) { return nullptr; }
+		virtual std::unique_ptr<EnemyState> OnCollisionExit(GameObject*, GameObject*) { return nullptr; }
 	};
 
-	class WalkingState final : public EnemyState
+
+	class EnemyWalkingState final : public EnemyState
 	{
 	public:
-		WalkingState() = default;
+		EnemyWalkingState() = default;
 
-		void OnEnter(GameObject* peterPepperObject) override
-		{
-			m_EnemyComponentPtr = peterPepperObject->GetComponent<EnemyComponent>();
-			m_EnemyMoveComponentPtr = peterPepperObject->GetComponent<EnemyMoveComponent>();
-			m_SpritesheetComponentPtr = peterPepperObject->GetComponent<SpritesheetComponent>();
-		}
-
-		std::unique_ptr<EnemyState> Update(GameObject*, float) override
-		{
-			auto velocity = m_EnemyMoveComponentPtr->GetVelocity();
-
-			switch (m_EnemyComponentPtr->GetEnemyType())
-			{
-			case EnemyComponent::EnemyType::Egg:
-				if (velocity.x < 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggWalkingLeft"));
-				}
-				else if (velocity.x > 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggWalkingRight"));
-				}
-				else if (velocity.y > 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggWalkingDown"));
-				}
-				else if (velocity.y < 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggWalkingUp"));
-				}
-				break;
-			case EnemyComponent::EnemyType::HotDog:
-				if (velocity.x < 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogWalkingLeft"));
-				}
-				else if (velocity.x > 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogWalkingRight"));
-				}
-				else if (velocity.y > 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogWalkingDown"));
-				}
-				else if (velocity.y < 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogWalkingUp"));
-				}
-				break;
-			case EnemyComponent::EnemyType::Pickle:
-				if (velocity.x < 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleWalkingLeft"));
-				}
-				else if (velocity.x > 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleWalkingRight"));
-				}
-				else if (velocity.y > 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleWalkingDown"));
-				}
-				else if (velocity.y < 0)
-				{
-					m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleWalkingUp"));
-				}
-				break;
-			}
-
-			return nullptr;
-		}
-
-		void OnExit(GameObject*) override
-		{
-		}
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
 
 	private:
 
 		EnemyComponent* m_EnemyComponentPtr{};
 		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
+		RectCollider2DComponent* m_RectCollider2DComponentPtr{};
 	};
 
 	class ClimbingState final : public EnemyState
 	{
-		
+	public:
+		ClimbingState() = default;
+
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
+
+	private:
+
+		EnemyComponent* m_EnemyComponentPtr{};
+		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
+		SpritesheetComponent* m_SpritesheetComponentPtr{};
+		RectCollider2DComponent* m_RectCollider2DComponentPtr{};
+
+		float m_Timer{ 1.0f };
 	};
+
 
 	class FinishedClimbingState final : public EnemyState
 	{
-		
+	public:
+		FinishedClimbingState() = default;
+
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+
+	private:
+
+		EnemyComponent* m_EnemyComponentPtr{};
+		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
+		SpritesheetComponent* m_SpritesheetComponentPtr{};
+
+		float m_Timer{ 1.0f };
 	};
 
 	class StunnedState final : public EnemyState
@@ -123,7 +95,7 @@ namespace dae
 		// State when enemy was on the burger part and falls with it
 	};
 
-	class DyingState final : public EnemyState
+	class EnemyDyingState final : public EnemyState
 	{
 		// Dying state
 	};

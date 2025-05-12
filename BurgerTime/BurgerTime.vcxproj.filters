@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Misc">
       <UniqueIdentifier>{495c55bb-a084-40b7-b320-1e7da28239ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{9948e919-5fe9-4d03-8bb4-dc92aaa1dcc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="EnemyComponent.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStates.cpp">
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

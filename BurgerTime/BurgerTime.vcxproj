@@ -507,6 +507,7 @@
     <ClCompile Include="BurgerPartComponent.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyMoveComponent.cpp" />
+    <ClCompile Include="EnemyStates.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="main.cpp" />

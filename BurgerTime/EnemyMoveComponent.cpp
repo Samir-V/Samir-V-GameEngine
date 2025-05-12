@@ -1,52 +1,39 @@
 #include "EnemyMoveComponent.h"
 
-#include "EnemyStates.h"
+#include <iostream>
+
 #include "GameObject.h"
-#include "RectCollider2DComponent.h"
 
 dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, GameObject* playerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_PlayerTargetPtr{playerPtr}, m_MaxSpeed { maxSpeed }
 {
-	m_OwnerColliderPtr = ownerPtr->GetComponent<RectCollider2DComponent>();
 }
 
 void dae::EnemyMoveComponent::Start()
 {
+	auto directives = CalculateDirectionDirectives();
+
+	if (directives.horDirective == HorizontalDirective::Right)
+	{
+		SetDirection({ 1.0f, 0.0f });
+	}
+	else
+	{
+		SetDirection({ -1.0f, 0.0f });
+	}
 }
 
 void dae::EnemyMoveComponent::Update(float elapsedSec)
 {
-	//if (GetEnemyState == WalkingState)?
-
-	// Raycast down 5.0f
-
-	// if ladder is found by raycast
-
-	//CalculateDirectionDirectives()
-
-	/*if (m_CurrentVerticalDirective == VerticalDirective::Up)
-	{
-		m_Direction = { 0.0f, -1.0f };
-	}
-	else
-	{
-		m_Direction = { 0.0f, 1.0f };
-	}*/
-
-	//ChangeState(ClimbingState);
-
-
 	// Position update
 
 	m_Velocity = m_Direction * m_MaxSpeed;
 
-	m_Direction = glm::vec2{ 0.0f, 0.0f };
+	const auto& enemyPos = GetOwner()->GetWorldTransform().GetPosition();
 
-	const auto& pepperPos = GetOwner()->GetWorldTransform().GetPosition();
+	const auto newEnemyPosX = enemyPos.x + m_Velocity.x * elapsedSec;
+	const auto newEnemyPosY = enemyPos.y + m_Velocity.y * elapsedSec;
 
-	const auto newPepperPosX = pepperPos.x + m_Velocity.x * elapsedSec;
-	const auto newPepperPosY = pepperPos.y + m_Velocity.y * elapsedSec;
-
-	GetOwner()->SetWorldPosition(newPepperPosX, newPepperPosY);
+	GetOwner()->SetWorldPosition(newEnemyPosX, newEnemyPosY);
 }
 
 void dae::EnemyMoveComponent::LateUpdate(float)
@@ -62,76 +49,18 @@ void dae::EnemyMoveComponent::SetLocalPosition(float x, float y)
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
-void dae::EnemyMoveComponent::Notify(const Event& event, GameObject* observedGameObject)
+const glm::vec2& dae::EnemyMoveComponent::GetDirection() const
 {
-	if (event.id == make_sdbm_hash("OnCollisionEnter"))
-	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
-		{
-			m_CurrentPlatformsColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
-
-			//if (GetEnemyState == ClimbingState)
-
-			CalculateDirectionDirectives();
-
-			if (m_CurrentHorizontalDirective == HorizontalDirective::Right)
-			{
-				m_Direction = { 1.0f, 0.0f };
-			}
-			else
-			{
-				m_Direction = { -1.0f, 0.0f };
-			}
-
-			//ChangeState(FinishedClimbingState)???
-			// Maybe should be fully done in the OnCollisionStay, so that it would not start walking to the side right after registering
-			// Raycast of 2.0f down?
-		}
-
-		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
-		{
-			m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
-
-			//if (GetEnemyState == WalkingState)
-
-			CalculateDirectionDirectives();
-
-			if (m_CurrentVerticalDirective == VerticalDirective::Up)
-			{
-				m_Direction = { 0.0f, -1.0f };
-			}
-			else
-			{
-				m_Direction = { 0.0f, 1.0f };
-			}
-
-			//ChangeState(ClimbingState);
-		}
-	}
-
-	if (event.id == make_sdbm_hash("OnCollisionExit"))
-	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
-		{
-			m_CurrentPlatformsColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
-		}
-
-		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
-		{
-			m_CurrentLadderColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
-		}
-	}
+	return m_Direction;
 }
 
-const glm::vec2& dae::EnemyMoveComponent::GetVelocity() const
+void dae::EnemyMoveComponent::SetDirection(const glm::vec2& direction)
 {
-	return m_Velocity;
+	m_Direction = direction;
 }
 
-void dae::EnemyMoveComponent::CalculateDirectionDirectives()
+dae::EnemyMoveComponent::MovingDirective dae::EnemyMoveComponent::CalculateDirectionDirectives()
 {
-	// Probably worth rewriting as a struct and return it (for usage in states)
-	
 	auto playerWorldPos = m_PlayerTargetPtr->GetWorldTransform().GetPosition();
 	auto worldPos = GetOwner()->GetWorldTransform().GetPosition();
 
@@ -140,18 +69,29 @@ void dae::EnemyMoveComponent::CalculateDirectionDirectives()
 	if (diff.x >= 0.0f)
 	{
 		m_CurrentHorizontalDirective = HorizontalDirective::Right;
+		std::cout << "Horizontal - Right" << "\n";
 	}
 	else
 	{
 		m_CurrentHorizontalDirective = HorizontalDirective::Left;
+		std::cout << "Horizontal - Left" << "\n";
 	}
 
-	if (diff.y >= 0.0f)
+	if (diff.y > 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Down;
+		std::cout << "Vertical - Down" << "\n";
 	}	
-	else
+	else if (diff.y < 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Up;
+		std::cout << "Vertical - Up" << "\n";
 	}
+	else
+	{
+		m_CurrentVerticalDirective = VerticalDirective::None;
+		std::cout << "Vertical - None" << "\n";
+	}
+
+	return { m_CurrentHorizontalDirective, m_CurrentVerticalDirective };
 }

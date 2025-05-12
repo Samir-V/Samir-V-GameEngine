@@ -2,24 +2,19 @@
 #include "ComponentBase.h"
 #include <memory>
 
+#include "IObserver.h"
 #include "Transform.h"
+#include "EnemyStates.h"
+
+using EnemyType = dae::EnemyState::EnemyType;
 
 namespace dae
 {
-	class EnemyState;
-
-	class EnemyComponent final : public ComponentBase
+	class EnemyComponent final : public ComponentBase, public IObserver
 	{
 	public:
 
-		enum class EnemyType
-		{
-			HotDog,
-			Egg,
-			Pickle
-		};
-
-		EnemyComponent(GameObject* ownerPtr);
+		EnemyComponent(GameObject* ownerPtr, EnemyType enemyType);
 		~EnemyComponent() override = default;
 
 		EnemyComponent(const EnemyComponent& other) = delete;
@@ -33,6 +28,7 @@ namespace dae
 		void Render() const override;
 
 		void SetLocalPosition(float x, float y) override;
+		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		void ChangeState(std::unique_ptr<EnemyState> newState);
 		EnemyType GetEnemyType() const;

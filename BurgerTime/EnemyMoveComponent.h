@@ -1,18 +1,34 @@
 #pragma once
 
-#include <set>
-
 #include "ComponentBase.h"
-#include "IObserver.h"
 #include "Transform.h"
 
 namespace dae
 {
 	class RectCollider2DComponent;
 
-	class EnemyMoveComponent final : public ComponentBase, public IObserver
+	class EnemyMoveComponent final : public ComponentBase
 	{
 	public:
+
+		enum class HorizontalDirective
+		{
+			Left,
+			Right
+		};
+
+		enum class VerticalDirective
+		{
+			Up,
+			Down,
+			None
+		};
+
+		struct MovingDirective
+		{
+			HorizontalDirective horDirective;
+			VerticalDirective verDirective;
+		};
 
 		EnemyMoveComponent(GameObject* ownerPtr, GameObject* playerPtr, float maxSpeed);
 		~EnemyMoveComponent() override = default;
@@ -28,25 +44,13 @@ namespace dae
 		void Render() const override;
 
 		void SetLocalPosition(float x, float y) override;
-		void Notify(const Event& event, GameObject* observedGameObject) override;
 
-		const glm::vec2& GetVelocity() const;
+		const glm::vec2& GetDirection() const;
+		void SetDirection(const glm::vec2& direction);
+
+		MovingDirective CalculateDirectionDirectives();
 
 	private:
-
-		void CalculateDirectionDirectives();
-
-		enum class HorizontalDirective
-		{
-			Left,
-			Right
-		};
-
-		enum class VerticalDirective
-		{
-			Up,
-			Down
-		};
 
 		GameObject* m_PlayerTargetPtr{};
 
@@ -58,10 +62,5 @@ namespace dae
 		glm::vec2 m_Direction{};
 
 		const float m_MaxSpeed{};
-
-		std::set<RectCollider2DComponent*> m_CurrentPlatformsColliders;
-		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
-
-		RectCollider2DComponent* m_OwnerColliderPtr{};
 	};
 }
