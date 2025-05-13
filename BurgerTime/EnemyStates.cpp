@@ -66,37 +66,52 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject*, flo
 	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, 5.0f);
 
 	bool ladderFound{ false };
-	GameObject* ladderGameObject{ nullptr };
 
 	for (auto intersectedGameObject : intersectedGameObjects)
 	{
 		if (intersectedGameObject->GetTag() == make_sdbm_hash("Ladder"))
 		{
 			ladderFound = true;
-			ladderGameObject = intersectedGameObject;
+			m_LadderBelowPtr = intersectedGameObject;
 		}
 	}
 
 	if (ladderFound)
 	{
-		//auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
+		auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
 
-		//if (directives.verDirective == EnemyMoveComponent::VerticalDirective::Up)
-		//{
-		//	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
-		//}
-		//else // Decision is made, in this case if enemy and the player are on the same level - enemy will go down. 
-		//{
-		//	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
-		//}
-
-		m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
+		if (directives.verDirective == EnemyMoveComponent::VerticalDirective::Up)
+		{
+			if (!m_CurrentLadderColliders.empty())
+			{
+				m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
+			}
+			else
+			{
+				m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
+			}
+		}
+		else // Decision is made, in this case if enemy and the player are on the same level - enemy will go down. 
+		{
+			m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
+		}
 
 		return std::make_unique<ClimbingState>();
 	}
 
 	return nullptr;
 }
+
+std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameObject*, GameObject* observedGameObject)
+{
+	if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+	{
+		m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+	}
+
+	return nullptr;
+}
+
 
 std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject)
 {
@@ -106,18 +121,23 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 
 		if ( abs(distance) <= 0.25f )
 		{
-			//auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
+			auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
 
-			//if (directives.verDirective == EnemyMoveComponent::VerticalDirective::Down)
-			//{
-			//	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
-			//}
-			//else // Decision is made, in this case if enemy and the player are on the same level - enemy will go up. 
-			//{
-			//	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
-			//}
-
-			m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
+			if (directives.verDirective == EnemyMoveComponent::VerticalDirective::Down)
+			{
+				if (m_LadderBelowPtr)
+				{
+					m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
+				}
+				else
+				{
+					m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
+				}
+			}
+			else // Decision is made, in this case if enemy and the player are on the same level - enemy will go up. 
+			{
+				m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
+			}
 
 			return std::make_unique<ClimbingState>();
 		}

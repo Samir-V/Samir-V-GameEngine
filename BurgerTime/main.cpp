@@ -333,7 +333,7 @@ void load()
 	go->SetTag(make_sdbm_hash("Platform"));
 	scene.Add(std::move(go));
 
-	/*go = std::make_unique<dae::GameObject>();
+	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition(243.0f, 299.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
@@ -345,7 +345,7 @@ void load()
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
-	scene.Add(std::move(go));*/
+	scene.Add(std::move(go));
 
 
 

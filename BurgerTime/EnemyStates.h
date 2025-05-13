@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <set>
 
 namespace dae
 {
@@ -38,9 +39,14 @@ namespace dae
 
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
 		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
 
 	private:
+
+		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
+
+		GameObject* m_LadderBelowPtr;
 
 		EnemyComponent* m_EnemyComponentPtr{};
 		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
