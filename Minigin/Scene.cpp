@@ -95,3 +95,20 @@ const std::vector<std::unique_ptr<GameObject>>& Scene::GetGameObjects()
 	return m_Objects;
 }
 
+std::vector<GameObject*> Scene::GetGameObjectsWithTag(Tag tag) const
+{
+	std::vector<GameObject*> result;
+	result.reserve(m_Objects.size());
+
+	for (const auto& gameObject : m_Objects)
+	{
+		if (gameObject->GetTag() == tag)
+		{
+			result.push_back(gameObject.get());
+		}
+	}
+
+	return result;
+}
+
+

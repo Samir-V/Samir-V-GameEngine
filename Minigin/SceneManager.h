@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <unordered_map>
+
 #include "Singleton.h"
 
 namespace dae
@@ -11,6 +13,7 @@ namespace dae
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
+		Scene* GetSceneByName(const std::string& name);
 
 		void Start();
 		void Update(float elapsedSec);
@@ -19,6 +22,7 @@ namespace dae
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::unordered_map<std::string, std::shared_ptr<Scene>> m_Scenes;
+		//std::<std::shared_ptr<Scene>> m_Scenes;
 	};
 }

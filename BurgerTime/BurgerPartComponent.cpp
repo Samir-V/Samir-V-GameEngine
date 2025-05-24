@@ -10,6 +10,8 @@
 
 dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices): ComponentBase(ownerPtr), m_NrOfSlices{nrOfSlices}
 {
+	m_BurgerPartLandedEvent = std::make_unique<Subject>();
+
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filepath);
 
 	const auto& textureSize = m_Texture->GetSize();
@@ -28,7 +30,6 @@ dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::s
 void dae::BurgerPartComponent::Start()
 {
 }
-
 
 void dae::BurgerPartComponent::Update(float elapsedSec)
 {
@@ -79,6 +80,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			std::ranges::fill(m_OffsetsY, 0.0f);
 
 			soundSystem.Play("BurgerLand.wav", 0.5f);
+			m_BurgerPartLandedEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
 		}
 
 		// Checking when falling if burger part collided with another burger part, that is already in final position
@@ -96,6 +98,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 				std::ranges::fill(m_OffsetsY, 0.0f);
 
 				soundSystem.Play("BurgerLand.wav", 0.5f);
+				m_BurgerPartLandedEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
 			}
 		}
 
@@ -122,6 +125,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			std::ranges::fill(m_OffsetsY, 0.0f);
 
 			soundSystem.Play("BurgerLand.wav", 0.5f);
+			m_BurgerPartLandedEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
 		}
 
 
@@ -173,6 +177,12 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 	{
 
 	}
+}
+
+
+dae::Subject* dae::BurgerPartComponent::GetBurgerPartLandedEvent() const
+{
+	return m_BurgerPartLandedEvent.get();
 }
 
 

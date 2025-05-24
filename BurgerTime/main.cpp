@@ -33,6 +33,7 @@
 
 #include "EnemyComponent.h"
 #include "EnemyMoveComponent.h"
+#include "ScoreComponent.h"
 
 void find_resources()
 {
@@ -144,14 +145,13 @@ void load()
 
 	auto go = std::make_unique<dae::GameObject>();
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	auto textComp = go->AddComponent<dae::TextComponent>("Use D-PAD to move Peter Pepper", font);
+	auto textComp = go->AddComponent<dae::TextComponent>("Score: 0", font);
 	textComp->SetLocalPosition(5, 40);
-	textComp = go->AddComponent<dae::TextComponent>("Stepping on burger parts, them falling and landing - produce sounds", font);
-	textComp->SetLocalPosition(5, 70);
-	textComp = go->AddComponent<dae::TextComponent>("Press X to spray pepper", font);
-	textComp->SetLocalPosition(5, 100);
 	scene.Add(std::move(go));
 
+	go = std::make_unique<dae::GameObject>();
+	go->AddComponent<dae::ScoreComponent>(textComp);
+	scene.Add(std::move(go));
 
 	// Keyboard Peter Pepper
 	/*go = std::make_unique<dae::GameObject>();
@@ -243,7 +243,7 @@ void load()
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
 	auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
-	auto moveCompController = go->AddComponent<dae::MoveComponent>(100.0f);
+	auto moveCompController = go->AddComponent<dae::MoveComponent>(55.0f);
 
 	rectColliderCompController->GetCollisionEnterEvent()->AddObserver(moveCompController);
 	rectColliderCompController->GetCollisionExitEvent()->AddObserver(moveCompController);

@@ -23,7 +23,8 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-		const std::vector < std::unique_ptr<GameObject>>& GetGameObjects();
+		const std::vector <std::unique_ptr<GameObject>>& GetGameObjects();
+		std::vector<GameObject*> GetGameObjectsWithTag(Tag tag) const;
 
 	private: 
 		explicit Scene(const std::string& name);

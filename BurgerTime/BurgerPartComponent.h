@@ -5,6 +5,7 @@
 
 #include "ComponentBase.h"
 #include "IObserver.h"
+#include "Subject.h"
 #include "Texture2D.h"
 #include "Transform.h"
 
@@ -39,6 +40,8 @@ namespace dae
 
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
+		Subject* GetBurgerPartLandedEvent() const;
+
 	private:
 
 		Transform m_LocalTransform { };
@@ -47,6 +50,7 @@ namespace dae
 
 		BurgerPartState			   m_BurgerPartState { BurgerPartState::Idle };
 
+		std::unique_ptr<Subject>   m_BurgerPartLandedEvent;
 
 		std::shared_ptr<Texture2D> m_Texture;
 		std::vector<SDL_Rect>      m_SrcRects;
