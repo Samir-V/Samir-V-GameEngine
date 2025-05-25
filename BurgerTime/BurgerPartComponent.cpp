@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "EnemyComponent.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "GameObject.h"
@@ -10,7 +11,7 @@
 
 dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices): ComponentBase(ownerPtr), m_NrOfSlices{nrOfSlices}
 {
-	m_BurgerPartLandedEvent = std::make_unique<Subject>();
+	m_BurgerPartCollisionEvent = std::make_unique<Subject>();
 
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filepath);
 
@@ -67,20 +68,45 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
+		// Checking if burger part was hit by another burger part
+		if (m_BurgerPartState == BurgerPartState::Idle && observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+		{
+			m_BurgerPartState = BurgerPartState::Falling;
+			std::ranges::fill(m_OffsetsY, 2.0f);
+
+			soundSystem.Play("BurgerFall.wav", 0.5f);
+		}
+
+		// Keep track of the enemies on top of the burger bun
+		if (m_BurgerPartState == BurgerPartState::Idle && observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		{
+			m_EnemiesOnTop.push_back(observedGameObject);
+		}
+
 		// Checking when falling if burger part collided with platform, to stop
 		if (m_BurgerPartState == BurgerPartState::Falling && observedGameObject->GetTag() == make_sdbm_hash("Platform"))
 		{
-			const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
+			if (m_ExtraLevelsToFall > 0)
+			{
+				--m_ExtraLevelsToFall;
 
-			const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 2.0f;
+				soundSystem.Play("BurgerLand.wav", 0.5f);
+				m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
+			}
+			else
+			{
+				const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
-			GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
+				const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 2.0f;
 
-			m_BurgerPartState = BurgerPartState::Idle;
-			std::ranges::fill(m_OffsetsY, 0.0f);
+				GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
 
-			soundSystem.Play("BurgerLand.wav", 0.5f);
-			m_BurgerPartLandedEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
+				m_BurgerPartState = BurgerPartState::Idle;
+				std::ranges::fill(m_OffsetsY, 0.0f);
+
+				soundSystem.Play("BurgerLand.wav", 0.5f);
+				m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
+			}
 		}
 
 		// Checking when falling if burger part collided with another burger part, that is already in final position
@@ -88,6 +114,9 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		{
 			if (observedGameObject->GetComponent<BurgerPartComponent>()->m_BurgerPartState == BurgerPartState::Assembled)
 			{
+				// Just to be sure
+				m_ExtraLevelsToFall = 0;
+
 				const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
 				const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 7.0f;
@@ -98,23 +127,16 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 				std::ranges::fill(m_OffsetsY, 0.0f);
 
 				soundSystem.Play("BurgerLand.wav", 0.5f);
-				m_BurgerPartLandedEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
+				m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
 			}
-		}
-
-
-		// Checking if burger part was hit by another burger part
-		if (m_BurgerPartState == BurgerPartState::Idle && observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
-		{
-			m_BurgerPartState = BurgerPartState::Falling;
-			std::ranges::fill(m_OffsetsY, 2.0f);
-
-			soundSystem.Play("BurgerFall.wav", 0.5f);
 		}
 
 		// Checking if burger part has hit final plate
 		if (m_BurgerPartState == BurgerPartState::Falling && observedGameObject->GetTag() == make_sdbm_hash("Plate"))
 		{
+			// Just to be sure
+			m_ExtraLevelsToFall = 0;
+
 			const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
 
 			const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 3.0f;
@@ -125,7 +147,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			std::ranges::fill(m_OffsetsY, 0.0f);
 
 			soundSystem.Play("BurgerLand.wav", 0.5f);
-			m_BurgerPartLandedEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
+			m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
 		}
 
 
@@ -167,6 +189,32 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 			if (everyPartHasOffset)
 			{
+				m_ExtraLevelsToFall = static_cast<int>(m_EnemiesOnTop.size());
+				// Probably handle the enemies on top here as well.
+				// Could also switch them to dying state
+
+				for (auto enemy : m_EnemiesOnTop)
+				{
+					auto enemyComponent = enemy->GetComponent<EnemyComponent>();
+
+					switch (enemyComponent->GetEnemyType())
+					{
+					case EnemyType::HotDog:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("HotDogKilled")), observedGameObject);
+						break;
+					case EnemyType::Pickle:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("PickleKilled")), observedGameObject);
+						break;
+					case EnemyType::Egg:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EggKilled")), observedGameObject);
+						break;
+					}
+
+					//enemyComponent->ChangeState();
+				}
+
+				m_EnemiesOnTop.clear();
+			
 				m_BurgerPartState = BurgerPartState::Falling;
 				soundSystem.Play("BurgerFall.wav", 0.5f);
 			}
@@ -180,9 +228,9 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 }
 
 
-dae::Subject* dae::BurgerPartComponent::GetBurgerPartLandedEvent() const
+dae::Subject* dae::BurgerPartComponent::GetBurgerPartCollisionEvent() const
 {
-	return m_BurgerPartLandedEvent.get();
+	return m_BurgerPartCollisionEvent.get();
 }
 
 

@@ -26,7 +26,7 @@ void dae::ScoreComponent::Start()
 		for (auto burgerPart : burgerParts)
 		{
 			auto bPartComponent = burgerPart->GetComponent<BurgerPartComponent>();
-			bPartComponent->GetBurgerPartLandedEvent()->AddObserver(this);
+			bPartComponent->GetBurgerPartCollisionEvent()->AddObserver(this);
 		}
 	}
 }
@@ -66,6 +66,24 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject*)
 	if (event.id == make_sdbm_hash("BurgerPartLanded"))
 	{
 		m_CurrentScore += 50;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("HotDogKilled"))
+	{
+		m_CurrentScore += 100;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EggKilled"))
+	{
+		m_CurrentScore += 300;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("PickleKilled"))
+	{
+		m_CurrentScore += 200;
 		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
 	}
 }
