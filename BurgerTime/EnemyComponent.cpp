@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Utils.h"
 
-dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) : ComponentBase(ownerPtr), m_EnemyType{ enemyType }
+dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) : ComponentBase(ownerPtr), m_EnemyType{ enemyType }, m_EnemyDyingEvent{std::make_unique<Subject>()}
 {
 }
 
@@ -48,6 +48,19 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 
 			if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 			{
+				switch (m_EnemyType)
+				{
+				case EnemyType::HotDog:
+					m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("HotDogKilled")), observedGameObject);
+					break;
+				case EnemyType::Pickle:
+					m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("PickleKilled")), observedGameObject);
+					break;
+				case EnemyType::Egg:
+					m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("EggKilled")), observedGameObject);
+					break;
+				}
+
 				ChangeState(std::make_unique<EnemyDyingState>());
 			}
 		}
@@ -108,6 +121,28 @@ std::type_index dae::EnemyComponent::GetCurrentStateType() const
 	return typeid(*m_State);
 }
 
+void dae::EnemyComponent::StartFalling(GameObject* burgerPart)
+{
+	switch (m_EnemyType)
+	{
+	case EnemyType::HotDog:
+		m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("HotDogKilled")), burgerPart);
+		break;
+	case EnemyType::Pickle:
+		m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("PickleKilled")), burgerPart);
+		break;
+	case EnemyType::Egg:
+		m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("EggKilled")), burgerPart);
+		break;
+	}
+
+	ChangeState(std::make_unique<FallingState>());
+}
+
+dae::Subject* dae::EnemyComponent::GetEnemyDyingEvent() const
+{
+	return m_EnemyDyingEvent.get();
+}
 
 
 

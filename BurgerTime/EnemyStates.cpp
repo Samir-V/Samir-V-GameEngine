@@ -354,6 +354,28 @@ void dae::StunnedState::OnExit(GameObject*)
 
 
 
+
+void dae::FallingState::OnEnter(GameObject* enemyObject)
+{
+	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
+	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
+}
+
+std::unique_ptr<dae::EnemyState> dae::FallingState::OnCollisionEnter(GameObject*, GameObject* observedGameObject)
+{
+	if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
+	{
+		return std::make_unique<EnemyDyingState>();
+	}
+
+	return nullptr;
+}
+
+
+
+
+
+
 void dae::EnemyDyingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();

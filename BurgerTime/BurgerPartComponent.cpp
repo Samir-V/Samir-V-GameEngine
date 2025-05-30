@@ -194,21 +194,10 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 				for (auto enemy : m_EnemiesOnTop)
 				{
 					// Update the scores here depending on the number of killed enemies
+					// Should be moved and handled by the EnemyComponent itself. This only should calculate points multiplier for the burger part
 					auto enemyComponent = enemy->GetComponent<EnemyComponent>();
 
-					switch (enemyComponent->GetEnemyType())
-					{
-					case EnemyType::HotDog:
-						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("HotDogKilled")), observedGameObject);
-						break;
-					case EnemyType::Pickle:
-						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("PickleKilled")), observedGameObject);
-						break;
-					case EnemyType::Egg:
-						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EggKilled")), observedGameObject);
-						break;
-					}
-
+					enemyComponent->StartFalling(GetOwner());
 				}
 
 				m_EnemiesOnTop.clear();

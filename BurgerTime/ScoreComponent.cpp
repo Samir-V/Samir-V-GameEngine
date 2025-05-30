@@ -2,6 +2,7 @@
 #include <string>
 
 #include "BurgerPartComponent.h"
+#include "EnemyComponent.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
 #include "Scene.h"
@@ -27,6 +28,14 @@ void dae::ScoreComponent::Start()
 		{
 			auto bPartComponent = burgerPart->GetComponent<BurgerPartComponent>();
 			bPartComponent->GetBurgerPartCollisionEvent()->AddObserver(this);
+		}
+
+		auto enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
+
+		for (auto enemy : enemies)
+		{
+			auto enemyComponent = enemy->GetComponent<EnemyComponent>();
+			enemyComponent->GetEnemyDyingEvent()->AddObserver(this);
 		}
 	}
 }

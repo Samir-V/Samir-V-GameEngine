@@ -112,7 +112,15 @@ namespace dae
 
 	class FallingState final : public EnemyState
 	{
-		// State when enemy was on the burger part and falls with it
+	public:
+		FallingState() = default;
+
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
+
+	private:
+
+		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
 	};
 
 	class EnemyDyingState final : public EnemyState

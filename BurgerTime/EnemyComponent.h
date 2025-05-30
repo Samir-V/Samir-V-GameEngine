@@ -6,6 +6,7 @@
 #include "IObserver.h"
 #include "Transform.h"
 #include "EnemyStates.h"
+#include "Subject.h"
 
 using EnemyType = dae::EnemyState::EnemyType;
 
@@ -35,11 +36,15 @@ namespace dae
 		EnemyType GetEnemyType() const;
 		std::type_index GetCurrentStateType() const;
 
+		void StartFalling(GameObject* burgerPart);
+		Subject* GetEnemyDyingEvent() const;
+
 	private:
 
 		Transform m_LocalTransform{};
 
 		std::unique_ptr<EnemyState> m_State;
+		std::unique_ptr<Subject>    m_EnemyDyingEvent;
 
 		EnemyType m_EnemyType{};
 	};

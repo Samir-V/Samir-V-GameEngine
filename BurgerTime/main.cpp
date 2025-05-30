@@ -616,7 +616,7 @@ void load()
 	rectColliderComp->GetCollisionStayEvent()->AddObserver(enemyComponent);
 	rectColliderComp->GetCollisionExitEvent()->AddObserver(enemyComponent);
 
-	go->AddComponent<dae::EnemyMoveComponent>(playerPtr, 20.0f);
+	go->AddComponent<dae::EnemyMoveComponent>(playerPtr, 30.0f);
 	go->SetWorldPosition(310, 265);
 
 	//228 for top
