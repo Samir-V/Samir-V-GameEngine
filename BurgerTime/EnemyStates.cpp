@@ -354,5 +354,51 @@ void dae::StunnedState::OnExit(GameObject*)
 
 
 
+void dae::EnemyDyingState::OnEnter(GameObject* enemyObject)
+{
+	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
+	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
+	m_SpritesheetComponentPtr = enemyObject->GetComponent<SpritesheetComponent>();
+
+	m_EnemyMoveComponentPtr->SetIsActive(false);
+
+	switch (m_EnemyComponentPtr->GetEnemyType())
+	{
+	case EnemyType::Egg:
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggDying"));
+		break;
+	case EnemyType::HotDog:
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogDying"));
+		break;
+	case EnemyType::Pickle:
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleDying"));
+		break;
+	}
+}
+
+std::unique_ptr<dae::EnemyState> dae::EnemyDyingState::Update(GameObject*, float elapsedSec)
+{
+	if (m_Timer > 0.0f)
+	{
+		m_Timer -= elapsedSec;
+		return nullptr;
+	}
+
+	return std::make_unique<EnemyWalkingState>();
+}
+
+void dae::EnemyDyingState::OnExit(GameObject* enemyObject)
+{
+	m_EnemyMoveComponentPtr->SetIsActive(true);
+
+	enemyObject->SetIsActive(false);
+}
+
+
+
+
+
+
+
 
 

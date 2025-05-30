@@ -604,6 +604,7 @@ void load()
 	spriteSheetComp->AddSprite("HotDogWalkingDown.png", make_sdbm_hash("HotDogWalkingDown"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
 	spriteSheetComp->AddSprite("HotDogWalkingUp.png", make_sdbm_hash("HotDogWalkingUp"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
 	spriteSheetComp->AddSprite("HotDogStunned.png", make_sdbm_hash("HotDogStunned"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.2f));
+	spriteSheetComp->AddSprite("HotDogDying.png", make_sdbm_hash("HotDogDying"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.5f));
 	spriteSheetComp->Play(make_sdbm_hash("HotDogWalkingLeft"));
 
 	rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);

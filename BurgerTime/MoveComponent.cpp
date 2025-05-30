@@ -1,4 +1,6 @@
 #include "MoveComponent.h"
+
+#include "EnemyComponent.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
 #include "RectCollider2DComponent.h"
@@ -93,7 +95,10 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 
 		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			GetOwner()->GetComponent<PeterPepperComponent>()->ChangeState(std::make_unique<DyingState>());
+			if (observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType() != typeid(StunnedState))
+			{
+				GetOwner()->GetComponent<PeterPepperComponent>()->ChangeState(std::make_unique<DyingState>());
+			}
 		}
 	}
 

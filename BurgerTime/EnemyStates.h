@@ -117,7 +117,20 @@ namespace dae
 
 	class EnemyDyingState final : public EnemyState
 	{
-		// Dying state
+	public:
+		EnemyDyingState() = default;
+
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		void OnExit(GameObject* enemyObject) override;
+
+	private:
+
+		EnemyComponent* m_EnemyComponentPtr{};
+		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
+		SpritesheetComponent* m_SpritesheetComponentPtr{};
+
+		float m_Timer{ 2.0f };
 	};
 
 }

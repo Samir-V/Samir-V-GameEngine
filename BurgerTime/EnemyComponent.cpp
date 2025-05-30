@@ -44,12 +44,12 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 	{
 		if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 		{
-			/*auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+			auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 
 			if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 			{
-				
-			}*/
+				ChangeState(std::make_unique<EnemyDyingState>());
+			}
 		}
 
 		if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
@@ -101,6 +101,11 @@ void dae::EnemyComponent::ChangeState(std::unique_ptr<EnemyState> newState)
 dae::EnemyState::EnemyType dae::EnemyComponent::GetEnemyType() const
 {
 	return m_EnemyType;
+}
+
+std::type_index dae::EnemyComponent::GetCurrentStateType() const
+{
+	return typeid(*m_State);
 }
 
 

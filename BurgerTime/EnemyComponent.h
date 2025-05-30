@@ -1,6 +1,7 @@
 #pragma once
 #include "ComponentBase.h"
 #include <memory>
+#include <typeindex>
 
 #include "IObserver.h"
 #include "Transform.h"
@@ -32,6 +33,7 @@ namespace dae
 
 		void ChangeState(std::unique_ptr<EnemyState> newState);
 		EnemyType GetEnemyType() const;
+		std::type_index GetCurrentStateType() const;
 
 	private:
 

@@ -209,7 +209,6 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 						break;
 					}
 
-					//enemyComponent->ChangeState();
 				}
 
 				m_EnemiesOnTop.clear();
