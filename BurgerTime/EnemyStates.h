@@ -93,7 +93,21 @@ namespace dae
 
 	class StunnedState final : public EnemyState
 	{
-		// State when enemy was sprayed
+	public:
+		StunnedState(std::unique_ptr<EnemyState> previousState);
+
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		void OnExit(GameObject* enemyObject) override;
+
+	private:
+
+		EnemyComponent* m_EnemyComponentPtr{};
+		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
+		SpritesheetComponent* m_SpritesheetComponentPtr{};
+		std::unique_ptr<EnemyState> m_PreviousState{};
+
+		float m_Timer{ 4.0f };
 	};
 
 	class FallingState final : public EnemyState

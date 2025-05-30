@@ -42,6 +42,8 @@ namespace dae
 
 		Subject* GetBurgerPartCollisionEvent() const;
 
+		BurgerPartState GetBurgerPartState() const;
+
 	private:
 
 		Transform m_LocalTransform { };

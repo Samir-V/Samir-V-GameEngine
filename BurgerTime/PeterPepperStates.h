@@ -180,7 +180,45 @@ namespace dae
 
 	class DyingState final : public PeterPepperState
 	{
+	public:
 		// To be implemented
+		DyingState() = default;
+
+		void OnEnter(GameObject* peterPepperObject) override
+		{
+			auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+
+			moveComponent->SetDirection(glm::vec2(0.0f, 0.0f));
+			moveComponent->SetIsActive(false);
+
+			auto spriteSheetComp = peterPepperObject->GetComponent<SpritesheetComponent>();
+			spriteSheetComp->ResetSpriteTiming();
+
+			spriteSheetComp->Play(make_sdbm_hash("PPDying"));
+			
+		}
+
+		std::unique_ptr<PeterPepperState> Update(GameObject*, float elapsedSec) override
+		{
+			m_Timer -= elapsedSec;
+
+			if (m_Timer < 0.0f)
+			{
+				return std::make_unique<WalkingState>();
+			}
+
+			return nullptr;
+		}
+
+		void OnExit(GameObject* peterPepperObject) override
+		{
+			auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+			moveComponent->SetIsActive(true);
+		}
+
+	private:
+
+		float m_Timer{ 2.0f };
 	};
 }
 

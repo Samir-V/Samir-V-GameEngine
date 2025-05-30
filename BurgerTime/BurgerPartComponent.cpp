@@ -9,7 +9,7 @@
 #include "RectCollider2DComponent.h"
 #include "ServiceLocator.h"
 
-dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices): ComponentBase(ownerPtr), m_NrOfSlices{nrOfSlices}
+dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices): ComponentBase(ownerPtr), m_NrOfSlices{nrOfSlices}, m_ExtraLevelsToFall{0}
 {
 	m_BurgerPartCollisionEvent = std::make_unique<Subject>();
 
@@ -190,11 +190,10 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			if (everyPartHasOffset)
 			{
 				m_ExtraLevelsToFall = static_cast<int>(m_EnemiesOnTop.size());
-				// Probably handle the enemies on top here as well.
-				// Could also switch them to dying state
 
 				for (auto enemy : m_EnemiesOnTop)
 				{
+					// Update the scores here depending on the number of killed enemies
 					auto enemyComponent = enemy->GetComponent<EnemyComponent>();
 
 					switch (enemyComponent->GetEnemyType())
@@ -231,6 +230,11 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 dae::Subject* dae::BurgerPartComponent::GetBurgerPartCollisionEvent() const
 {
 	return m_BurgerPartCollisionEvent.get();
+}
+
+dae::BurgerPartComponent::BurgerPartState dae::BurgerPartComponent::GetBurgerPartState() const
+{
+	return m_BurgerPartState;
 }
 
 

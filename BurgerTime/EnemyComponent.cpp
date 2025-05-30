@@ -1,5 +1,8 @@
 #include "EnemyComponent.h"
+
+#include "BurgerPartComponent.h"
 #include "EnemyStates.h"
+#include "GameObject.h"
 #include "Utils.h"
 
 dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) : ComponentBase(ownerPtr), m_EnemyType{ enemyType }
@@ -39,6 +42,28 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
+		if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+		{
+			/*auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+
+			if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
+			{
+				
+			}*/
+		}
+
+		if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
+		{
+			// This algorithm differs since the state needs to be preserved and then returned
+			m_State->OnExit(GetOwner());
+
+			auto stunnedState = std::make_unique<StunnedState>(std::move(m_State));
+
+			m_State = std::move(stunnedState);
+
+			m_State->OnEnter(GetOwner());
+		}
+
 		auto newState = m_State->OnCollisionEnter(GetOwner(), observedGameObject);
 
 		if (newState != nullptr)

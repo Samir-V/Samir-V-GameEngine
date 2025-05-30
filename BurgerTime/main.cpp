@@ -240,6 +240,7 @@ void load()
 	spriteSheetComp->AddSprite("PPSprayUp.png", make_sdbm_hash("PPSprayUp"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPSprayLeft.png", make_sdbm_hash("PPSprayLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPSprayRight.png", make_sdbm_hash("PPSprayRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPDying.png", make_sdbm_hash("PPDying"), dae::SpritesheetComponent::SpriteMetaData(5, 0, 0.4f));
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
 	auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
@@ -602,6 +603,7 @@ void load()
 	spriteSheetComp->AddSprite("HotDogWalkingRight.png", make_sdbm_hash("HotDogWalkingRight"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
 	spriteSheetComp->AddSprite("HotDogWalkingDown.png", make_sdbm_hash("HotDogWalkingDown"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
 	spriteSheetComp->AddSprite("HotDogWalkingUp.png", make_sdbm_hash("HotDogWalkingUp"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("HotDogStunned.png", make_sdbm_hash("HotDogStunned"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.2f));
 	spriteSheetComp->Play(make_sdbm_hash("HotDogWalkingLeft"));
 
 	rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);

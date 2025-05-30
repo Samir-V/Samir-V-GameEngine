@@ -1,5 +1,6 @@
 #include "MoveComponent.h"
 #include "GameObject.h"
+#include "PeterPepperComponent.h"
 #include "RectCollider2DComponent.h"
 
 dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_MaxSpeed{ maxSpeed }
@@ -88,6 +89,11 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
 		{
 			m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+		}
+
+		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		{
+			GetOwner()->GetComponent<PeterPepperComponent>()->ChangeState(std::make_unique<DyingState>());
 		}
 	}
 

@@ -308,6 +308,50 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::Update(GameObject*,
 }
 
 
+dae::StunnedState::StunnedState(std::unique_ptr<EnemyState> previousState)
+{
+	m_PreviousState = std::move(previousState);
+}
+
+void dae::StunnedState::OnEnter(GameObject* enemyObject)
+{
+	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
+	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
+	m_SpritesheetComponentPtr = enemyObject->GetComponent<SpritesheetComponent>();
+
+	m_EnemyMoveComponentPtr->SetIsActive(false);
+
+	switch (m_EnemyComponentPtr->GetEnemyType())
+	{
+	case EnemyType::Egg:
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("EggStunned"));
+		break;
+	case EnemyType::HotDog:
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("HotDogStunned"));
+		break;
+	case EnemyType::Pickle:
+		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleStunned"));
+		break;
+	}
+}
+
+std::unique_ptr<dae::EnemyState> dae::StunnedState::Update(GameObject*, float elapsedSec)
+{
+	if (m_Timer > 0.0f)
+	{
+		m_Timer -= elapsedSec;
+		return nullptr;
+	}
+
+	return std::move(m_PreviousState);
+}
+
+void dae::StunnedState::OnExit(GameObject*)
+{
+	m_EnemyMoveComponentPtr->SetIsActive(true);
+}
+
+
 
 
 

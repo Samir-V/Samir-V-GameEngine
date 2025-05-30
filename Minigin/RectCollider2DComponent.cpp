@@ -39,6 +39,11 @@ void dae::RectCollider2DComponent::Update(float)
 			continue;
 		}
 
+		if (!otherCollider->IsActive() || !otherCollider->GetOwner()->IsActive())
+		{
+			continue;
+		}
+
 		if (!IsOverlapping(m_CollisionRect, otherCollider->m_CollisionRect))
 		{
 			continue;
