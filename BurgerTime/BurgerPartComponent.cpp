@@ -210,7 +210,14 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))
 	{
-
+		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		{
+			auto it = std::ranges::find(m_EnemiesOnTop, observedGameObject);
+			if (it != m_EnemiesOnTop.end())
+			{
+				m_EnemiesOnTop.erase(it);
+			}
+		}
 	}
 }
 
