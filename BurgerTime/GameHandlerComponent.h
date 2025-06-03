@@ -38,6 +38,11 @@ namespace dae
 		void SetGameMode(GameMode gameMode);
 		void ChangeState(std::unique_ptr<GameState> newState);
 
+		const std::vector<GameObject*>& GetBurgerParts() const;
+		const std::vector<GameObject*>& GetPlayers() const;
+		const std::vector<GameObject*>& GetEnemies() const;
+		const std::vector<GameObject*>& GetEnemyRespawnPoints() const;
+
 	private:
 
 		static bool m_IsCreated;

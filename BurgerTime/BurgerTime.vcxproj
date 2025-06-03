@@ -510,6 +510,7 @@
     <ClCompile Include="EnemyStates.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameHandlerComponent.cpp" />
+    <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoveComponent.cpp" />

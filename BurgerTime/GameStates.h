@@ -3,6 +3,11 @@
 
 namespace dae
 {
+	class BurgerPartComponent;
+}
+
+namespace dae
+{
 	class GameState
 	{
 	public:
@@ -24,12 +29,26 @@ namespace dae
 
 	class PlayingState final : public GameState
 	{
-		
+	public:
+
+		void OnEnter(GameObject* gameHandlerObject) override;
+		std::unique_ptr<GameState> Update(GameObject* gameHandlerObject, float elapsedSec) override;
+		void OnExit(GameObject* gameHandlerObject) override;
+
+	private:
+
+		std::vector<BurgerPartComponent*> m_BurgerPartComponents;
 	};
 
 	class GameWinningState final : public GameState
 	{
-		
+	public:
+
+		void OnEnter(GameObject* gameHandlerObject) override;
+		std::unique_ptr<GameState> Update(GameObject* gameHandlerObject, float elapsedSec) override;
+		void OnExit(GameObject* gameHandlerObject) override;
+
+	private:
 	};
 
 }

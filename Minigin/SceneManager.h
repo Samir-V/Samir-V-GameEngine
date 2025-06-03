@@ -11,7 +11,7 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		Scene& CreateScene(const std::string& name, bool dontDestroyOnLoad);
 		Scene* GetSceneByName(const std::string& name);
 		Scene* GetActiveScene() const;
 
@@ -26,5 +26,6 @@ namespace dae
 		SceneManager() = default;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> m_Scenes;
 		Scene* m_ActiveScene;
+		Scene* m_DontDestroyOnLoadScene;
 	};
 }

@@ -3,70 +3,68 @@
 
 void dae::SceneManager::Start()
 {
+	m_DontDestroyOnLoadScene->Start();
+
 	if (!m_ActiveScene)
 	{
 		return;
 	}
 
 	m_ActiveScene->Start();
-
-	/*for (auto& scene : m_Scenes)
-	{
-		scene.second->Start();
-	}*/
 }
 
 
 void dae::SceneManager::Update(float elapsedSec)
 {
+	m_DontDestroyOnLoadScene->Update(elapsedSec);
+
 	if (!m_ActiveScene)
 	{
 		return;
 	}
 
 	m_ActiveScene->Update(elapsedSec);
-
-	/*for(auto& scene : m_Scenes)
-	{
-		scene.second->Update(elapsedSec);
-	}*/
 }
 
 void dae::SceneManager::LateUpdate(float elapsedSec)
 {
+	m_DontDestroyOnLoadScene->LateUpdate(elapsedSec);
+
 	if (!m_ActiveScene)
 	{
 		return;
 	}
 
 	m_ActiveScene->LateUpdate(elapsedSec);
-
-	/*for (auto& scene : m_Scenes)
-	{
-		scene.second->LateUpdate(elapsedSec);
-	}*/
 }
 
 void dae::SceneManager::Render()
 {
+	m_DontDestroyOnLoadScene->Render();
+
 	if (!m_ActiveScene)
 	{
 		return;
 	}
 
 	m_ActiveScene->Render();
-
-	/*for (const auto& scene : m_Scenes)
-	{
-		scene.second->Render();
-	}*/
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+dae::Scene& dae::SceneManager::CreateScene(const std::string& name, bool dontDestroyOnLoad)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_Scenes.insert({ name, scene });
-	return *scene;
+	if (dontDestroyOnLoad && !m_DontDestroyOnLoadScene)
+	{
+		const auto& scene = std::shared_ptr<Scene>(new Scene(name));
+		m_Scenes.insert({ name, scene });
+		m_DontDestroyOnLoadScene = scene.get();
+		return *scene;
+	}
+	else
+	{
+		const auto& scene = std::shared_ptr<Scene>(new Scene(name));
+		m_Scenes.insert({ name, scene });
+		return *scene;
+	}
 }
 
 dae::Scene* dae::SceneManager::GetSceneByName(const std::string& name)

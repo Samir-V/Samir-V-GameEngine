@@ -111,4 +111,10 @@ std::vector<GameObject*> Scene::GetGameObjectsWithTag(Tag tag) const
 	return result;
 }
 
+const std::string& Scene::GetName() const
+{
+	return m_Name;
+}
+
+
 

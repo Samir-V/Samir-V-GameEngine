@@ -138,15 +138,31 @@ void load()
 {
 	ServiceLocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level1");
 	auto& input = dae::InputManager::GetInstance();
+	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
+
+	auto go = std::make_unique<dae::GameObject>();
+	auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
+	sceneDontDestroy.Add(std::move(go));
+
+	// Menu scene
+	auto& menuScene = dae::SceneManager::GetInstance().CreateScene("Menu", false);
+	auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	go = std::make_unique<dae::GameObject>();
+	auto textComp = go->AddComponent<dae::TextComponent>("Burger Time!", fontBig);
+	textComp->SetLocalPosition(230, 40);
+	menuScene.Add(std::move(go));
+
+
+	// Level 1
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level1", false);
 
 	register_factories();
 	load_level_from_json("levels.json", scene);
 
-	auto go = std::make_unique<dae::GameObject>();
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	auto textComp = go->AddComponent<dae::TextComponent>("Score: 0", font);
+	go = std::make_unique<dae::GameObject>();
+	textComp = go->AddComponent<dae::TextComponent>("Score: 0", font);
 	textComp->SetLocalPosition(5, 40);
 	scene.Add(std::move(go));
 
@@ -637,7 +653,7 @@ void load()
 	sound.LoadSound("MainTheme.mp3", true);
 	sound.Play("MainTheme.mp3", 0.8f, true);
 
-	//dae::GameHandler::GetInstance().SwitchLevel("Level1");
+	gameHandlerComp->SwitchLevel("Menu");
 }
 
 int main(int, char* []) {

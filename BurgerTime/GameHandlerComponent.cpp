@@ -23,6 +23,20 @@ dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): Component
 
 void dae::GameHandlerComponent::Start()
 {
+	const auto scene = SceneManager::GetInstance().GetActiveScene();
+
+	if (scene->GetName() == "Menu")
+	{
+		ChangeState(std::make_unique<MenuState>());
+	}
+	else
+	{
+		m_Players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
+		m_Enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
+		m_BurgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
+		//m_EnemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
+		ChangeState(std::make_unique<PlayingState>());
+	}
 }
 
 void dae::GameHandlerComponent::Render() const
@@ -51,22 +65,6 @@ void dae::GameHandlerComponent::SetLocalPosition(float x, float y)
 void dae::GameHandlerComponent::SwitchLevel(const std::string& name)
 {
 	SceneManager::GetInstance().SetActiveScene(name);
-
-	const auto scene = SceneManager::GetInstance().GetActiveScene();
-
-	m_Players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-	m_Enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
-	m_BurgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
-	//m_EnemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-
-	if (name == "Menu")
-	{
-		ChangeState(std::make_unique<MenuState>());
-	}
-	else
-	{
-		ChangeState(std::make_unique<PlayingState>());
-	}
 }
 
 void dae::GameHandlerComponent::SetGameMode(GameMode gameMode)
@@ -87,3 +85,26 @@ void dae::GameHandlerComponent::ChangeState(std::unique_ptr<GameState> newState)
 
 	m_State->OnEnter(GetOwner());
 }
+
+const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetBurgerParts() const
+{
+	return m_BurgerParts;
+}
+
+const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetEnemies() const
+{
+	return m_Enemies;
+}
+
+const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetEnemyRespawnPoints() const
+{
+	return m_EnemyRespawnPoints;
+}
+
+const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetPlayers() const
+{
+	return m_Players;
+}
+
+
+

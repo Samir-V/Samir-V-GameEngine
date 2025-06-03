@@ -6,7 +6,7 @@ namespace dae
 {
 	class Scene final
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
+		friend Scene& SceneManager::CreateScene(const std::string& name, bool dontDestroyOnLoad);
 	public:
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(std::unique_ptr<GameObject> object);
@@ -25,6 +25,7 @@ namespace dae
 
 		const std::vector <std::unique_ptr<GameObject>>& GetGameObjects();
 		std::vector<GameObject*> GetGameObjectsWithTag(Tag tag) const;
+		const std::string& GetName() const;
 
 	private: 
 		explicit Scene(const std::string& name);
