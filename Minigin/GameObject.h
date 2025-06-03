@@ -3,7 +3,6 @@
 #include <vector>
 #include <ranges>
 #include <algorithm>
-#include <string>
 
 #include "ComponentBase.h"
 #include "Utils.h"

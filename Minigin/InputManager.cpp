@@ -23,11 +23,19 @@ bool dae::InputManager::HandleKeyboardInput() const
 
 			if (e.key.repeat == 0)
 			{
-				for (const auto& keyboardCommand : m_KeyboardCommands)
+				for (const auto& keyboardCommandsPair : m_KeyboardCommands)
 				{
-					if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Pressing)
+					if (keyboardCommandsPair.first != m_CurrentInputMap)
 					{
-						keyboardCommand.command->Execute();
+						continue;
+					}
+
+					for (const auto & keyboardCommand : keyboardCommandsPair.second)
+					{
+						if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Pressing)
+						{
+							keyboardCommand.command->Execute();
+						}
 					}
 				}
 			}
@@ -35,11 +43,19 @@ bool dae::InputManager::HandleKeyboardInput() const
 			break;
 		case SDL_KEYUP:
 
-			for (const auto& keyboardCommand : m_KeyboardCommands)
+			for (const auto& keyboardCommandsPair : m_KeyboardCommands)
 			{
-				if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Releasing)
+				if (keyboardCommandsPair.first != m_CurrentInputMap)
 				{
-					keyboardCommand.command->Execute();
+					continue;
+				}
+
+				for (const auto& keyboardCommand : keyboardCommandsPair.second)
+				{
+					if (keyboardCommand.key == e.key.keysym.scancode && keyboardCommand.activationType == ActivationType::Releasing)
+					{
+						keyboardCommand.command->Execute();
+					}
 				}
 			}
 
@@ -49,13 +65,21 @@ bool dae::InputManager::HandleKeyboardInput() const
 
 	const Uint8* keyStates = SDL_GetKeyboardState(nullptr);
 
-	for (const auto& keyboardCommand : m_KeyboardCommands)
+	for (const auto& keyboardCommandsPair : m_KeyboardCommands)
 	{
-		if (keyboardCommand.activationType == ActivationType::Holding)
+		if (keyboardCommandsPair.first != m_CurrentInputMap)
 		{
-			if (keyStates[keyboardCommand.key])
+			continue;
+		}
+
+		for (const auto & keyboardCommand : keyboardCommandsPair.second)
+		{
+			if (keyboardCommand.activationType == ActivationType::Holding)
 			{
-				keyboardCommand.command->Execute();
+				if (keyStates[keyboardCommand.key])
+				{
+					keyboardCommand.command->Execute();
+				}
 			}
 		}
 	}
@@ -69,31 +93,40 @@ void dae::InputManager::HandleControllerInput() const
 	{
 		controller->ProcessInput();
 
-		for (const auto& controllerCommand : m_ControllerCommands)
+		for (const auto& controllerCommands : m_ControllerCommands)
 		{
-			if (controllerCommand.controllerIndex != controller->GetControllerIndex())
+			// Checks for the input map
+			if (controllerCommands.first != m_CurrentInputMap)
 			{
 				continue;
 			}
 
-			bool conditionMet = false;
-
-			switch (controllerCommand.activationType)
+			for (const auto& controllerCommand : controllerCommands.second)
 			{
-			case ActivationType::Holding:
-				conditionMet = controller->IsHeld(controllerCommand.controllerKey);
-				break;
-			case ActivationType::Pressing:
-				conditionMet = controller->IsPressedThisFrame(controllerCommand.controllerKey);
-				break;
-			case ActivationType::Releasing:
-				conditionMet = controller->IsReleasedThisFrame(controllerCommand.controllerKey);
-				break;
-			}
+				if (controllerCommand.controllerIndex != controller->GetControllerIndex())
+				{
+					continue;
+				}
 
-			if (conditionMet)
-			{
-				controllerCommand.command->Execute();
+				bool conditionMet = false;
+
+				switch (controllerCommand.activationType)
+				{
+				case ActivationType::Holding:
+					conditionMet = controller->IsHeld(controllerCommand.controllerKey);
+					break;
+				case ActivationType::Pressing:
+					conditionMet = controller->IsPressedThisFrame(controllerCommand.controllerKey);
+					break;
+				case ActivationType::Releasing:
+					conditionMet = controller->IsReleasedThisFrame(controllerCommand.controllerKey);
+					break;
+				}
+
+				if (conditionMet)
+				{
+					controllerCommand.command->Execute();
+				}
 			}
 		}
 	}
@@ -101,14 +134,16 @@ void dae::InputManager::HandleControllerInput() const
 
 
 
-void dae::InputManager::RegisterKeyboardCommand(std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType)
+void dae::InputManager::RegisterKeyboardCommand(InputMap inputMap, std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType)
 {
-	m_KeyboardCommands.emplace_back(std::move(command), key, activationType);
+	//m_KeyboardCommands.emplace_back(std::move(command), key, activationType);
+	m_KeyboardCommands.at(inputMap).emplace_back(std::move(command), key, activationType);
 }
 
-void dae::InputManager::RegisterControllerCommand(std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex)
+void dae::InputManager::RegisterControllerCommand(InputMap inputMap, std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex)
 {
-	m_ControllerCommands.emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
+	//m_ControllerCommands.emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
+	m_ControllerCommands.at(inputMap).emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
 }
 
 void dae::InputManager::AddController(int index)
@@ -116,3 +151,12 @@ void dae::InputManager::AddController(int index)
 	m_Controllers.emplace_back(std::make_unique<Controller>(index));
 }
 
+void dae::InputManager::AddInputMap(InputMap inputMap)
+{
+	m_ControllerCommands.emplace(inputMap, std::vector<ControllerCommand>{});
+}
+
+void dae::InputManager::SetActiveInputMap(InputMap inputMap)
+{
+	m_CurrentInputMap = inputMap;
+}

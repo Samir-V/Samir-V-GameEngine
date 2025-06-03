@@ -25,7 +25,7 @@ namespace dae
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> m_Scenes;
-		Scene* m_ActiveScene;
-		Scene* m_DontDestroyOnLoadScene;
+		Scene* m_ActiveScene{nullptr};
+		Scene* m_DontDestroyOnLoadScene{nullptr};
 	};
 }
