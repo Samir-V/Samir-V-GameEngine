@@ -33,6 +33,7 @@
 
 #include "EnemyComponent.h"
 #include "EnemyMoveComponent.h"
+#include "GameHandlerComponent.h"
 #include "ScoreComponent.h"
 
 void find_resources()
@@ -137,7 +138,7 @@ void load()
 {
 	ServiceLocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("MainScene");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level1");
 	auto& input = dae::InputManager::GetInstance();
 
 	register_factories();
@@ -635,6 +636,8 @@ void load()
 	sound.LoadSound("BurgerFall.wav");
 	sound.LoadSound("MainTheme.mp3", true);
 	sound.Play("MainTheme.mp3", 0.8f, true);
+
+	//dae::GameHandler::GetInstance().SwitchLevel("Level1");
 }
 
 int main(int, char* []) {

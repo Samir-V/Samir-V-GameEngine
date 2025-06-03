@@ -27,7 +27,7 @@ namespace dae
 		
 	};
 
-	class WinningState final : public GameState
+	class GameWinningState final : public GameState
 	{
 		
 	};

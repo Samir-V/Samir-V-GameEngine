@@ -181,7 +181,6 @@ namespace dae
 	class DyingState final : public PeterPepperState
 	{
 	public:
-		// To be implemented
 		DyingState() = default;
 
 		void OnEnter(GameObject* peterPepperObject) override

@@ -18,9 +18,7 @@ dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textCom
 
 void dae::ScoreComponent::Start()
 {
-	auto scene = dae::SceneManager::GetInstance().GetSceneByName("MainScene");
-
-	if (scene)
+	if (auto scene = dae::SceneManager::GetInstance().GetActiveScene())
 	{
 		auto burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 

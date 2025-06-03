@@ -509,6 +509,7 @@
     <ClCompile Include="EnemyMoveComponent.cpp" />
     <ClCompile Include="EnemyStates.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
+    <ClCompile Include="GameHandlerComponent.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
@@ -522,6 +523,7 @@
     <ClInclude Include="EnemyMoveComponent.h" />
     <ClInclude Include="EnemyStates.h" />
     <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="GameHandlerComponent.h" />
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
     <ClInclude Include="MoveComponent.h" />
