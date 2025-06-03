@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+#include <SDL.h>
+#include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
 
@@ -24,10 +26,12 @@ dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): Component
 void dae::GameHandlerComponent::Start()
 {
 	const auto scene = SceneManager::GetInstance().GetActiveScene();
+	auto& input = InputManager::GetInstance();
 
 	if (scene->GetName() == "Menu")
 	{
 		ChangeState(std::make_unique<MenuState>());
+		input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
 	}
 	else
 	{
@@ -36,6 +40,7 @@ void dae::GameHandlerComponent::Start()
 		m_BurgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		//m_EnemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		ChangeState(std::make_unique<PlayingState>());
+		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
 	}
 }
 
@@ -55,11 +60,6 @@ void dae::GameHandlerComponent::Update(float elapsedSec)
 
 void dae::GameHandlerComponent::LateUpdate(float)
 {
-}
-
-void dae::GameHandlerComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
 void dae::GameHandlerComponent::SwitchLevel(const std::string& name)

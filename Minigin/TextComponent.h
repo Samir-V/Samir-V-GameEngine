@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "ComponentBase.h"
-#include "Transform.h"
 
 namespace dae
 {
@@ -27,13 +26,11 @@ namespace dae
 		void Render() const override;
 
 		void SetText(const std::string& text);
-		void SetLocalPosition(float x, float y) override;
 
 	private:
 
 		bool m_NeedsUpdate;
 		std::string m_Text;
-		Transform m_LocalTransform{};
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
 	};

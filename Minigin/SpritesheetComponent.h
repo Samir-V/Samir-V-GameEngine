@@ -5,7 +5,6 @@
 
 #include "ComponentBase.h"
 #include "Texture2D.h"
-#include "Transform.h"
 
 using SpriteID = unsigned int;
 
@@ -39,8 +38,6 @@ namespace dae
 		void AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata);
 		void ResetSpriteTiming();
 
-		void SetLocalPosition(float x, float y) override;
-
 	private:
 
 		struct SpriteData
@@ -48,8 +45,6 @@ namespace dae
 			std::shared_ptr<Texture2D> texture;
 			SpriteMetaData metaData;
 		};
-
-		Transform m_LocalTransform{};
 
 		int   m_CurrentCol{};
 		int   m_CurrentRow{};

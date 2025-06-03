@@ -29,11 +29,6 @@ void dae::FPSComponent::Render() const
 {
 }
 
-void dae::FPSComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 float dae::FPSComponent::CalculateFPS(float elapsedSec)
 {
 	return 1.0f / elapsedSec;

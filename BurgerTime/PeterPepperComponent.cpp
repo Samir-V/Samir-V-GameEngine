@@ -35,11 +35,6 @@ void dae::PeterPepperComponent::Render() const
 {
 }
 
-void dae::PeterPepperComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 dae::Subject* dae::PeterPepperComponent::GetObjectDeathEvent() const
 {
 	return m_ObjectDeathEvent.get();

@@ -34,6 +34,7 @@
 #include "EnemyComponent.h"
 #include "EnemyMoveComponent.h"
 #include "GameHandlerComponent.h"
+#include "MenuHUDComponent.h"
 #include "ScoreComponent.h"
 
 void find_resources()
@@ -141,20 +142,39 @@ void load()
 	auto& input = dae::InputManager::GetInstance();
 	input.AddInputMap(make_sdbm_hash("MenuMap"));
 	input.AddInputMap(make_sdbm_hash("GameplayMap"));
-	input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
+	input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
 	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
 
 	auto go = std::make_unique<dae::GameObject>();
 	auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
+	go->SetTag(make_sdbm_hash("GameHandler"));
 	sceneDontDestroy.Add(std::move(go));
 
 	// Menu scene
 	auto& menuScene = dae::SceneManager::GetInstance().CreateScene("Menu", false);
 	auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
 	go = std::make_unique<dae::GameObject>();
+
 	auto textComp = go->AddComponent<dae::TextComponent>("Burger Time!", fontBig);
 	textComp->SetLocalPosition(230, 40);
+
+	auto textComp1 = go->AddComponent<dae::TextComponent>("Solo mode", font);
+	textComp1->SetLocalPosition(275, 110);
+
+	auto textComp2 = go->AddComponent<dae::TextComponent>("Co-op mode", font);
+	textComp2->SetLocalPosition(275, 160);
+
+	auto textComp3 = go->AddComponent<dae::TextComponent>("Versus mode", font);
+	textComp3->SetLocalPosition(275, 210);
+
+
+	textComp = go->AddComponent<dae::TextComponent>("--->", font);
+	textComp->SetLocalPosition(230, 110);
+
+	go->AddComponent<dae::MenuHUDComponent>(textComp, std::vector<dae::TextComponent*>{{textComp1, textComp2, textComp3}});
+
 	menuScene.Add(std::move(go));
 
 
@@ -245,7 +265,6 @@ void load()
 	input.AddController(0);
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200, 265);
 	go->SetTag(make_sdbm_hash("Player"));
 
 	auto spriteSheetComp = go->AddComponent<dae::SpritesheetComponent>("PeterPepper");
@@ -291,6 +310,8 @@ void load()
 
 	dae::GameObject* playerPtr = go.get();
 
+	go->SetWorldPosition(200, 265);
+
 	scene.Add(std::move(go));
 
 
@@ -319,186 +340,187 @@ void load()
 	// Level temporary addition
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(168.0f, 316.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(168.0f, 316.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(179.0f, 299.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(179.0f, 299.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(179.0f, 283.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(179.0f, 283.0f);
 	scene.Add(std::move(go));
 
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200.0f, 316.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(200.0f, 316.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(232.0f, 316.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(232.0f, 316.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(243.0f, 299.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(243.0f, 299.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(243.0f, 283.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(243.0f, 283.0f);
 	scene.Add(std::move(go));
 
 
 
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(168.0f, 280.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(168.0f, 280.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(179.0f, 263.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(179.0f, 263.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(179.0f, 247.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(179.0f, 247.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(168.0f, 243.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(168.0f, 243.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200.0f, 280.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(200.0f, 280.0f);
 	scene.Add(std::move(go));
 
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(232.0f, 280.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(232.0f, 280.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(264.0f, 280.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(264.0f, 280.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(243.0f, 263.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(243.0f, 263.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(243.0f, 247.0f);
+
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(243.0f, 247.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200.0f, 243.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(200.0f, 243.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(232.0f, 243.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(232.0f, 243.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(264.0f, 243.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(264.0f, 243.0f);
 	scene.Add(std::move(go));
 
 
 	// Third floor
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(179.0f, 226.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 17.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(179.0f, 226.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(179.0f, 210.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Ladder.png");
 	go->AddComponent<dae::RectCollider2DComponent>(10.0f, 16.0f);
 	go->SetTag(make_sdbm_hash("Ladder"));
+	go->SetWorldPosition(179.0f, 210.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(168.0f, 206.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(168.0f, 206.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(200.0f, 206.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(200.0f, 206.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(232.0f, 206.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(232.0f, 206.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(264.0f, 206.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/WidePlatform.png");
 	go->AddComponent<dae::RectCollider2DComponent>(32.0f, 4.0f);
 	go->SetTag(make_sdbm_hash("Platform"));
+	go->SetWorldPosition(264.0f, 206.0f);
 	scene.Add(std::move(go));
 
 	/*go = std::make_unique<dae::GameObject>();
@@ -547,7 +569,6 @@ void load()
 	scene.Add(std::move(go));*/
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(266.0f, 204.0f);
 	go->SetTag(make_sdbm_hash("BurgerPart"));
 	auto burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Cheese.png", 7);
 	auto partCollider = go->AddComponent<dae::RectCollider2DComponent>(28.0f, 7.0f);
@@ -557,18 +578,17 @@ void load()
 	partCollider->GetCollisionExitEvent()->AddObserver(burgerPartComp);
 	partCollider->SetShouldTriggerEvents(true);
 
+	go->SetWorldPosition(266.0f, 204.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(261.0f, 310.0f);
 	go->AddComponent<dae::Texture2DComponent>("Level/Plate.png");
 	go->AddComponent<dae::RectCollider2DComponent>(38.0f, 5.0f);
-
 	go->SetTag(make_sdbm_hash("Plate"));
+	go->SetWorldPosition(261.0f, 310.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(264.0f, 241.0f);
 	go->SetTag(make_sdbm_hash("BurgerPart"));
 	burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Burger.png", 8);
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 7.0f);
@@ -578,11 +598,11 @@ void load()
 	partCollider->GetCollisionExitEvent()->AddObserver(burgerPartComp);
 	partCollider->SetShouldTriggerEvents(true);
 
+	go->SetWorldPosition(264.0f, 241.0f);
 	scene.Add(std::move(go));
 
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(264.0f, 278.0f);
 	go->SetTag(make_sdbm_hash("BurgerPart"));
 	burgerPartComp = go->AddComponent<dae::BurgerPartComponent>("BurgerParts/BurgerBunBottom.png", 8);
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(32.0f, 7.0f);
@@ -592,24 +612,25 @@ void load()
 	partCollider->GetCollisionExitEvent()->AddObserver(burgerPartComp);
 	partCollider->SetShouldTriggerEvents(true);
 
+	go->SetWorldPosition(264.0f, 278.0f);
 	scene.Add(std::move(go));
 
 
 	// Invisible walls
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(332.0f, 220.0f);
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(4.0f, 100.0f);
 	partCollider->SetShouldCollide(true);
 	partCollider->SetIsStatic(true);
 
+	go->SetWorldPosition(332.0f, 220.0f);
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition(164.0f, 220.0f);
 	partCollider = go->AddComponent<dae::RectCollider2DComponent>(4.0f, 100.0f);
 	partCollider->SetShouldCollide(true);
 	partCollider->SetIsStatic(true);
 
+	go->SetWorldPosition(164.0f, 220.0f);
 	scene.Add(std::move(go));
 
 
@@ -656,7 +677,7 @@ void load()
 	sound.LoadSound("MainTheme.mp3", true);
 	sound.Play("MainTheme.mp3", 0.8f, true);
 
-	gameHandlerComp->SwitchLevel("Level1");
+	gameHandlerComp->SwitchLevel("Menu");
 }
 
 int main(int, char* []) {

@@ -3,7 +3,6 @@
 #include <string>
 
 #include "ComponentBase.h"
-#include "Transform.h"
 #include "Texture2D.h"
 
 namespace dae
@@ -25,11 +24,8 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 	private:
 
-		Transform m_LocalTransform{};
 		std::shared_ptr<Texture2D> m_Texture{};
 	};
 }

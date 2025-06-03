@@ -32,9 +32,3 @@ void dae::RotatorComponent::LateUpdate(float)
 {
 }
 
-void dae::RotatorComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
-

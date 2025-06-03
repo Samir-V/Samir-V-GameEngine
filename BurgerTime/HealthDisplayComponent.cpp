@@ -26,11 +26,6 @@ void dae::HealthDisplayComponent::Render() const
 {
 }
 
-void dae::HealthDisplayComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
 	if (event.id == make_sdbm_hash("PlayerDamaged"))

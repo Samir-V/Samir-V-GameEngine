@@ -50,16 +50,11 @@ void dae::BurgerPartComponent::LateUpdate(float)
 
 void dae::BurgerPartComponent::Render() const
 {
-	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + m_LocalTransform.GetPosition();
+	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + GetLocalTransform().GetPosition();
 	for (int index = 0; index < m_NrOfSlices; ++index)
 	{
 		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x + index * m_SrcRects[index].w, pos.y + m_OffsetsY[index], &m_SrcRects[index]);
 	}
-}
-
-void dae::BurgerPartComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
 void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGameObject)

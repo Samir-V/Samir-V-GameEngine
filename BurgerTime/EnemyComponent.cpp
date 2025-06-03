@@ -33,11 +33,6 @@ void dae::EnemyComponent::Render() const
 {
 }
 
-void dae::EnemyComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))

@@ -25,14 +25,8 @@ void dae::Texture2DComponent::LateUpdate(float)
 
 void dae::Texture2DComponent::Render() const
 {
-	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + m_LocalTransform.GetPosition();
+	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + GetLocalTransform().GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
-
-void dae::Texture2DComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 
 

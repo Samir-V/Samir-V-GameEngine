@@ -7,7 +7,6 @@
 #include "IObserver.h"
 #include "Subject.h"
 #include "Texture2D.h"
-#include "Transform.h"
 
 namespace dae
 {
@@ -36,8 +35,6 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		Subject* GetBurgerPartCollisionEvent() const;
@@ -45,8 +42,6 @@ namespace dae
 		BurgerPartState GetBurgerPartState() const;
 
 	private:
-
-		Transform m_LocalTransform { };
 
 		RectCollider2DComponent*   m_PlayerCollider  { nullptr };
 

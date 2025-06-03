@@ -3,15 +3,11 @@
 
 #include "ComponentBase.h"
 #include "IObserver.h"
-#include "Transform.h"
 
 namespace dae
 {
 	class RectCollider2DComponent;
-}
 
-namespace dae
-{
 	class MoveComponent final : public ComponentBase, public IObserver
 	{
 	public:
@@ -29,7 +25,6 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		void SetDirection(const glm::vec2& direction);
@@ -42,7 +37,6 @@ namespace dae
 		void UpdateVerticalMovement();
 		glm::vec2 UpdateHorizontalMovement();
 
-		Transform m_LocalTransform{};
 		glm::vec2 m_Velocity{};
 		glm::vec2 m_Direction{};
 		glm::vec2 m_LastNonZeroDirection{};

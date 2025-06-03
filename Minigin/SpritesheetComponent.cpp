@@ -57,7 +57,7 @@ void dae::SpritesheetComponent::LateUpdate(float)
 
 void dae::SpritesheetComponent::Render() const
 {
-	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + m_LocalTransform.GetPosition();
+	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + GetLocalTransform().GetPosition();
 
 	auto textureSize = m_CurrentSprite->texture->GetSize();
 	auto metaData = m_CurrentSprite->metaData;
@@ -79,11 +79,6 @@ void dae::SpritesheetComponent::Render() const
 	sourceRect.h = frameHeight;
 
 	Renderer::GetInstance().RenderTexture(*m_CurrentSprite->texture, pos.x, pos.y, &sourceRect);
-}
-
-void dae::SpritesheetComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
 }
 
 void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata)

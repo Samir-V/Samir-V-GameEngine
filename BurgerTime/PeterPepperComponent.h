@@ -4,7 +4,6 @@
 #include "ComponentBase.h"
 #include "PeterPepperStates.h"
 #include "Subject.h"
-#include "Transform.h"
 
 namespace dae
 {
@@ -25,8 +24,6 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 		Subject* GetObjectDeathEvent() const;
 		int GetRemainingHealth() const;
 		void Damage(int damage = 1);
@@ -36,8 +33,6 @@ namespace dae
 		void ChangeState(std::unique_ptr<PeterPepperState> newState);
 
 	private:
-
-		Transform m_LocalTransform{};
 
 		int m_Health{ 3 };
 

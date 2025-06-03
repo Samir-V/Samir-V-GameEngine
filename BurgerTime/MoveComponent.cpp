@@ -74,11 +74,6 @@ void dae::MoveComponent::Render() const
 {
 }
 
-void dae::MoveComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))

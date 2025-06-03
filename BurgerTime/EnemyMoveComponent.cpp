@@ -44,11 +44,6 @@ void dae::EnemyMoveComponent::Render() const
 {
 }
 
-void dae::EnemyMoveComponent::SetLocalPosition(float x, float y)
-{
-	m_LocalTransform.SetPosition(x, y, 0.0f);
-}
-
 const glm::vec2& dae::EnemyMoveComponent::GetDirection() const
 {
 	return m_Direction;

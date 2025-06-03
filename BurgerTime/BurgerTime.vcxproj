@@ -513,6 +513,7 @@
     <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuHUDComponent.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
@@ -527,6 +528,7 @@
     <ClInclude Include="GameHandlerComponent.h" />
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="MenuHUDComponent.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />

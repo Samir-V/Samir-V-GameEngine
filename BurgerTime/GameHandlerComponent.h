@@ -32,8 +32,6 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 		void SwitchLevel(const std::string& name);
 		void SetGameMode(GameMode gameMode);
 		void ChangeState(std::unique_ptr<GameState> newState);
@@ -46,8 +44,6 @@ namespace dae
 	private:
 
 		static bool m_IsCreated;
-
-		Transform m_LocalTransform{};
 
 		GameMode m_GameMode{ GameMode::Solo };
 

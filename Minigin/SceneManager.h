@@ -14,6 +14,7 @@ namespace dae
 		Scene& CreateScene(const std::string& name, bool dontDestroyOnLoad);
 		Scene* GetSceneByName(const std::string& name);
 		Scene* GetActiveScene() const;
+		Scene* GetDontDestroyOnLoadScene() const;
 
 		void Start();
 		void Update(float elapsedSec);

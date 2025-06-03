@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ComponentBase.h"
-#include "Transform.h"
 
 namespace dae
 {
@@ -43,8 +42,6 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 		const glm::vec2& GetDirection() const;
 		void SetDirection(const glm::vec2& direction);
 
@@ -57,7 +54,6 @@ namespace dae
 		HorizontalDirective m_CurrentHorizontalDirective{};
 		VerticalDirective m_CurrentVerticalDirective{};
 
-		Transform m_LocalTransform{};
 		glm::vec2 m_Velocity{};
 		glm::vec2 m_Direction{};
 

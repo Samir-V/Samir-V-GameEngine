@@ -1,6 +1,5 @@
 #pragma once
 #include "ComponentBase.h"
-#include "Transform.h"
 
 namespace dae
 {
@@ -21,11 +20,7 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 	private:
-
-		Transform m_LocalTransform{};
 
 		float m_AngularSpeed;
 		float m_Radius;

@@ -87,6 +87,12 @@ dae::Scene* dae::SceneManager::GetActiveScene() const
 	return m_ActiveScene;
 }
 
+dae::Scene* dae::SceneManager::GetDontDestroyOnLoadScene() const
+{
+	return m_DontDestroyOnLoadScene;
+}
+
+
 void dae::SceneManager::SetActiveScene(const std::string& name)
 {
 	auto it = std::ranges::find_if(m_Scenes, [&name](const std::pair<std::string, std::shared_ptr<Scene>>& pair)

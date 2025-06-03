@@ -1,7 +1,6 @@
 #pragma once
 #include "ComponentBase.h"
 #include "IObserver.h"
-#include "Transform.h"
 
 namespace dae
 {
@@ -26,13 +25,9 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void SetLocalPosition(float x, float y) override;
-
 	private:
 
 		int m_CurrentScore{ 0 };
-
-		Transform m_LocalTransform{};
 
 		TextComponent* m_ScoreDisplay;
 	};
