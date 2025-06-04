@@ -1,13 +1,17 @@
 #include "GameStates.h"
 
+#include <iostream>
+
 #include "GameHandlerComponent.h"
 #include "BurgerPartComponent.h"
+#include "PeterPepperComponent.h"
+#include "ServiceLocator.h"
 
 void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 {
 	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
 
-	auto burgerParts = gameHandlerComp->GetBurgerParts();
+	auto& burgerParts = gameHandlerComp->GetBurgerParts();
 
 	for (auto burgerPart : burgerParts)
 	{
@@ -35,20 +39,38 @@ void dae::PlayingState::OnExit(GameObject* )
 }
 
 
-void dae::GameWinningState::OnEnter(GameObject* )
+void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 {
-	
+	auto& sound = ServiceLocator::GetSoundSystem();
+
+	sound.Play("RoundClear.wav", 0.8f);
+
+	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetPlayers();
+
+	for (auto player : players)
+	{
+		player->GetComponent<PeterPepperComponent>()->AssertVictory();
+	}
 }
 
-std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject* , float )
+std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float elapsedSec)
 {
+	if (m_Timer < 0.0f)
+	{
+		std::cout << "Last update of the game win." << "\n";
+		return std::make_unique<MenuState>();
+	}
+
+	m_Timer -= elapsedSec;
 
 	return nullptr;
 }
 
-void dae::GameWinningState::OnExit(GameObject* )
+void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
 {
-	
+	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+	std::cout << "Switching to menu" << "\n";
+	gameHandlerComp->SwitchLevel("Menu");
 }
 
 

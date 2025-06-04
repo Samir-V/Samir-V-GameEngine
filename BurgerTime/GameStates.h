@@ -49,6 +49,8 @@ namespace dae
 		void OnExit(GameObject* gameHandlerObject) override;
 
 	private:
+
+		float m_Timer{ 4.0f };
 	};
 
 }

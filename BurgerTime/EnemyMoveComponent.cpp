@@ -64,28 +64,28 @@ dae::EnemyMoveComponent::MovingDirective dae::EnemyMoveComponent::CalculateDirec
 	if (diff.x >= 0.0f)
 	{
 		m_CurrentHorizontalDirective = HorizontalDirective::Right;
-		std::cout << "Horizontal - Right" << "\n";
+		//std::cout << "Horizontal - Right" << "\n";
 	}
 	else
 	{
 		m_CurrentHorizontalDirective = HorizontalDirective::Left;
-		std::cout << "Horizontal - Left" << "\n";
+		//std::cout << "Horizontal - Left" << "\n";
 	}
 
 	if (diff.y > 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Down;
-		std::cout << "Vertical - Down" << "\n";
+		//std::cout << "Vertical - Down" << "\n";
 	}	
 	else if (diff.y < 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Up;
-		std::cout << "Vertical - Up" << "\n";
+		//std::cout << "Vertical - Up" << "\n";
 	}
 	else
 	{
 		m_CurrentVerticalDirective = VerticalDirective::None;
-		std::cout << "Vertical - None" << "\n";
+		//std::cout << "Vertical - None" << "\n";
 	}
 
 	return { m_CurrentHorizontalDirective, m_CurrentVerticalDirective };

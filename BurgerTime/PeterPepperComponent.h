@@ -32,6 +32,8 @@ namespace dae
 
 		void ChangeState(std::unique_ptr<PeterPepperState> newState);
 
+		void AssertVictory();
+
 	private:
 
 		int m_Health{ 3 };

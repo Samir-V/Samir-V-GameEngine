@@ -1,11 +1,13 @@
 #include "GameHandlerComponent.h"
 
+#include <iostream>
 #include <stdexcept>
 
 #include <SDL.h>
 #include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
+#include "ServiceLocator.h"
 
 bool dae::GameHandlerComponent::m_IsCreated = false;
 
@@ -30,7 +32,6 @@ void dae::GameHandlerComponent::Start()
 
 	if (scene->GetName() == "Menu")
 	{
-		ChangeState(std::make_unique<MenuState>());
 		input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
 	}
 	else
@@ -41,6 +42,10 @@ void dae::GameHandlerComponent::Start()
 		//m_EnemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		ChangeState(std::make_unique<PlayingState>());
 		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
+
+		auto& sound = ServiceLocator::GetSoundSystem();
+
+		sound.Play("MainTheme.mp3", 0.8f, true);
 	}
 }
 

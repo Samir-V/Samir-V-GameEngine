@@ -74,6 +74,10 @@ void dae::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> ne
 	m_State->OnEnter(GetOwner());
 }
 
+void dae::PeterPepperComponent::AssertVictory()
+{
+	ChangeState(std::make_unique<WinningState>());
+}
 
 
 

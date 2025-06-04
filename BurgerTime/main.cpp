@@ -286,6 +286,7 @@ void load()
 	spriteSheetComp->AddSprite("PPSprayLeft.png", make_sdbm_hash("PPSprayLeft"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPSprayRight.png", make_sdbm_hash("PPSprayRight"), dae::SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
 	spriteSheetComp->AddSprite("PPDying.png", make_sdbm_hash("PPDying"), dae::SpritesheetComponent::SpriteMetaData(5, 0, 0.4f));
+	spriteSheetComp->AddSprite("PPWin.png", make_sdbm_hash("PPWin"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.3f));
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
 	auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
@@ -680,8 +681,9 @@ void load()
 	sound.LoadSound("BurgerStep.wav");
 	sound.LoadSound("BurgerLand.wav");
 	sound.LoadSound("BurgerFall.wav");
+	sound.LoadSound("RoundClear.wav");
 	sound.LoadSound("MainTheme.mp3", true);
-	sound.Play("MainTheme.mp3", 0.8f, true);
+	//sound.Play("MainTheme.mp3", 0.8f, true);
 
 	gameHandlerComp->SwitchLevel("Menu");
 }

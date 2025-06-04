@@ -1,4 +1,7 @@
 #include "SceneManager.h"
+
+#include <iostream>
+
 #include "Scene.h"
 
 void dae::SceneManager::Start()
@@ -102,9 +105,11 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 
 	if (it != m_Scenes.end())
 	{
+		std::cout << "Scene found" << "\n";
 		m_ActiveScene = it->second.get();
 		m_ActiveScene->Start();
 		m_DontDestroyOnLoadScene->Start();
+		std::cout << "Scene started" << "\n";
 	}
 }
 
