@@ -34,6 +34,7 @@
 #include "EnemyComponent.h"
 #include "EnemyMoveComponent.h"
 #include "GameHandlerComponent.h"
+#include "MenuCommand.h"
 #include "MenuHUDComponent.h"
 #include "ScoreComponent.h"
 
@@ -143,8 +144,10 @@ void load()
 	input.AddInputMap(make_sdbm_hash("MenuMap"));
 	input.AddInputMap(make_sdbm_hash("GameplayMap"));
 	input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
-	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
 
+
+
+	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
 	auto go = std::make_unique<dae::GameObject>();
 	auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
 	go->SetTag(make_sdbm_hash("GameHandler"));
@@ -175,8 +178,11 @@ void load()
 
 	go->AddComponent<dae::MenuHUDComponent>(textComp, std::vector<dae::TextComponent*>{{textComp1, textComp2, textComp3}});
 
-	menuScene.Add(std::move(go));
+	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Pressing, 0);
+	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), XINPUT_GAMEPAD_DPAD_DOWN, dae::InputManager::ActivationType::Pressing, 0);
+	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
 
+	menuScene.Add(std::move(go));
 
 	// Level 1
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level1", false);

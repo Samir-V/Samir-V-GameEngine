@@ -104,6 +104,7 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 	{
 		m_ActiveScene = it->second.get();
 		m_ActiveScene->Start();
+		m_DontDestroyOnLoadScene->Start();
 	}
 }
 

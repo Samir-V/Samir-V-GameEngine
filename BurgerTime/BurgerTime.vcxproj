@@ -528,6 +528,7 @@
     <ClInclude Include="GameHandlerComponent.h" />
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="MenuCommand.h" />
     <ClInclude Include="MenuHUDComponent.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="PeterPepperCommand.h" />

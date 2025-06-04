@@ -116,5 +116,8 @@
     <ClInclude Include="MenuHUDComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="MenuCommand.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

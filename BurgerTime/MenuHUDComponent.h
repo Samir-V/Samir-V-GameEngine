@@ -30,6 +30,7 @@ namespace dae
 
 		void ChangeMarkerIndexBy(int delta);
 		void UpdateMarkerPosition() const;
+		void ChooseMode() const;
 
 	private:
 
