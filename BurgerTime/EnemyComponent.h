@@ -37,6 +37,8 @@ namespace dae
 		void StartFalling(GameObject* burgerPart);
 		Subject* GetEnemyDyingEvent() const;
 
+		void Resurrect();
+
 	private:
 
 		std::unique_ptr<EnemyState> m_State;

@@ -141,4 +141,19 @@ namespace dae
 		float m_Timer{ 2.0f };
 	};
 
+	class EnemyDeadState final : public EnemyState
+	{
+	public:
+		EnemyDeadState() = default;
+
+		void OnEnter(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		void OnExit(GameObject* enemyObject) override;
+
+	private:
+
+		EnemyComponent* m_EnemyComponentPtr{};
+		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
+	};
+
 }

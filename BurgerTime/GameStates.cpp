@@ -1,17 +1,18 @@
 #include "GameStates.h"
 
-#include <iostream>
-
 #include "GameHandlerComponent.h"
 #include "BurgerPartComponent.h"
+#include "EnemyComponent.h"
 #include "PeterPepperComponent.h"
+#include "Scene.h"
+#include "SceneManager.h"
 #include "ServiceLocator.h"
 
 void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 {
-	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+	m_GameHandlerComponentPtr = gameHandlerObject->GetComponent<GameHandlerComponent>();
 
-	auto& burgerParts = gameHandlerComp->GetBurgerParts();
+	auto& burgerParts = m_GameHandlerComponentPtr->GetGameplayDataRef().burgerParts;
 
 	for (auto burgerPart : burgerParts)
 	{
@@ -19,7 +20,7 @@ void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 	}
 }
 
-std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject* , float)
+std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float elapsedSec)
 {
 	bool allAssembled = std::ranges::all_of(m_BurgerPartComponents, [](const BurgerPartComponent* burgerPartComponent)
 		{
@@ -29,6 +30,27 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject* , float)
 	if (allAssembled)
 	{
 		return std::make_unique<GameWinningState>();
+	}
+
+	auto& gameplayDataRef = m_GameHandlerComponentPtr->GetGameplayDataRef();
+	auto& enemyRespawnPoints = gameplayDataRef.enemyRespawnPoints;
+
+	for (auto it = gameplayDataRef.enemyRespawnDelays.begin(); it != gameplayDataRef.enemyRespawnDelays.end(); )
+	{
+		it->second -= elapsedSec;
+
+		if (it->second <= 0.0f)
+		{
+			int idx = std::rand() % static_cast<int>(enemyRespawnPoints.size());
+			auto& worldPos = enemyRespawnPoints[idx]->GetWorldTransform().GetPosition();
+			it->first->SetWorldPosition(worldPos.x, worldPos.y);
+			it->first->GetComponent<EnemyComponent>()->Resurrect();
+			it = gameplayDataRef.enemyRespawnDelays.erase(it);
+		}
+		else
+		{
+			++it;
+		}
 	}
 
 	return nullptr;
@@ -45,7 +67,7 @@ void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 	sound.StopMusic();
 	sound.Play("RoundClear.wav", 0.8f);
 
-	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetPlayers();
+	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetGameplayDataRef().players;
 
 	for (auto player : players)
 	{
@@ -57,7 +79,6 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 {
 	if (m_Timer < 0.0f)
 	{
-		std::cout << "Last update of the game win." << "\n";
 		return std::make_unique<MenuState>();
 	}
 
@@ -69,7 +90,6 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
 {
 	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
-	std::cout << "Switching to menu" << "\n";
 	gameHandlerComp->SwitchLevel("Menu");
 }
 

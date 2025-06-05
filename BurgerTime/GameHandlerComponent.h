@@ -1,15 +1,17 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "GameStates.h"
+#include "IObserver.h"
 
 namespace dae
 {
 	class GameObject;
 
-	class GameHandlerComponent final : public ComponentBase
+	class GameHandlerComponent final : public ComponentBase, public IObserver
 	{
 	public:
 		enum class GameMode
@@ -17,6 +19,16 @@ namespace dae
 			Solo,
 			Coop,
 			Versus
+		};
+
+		struct GameplayData
+		{
+			std::vector<GameObject*> players;
+			std::vector<GameObject*> enemies;
+			std::vector<GameObject*> enemyRespawnPoints;
+			std::vector<GameObject*> burgerParts;
+
+			std::unordered_map<GameObject*, float> enemyRespawnDelays;
 		};
 
 		GameHandlerComponent(GameObject* ownerPtr);
@@ -32,14 +44,13 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
+		void Notify(const Event& event, GameObject* observedGameObject) override;
+
 		void SwitchLevel(const std::string& name);
 		void SetGameMode(GameMode gameMode);
 		void ChangeState(std::unique_ptr<GameState> newState);
 
-		const std::vector<GameObject*>& GetBurgerParts() const;
-		const std::vector<GameObject*>& GetPlayers() const;
-		const std::vector<GameObject*>& GetEnemies() const;
-		const std::vector<GameObject*>& GetEnemyRespawnPoints() const;
+		GameplayData& GetGameplayDataRef();
 
 	private:
 
@@ -47,10 +58,7 @@ namespace dae
 
 		GameMode m_GameMode{ GameMode::Solo };
 
-		std::vector<GameObject*> m_Players{};
-		std::vector<GameObject*> m_Enemies{};
-		std::vector<GameObject*> m_EnemyRespawnPoints{};
-		std::vector<GameObject*> m_BurgerParts{};
+		GameplayData m_GameplayData;
 
 		std::unique_ptr<GameState> m_State{};
 	};

@@ -1,9 +1,9 @@
 #include "GameHandlerComponent.h"
-
-#include <iostream>
 #include <stdexcept>
 
 #include <SDL.h>
+
+#include "EnemyComponent.h"
 #include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
@@ -36,10 +36,16 @@ void dae::GameHandlerComponent::Start()
 	}
 	else
 	{
-		m_Players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-		m_Enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
-		m_BurgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
-		//m_EnemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
+		m_GameplayData.players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
+		m_GameplayData.enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
+		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
+		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
+
+		for (auto enemy : m_GameplayData.enemies)
+		{
+			enemy->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
+		}
+
 		ChangeState(std::make_unique<PlayingState>());
 		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
 
@@ -91,24 +97,19 @@ void dae::GameHandlerComponent::ChangeState(std::unique_ptr<GameState> newState)
 	m_State->OnEnter(GetOwner());
 }
 
-const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetBurgerParts() const
+dae::GameHandlerComponent::GameplayData& dae::GameHandlerComponent::GetGameplayDataRef()
 {
-	return m_BurgerParts;
+	return m_GameplayData;
 }
 
-const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetEnemies() const
+void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
-	return m_Enemies;
-}
+	if (event.id == make_sdbm_hash("EnemyDied"))
+	{
+		constexpr float respawnDelay = 5.0f;
 
-const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetEnemyRespawnPoints() const
-{
-	return m_EnemyRespawnPoints;
-}
-
-const std::vector<dae::GameObject*>& dae::GameHandlerComponent::GetPlayers() const
-{
-	return m_Players;
+		m_GameplayData.enemyRespawnDelays.insert({ observedGameObject, respawnDelay });
+	}
 }
 
 

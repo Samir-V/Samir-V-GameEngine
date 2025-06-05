@@ -1,13 +1,12 @@
 #pragma once
+
 #include "GameObject.h"
 
 namespace dae
 {
+	class GameHandlerComponent;
 	class BurgerPartComponent;
-}
 
-namespace dae
-{
 	class GameState
 	{
 	public:
@@ -37,6 +36,7 @@ namespace dae
 
 	private:
 
+		GameHandlerComponent* m_GameHandlerComponentPtr;
 		std::vector<BurgerPartComponent*> m_BurgerPartComponents;
 	};
 

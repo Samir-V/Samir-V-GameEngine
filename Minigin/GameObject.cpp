@@ -74,6 +74,15 @@ void dae::GameObject::SetWorldPosition(float x, float y)
 {
 	m_WorldTransform.SetPosition(x, y, 0.0f);
 
+	if (m_Parent == nullptr)
+	{
+		m_LocalTransform.SetPosition(x, y, 0.0f);
+	}
+	else
+	{
+		m_LocalTransform.SetPosition(glm::vec3{x, y, 0.0f} - m_Parent->GetWorldTransform().GetPosition());
+	}
+
 	for (const auto child : m_Children)
 	{
 		child->SetPositionIsDirty();
@@ -83,6 +92,15 @@ void dae::GameObject::SetWorldPosition(float x, float y)
 void dae::GameObject::SetWorldPosition(const glm::vec3& pos)
 {
 	m_WorldTransform.SetPosition(pos);
+
+	if (m_Parent == nullptr)
+	{
+		m_LocalTransform.SetPosition(pos);
+	}
+	else
+	{
+		m_LocalTransform.SetPosition(pos - m_Parent->GetWorldTransform().GetPosition());
+	}
 
 	for (const auto child : m_Children)
 	{
@@ -106,6 +124,7 @@ const dae::Transform& dae::GameObject::GetWorldTransform()
 	{
 		UpdateWorldPosition();
 	}
+
 	return m_WorldTransform;
 }
 

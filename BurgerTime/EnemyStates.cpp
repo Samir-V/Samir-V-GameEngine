@@ -363,7 +363,7 @@ void dae::FallingState::OnEnter(GameObject* enemyObject)
 
 std::unique_ptr<dae::EnemyState> dae::FallingState::OnCollisionEnter(GameObject*, GameObject* observedGameObject)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
+	if (observedGameObject->GetTag() == make_sdbm_hash("Platform") || observedGameObject->GetTag() == make_sdbm_hash("Plate"))
 	{
 		return std::make_unique<EnemyDyingState>();
 	}
@@ -406,15 +406,40 @@ std::unique_ptr<dae::EnemyState> dae::EnemyDyingState::Update(GameObject*, float
 		return nullptr;
 	}
 
-	return std::make_unique<EnemyWalkingState>();
+	return std::make_unique<EnemyDeadState>();
 }
 
 void dae::EnemyDyingState::OnExit(GameObject* enemyObject)
 {
-	m_EnemyMoveComponentPtr->SetIsActive(true);
-
 	enemyObject->SetIsActive(false);
 }
+
+
+
+
+
+
+void dae::EnemyDeadState::OnEnter(GameObject* enemyObject)
+{
+	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
+	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
+
+	m_EnemyComponentPtr->GetEnemyDyingEvent()->NotifyObservers(Event(make_sdbm_hash("EnemyDied")), enemyObject);
+}
+
+std::unique_ptr<dae::EnemyState> dae::EnemyDeadState::Update(GameObject*, float)
+{
+	return nullptr;
+}
+
+void dae::EnemyDeadState::OnExit(GameObject* enemyObject)
+{
+	m_EnemyMoveComponentPtr->SetIsActive(true);
+	enemyObject->SetIsActive(true);
+}
+
+
+
 
 
 

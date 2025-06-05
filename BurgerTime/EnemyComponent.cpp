@@ -3,6 +3,7 @@
 #include "BurgerPartComponent.h"
 #include "EnemyStates.h"
 #include "GameObject.h"
+#include "EnemyMoveComponent.h"
 #include "Utils.h"
 
 dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) : ComponentBase(ownerPtr), m_EnemyType{ enemyType }, m_EnemyDyingEvent{std::make_unique<Subject>()}
@@ -145,5 +146,12 @@ dae::Subject* dae::EnemyComponent::GetEnemyDyingEvent() const
 	return m_EnemyDyingEvent.get();
 }
 
+void dae::EnemyComponent::Resurrect()
+{
+	auto enemyMoveComp = GetOwner()->GetComponent<EnemyMoveComponent>();
+	enemyMoveComp->Start();
+
+	ChangeState(std::make_unique<EnemyWalkingState>());
+}
 
 

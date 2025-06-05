@@ -578,6 +578,16 @@ go->AddComponent<dae::BurgerPartComponent>("BurgerParts/Cheese.png", 7);
 
 	scene.Add(std::move(go));
 
+	go = std::make_unique<dae::GameObject>();
+	go->SetTag(make_sdbm_hash("EnemyRespawnPoint"));
+	go->SetWorldPosition(310, 265);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetTag(make_sdbm_hash("EnemyRespawnPoint"));
+	go->SetWorldPosition(310, 228);
+	scene.Add(std::move(go));
+
 	// Sound addition
 
 	auto& sound = ServiceLocator::GetSoundSystem();
