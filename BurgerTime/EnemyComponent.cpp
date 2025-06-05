@@ -1,5 +1,5 @@
 #include "EnemyComponent.h"
-
+#include "RectCollider2DComponent.h"
 #include "BurgerPartComponent.h"
 #include "EnemyStates.h"
 #include "GameObject.h"
@@ -13,6 +13,12 @@ void dae::EnemyComponent::Start()
 {
 	m_State = std::make_unique<EnemyWalkingState>();
 	m_State->OnEnter(GetOwner());
+
+	auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
+
+	rectColliderComp->GetCollisionEnterEvent()->AddObserver(this);
+	rectColliderComp->GetCollisionStayEvent()->AddObserver(this);
+	rectColliderComp->GetCollisionExitEvent()->AddObserver(this);
 }
 
 void dae::EnemyComponent::Update(float elapsedSec)

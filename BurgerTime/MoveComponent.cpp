@@ -12,6 +12,8 @@ dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : Compon
 
 void dae::MoveComponent::Start()
 {
+	m_OwnerColliderPtr->GetCollisionEnterEvent()->AddObserver(this);
+	m_OwnerColliderPtr->GetCollisionExitEvent()->AddObserver(this);
 }
 
 void dae::MoveComponent::Update(float elapsedSec)

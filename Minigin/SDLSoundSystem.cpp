@@ -18,6 +18,7 @@ public:
 	~SDLSoundSystemImpl();
 
 	void Play(const std::string& sound, const float volume, bool isMusic = false);
+	void StopMusic();
 	void Update(std::stop_token stopToken);
 	void LoadSound(const std::string& sound, bool isMusic = false);
 	void SetFolder(std::string folderName);
@@ -100,6 +101,11 @@ void SDLSoundSystem::SDLSoundSystemImpl::Play(const std::string& sound, const fl
 	m_Tail = (m_Tail + 1) % m_MaxPending;
 	m_NumPending++;
 	m_CV.notify_one();
+}
+
+void SDLSoundSystem::SDLSoundSystemImpl::StopMusic()
+{
+	Mix_HaltMusic();
 }
 
 void SDLSoundSystem::SDLSoundSystemImpl::Update(std::stop_token stopToken)
@@ -198,6 +204,11 @@ void SDLSoundSystem::LoadSound(const std::string& sound, bool isMusic)
 void SDLSoundSystem::SetFolder(std::string folderName)
 {
 	m_pImpl->SetFolder(folderName);
+}
+
+void SDLSoundSystem::StopMusic()
+{
+	m_pImpl->StopMusic();
 }
 
 

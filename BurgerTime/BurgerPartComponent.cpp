@@ -30,6 +30,11 @@ dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::s
 
 void dae::BurgerPartComponent::Start()
 {
+	auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
+
+	rectColliderComp->GetCollisionEnterEvent()->AddObserver(this);
+	rectColliderComp->GetCollisionStayEvent()->AddObserver(this);
+	rectColliderComp->GetCollisionExitEvent()->AddObserver(this);
 }
 
 void dae::BurgerPartComponent::Update(float elapsedSec)

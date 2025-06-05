@@ -42,7 +42,7 @@ void dae::PlayingState::OnExit(GameObject* )
 void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 {
 	auto& sound = ServiceLocator::GetSoundSystem();
-
+	sound.StopMusic();
 	sound.Play("RoundClear.wav", 0.8f);
 
 	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetPlayers();
