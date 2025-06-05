@@ -26,6 +26,8 @@ void dae::Renderer::Init(SDL_Window* window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	SDL_RenderSetLogicalSize(m_renderer, 240, 240);
 }
 
 void dae::Renderer::Render() const

@@ -207,16 +207,26 @@ void dae::MoveComponent::UpdateVerticalMovement()
 
 glm::vec2 dae::MoveComponent::UpdateHorizontalMovement()
 {
-	if (m_Direction.x != 0.0f && !m_CanGoHorizontally)
+	m_CanGoHorizontally = false;
+
+	if (m_Direction.x != 0.0f)
 	{
 		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
-		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-		glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
-		float rayLength = 2.0f;
+		constexpr glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
+
+		const glm::vec2 leftOrigin = { ownerColliderRect.posX, ownerColliderRect.posY + ownerColliderRect.height };
+		const glm::vec2 rightOrigin = { ownerColliderRect.posX + ownerColliderRect.width, ownerColliderRect.posY + ownerColliderRect.height };
 
 		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
 		{
-			if (currentPlatformCollider->RayIntersect(rayOrigin, rayDirection, rayLength))
+			constexpr float rayLength = 2.0f;
+			if (m_Direction.x < 0.0f && currentPlatformCollider->RayIntersect(leftOrigin, rayDirection, rayLength))
+			{
+				m_CanGoHorizontally = true;
+				return RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
+			}
+
+			if (m_Direction.x > 0.0f && currentPlatformCollider->RayIntersect(rightOrigin, rayDirection, rayLength))
 			{
 				m_CanGoHorizontally = true;
 				return RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, currentPlatformCollider->GetCollisionRect());
