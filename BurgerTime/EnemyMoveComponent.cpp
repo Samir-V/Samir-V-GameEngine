@@ -1,5 +1,7 @@
 #include "EnemyMoveComponent.h"
 
+#include <iostream>
+
 #include "GameObject.h"
 
 dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, GameObject* playerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_PlayerTargetPtr{playerPtr}, m_MaxSpeed { maxSpeed }

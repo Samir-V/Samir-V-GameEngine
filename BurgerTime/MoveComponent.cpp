@@ -195,7 +195,7 @@ void dae::MoveComponent::UpdateVerticalMovement()
 
 		float xWorld = ladderGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
 
-		auto characterPos = GetOwner()->GetWorldTransform().GetPosition();
+		auto& characterPos = GetOwner()->GetWorldTransform().GetPosition();
 
 		GetOwner()->SetWorldPosition(xWorld, characterPos.y);
 	}

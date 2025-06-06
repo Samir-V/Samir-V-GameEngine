@@ -1,4 +1,7 @@
 #include "EnemyComponent.h"
+
+#include <iostream>
+
 #include "RectCollider2DComponent.h"
 #include "BurgerPartComponent.h"
 #include "EnemyStates.h"

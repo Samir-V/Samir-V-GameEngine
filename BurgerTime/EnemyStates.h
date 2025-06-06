@@ -70,7 +70,7 @@ namespace dae
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
 		RectCollider2DComponent* m_RectCollider2DComponentPtr{};
 
-		float m_Timer{ 1.0f };
+		float m_Timer{ 0.5f };
 	};
 
 
@@ -88,7 +88,7 @@ namespace dae
 		EnemyMoveComponent* m_EnemyMoveComponentPtr{};
 		SpritesheetComponent* m_SpritesheetComponentPtr{};
 
-		float m_Timer{ 1.0f };
+		float m_Timer{ 0.32f };
 	};
 
 	class StunnedState final : public EnemyState

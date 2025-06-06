@@ -55,15 +55,15 @@ void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 	}
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject*, float)
+std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enemyObject, float)
 {
 	// Handling Behaviour Logic of the Enemy finding an opportunity to go down
 
 	auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
-	glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+	glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height + 1.0f };
 	glm::vec2 rayDirection{ 0.0f, 1.0f };
 
-	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, 5.0f);
+	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, 4.0f);
 
 	bool ladderFound{ false };
 
@@ -95,6 +95,13 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject*, flo
 		{
 			m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
 		}
+
+		auto ladderWidth = m_LadderBelowPtr->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+		auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
+
+		float xWorld = m_LadderBelowPtr->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+		auto& characterPos = enemyObject->GetWorldTransform().GetPosition();
+		enemyObject->SetWorldPosition(xWorld, characterPos.y);
 
 		return std::make_unique<ClimbingState>();
 	}
@@ -138,6 +145,13 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 			{
 				m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
 			}
+
+			auto ladderWidth = observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+			auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
+
+			float xWorld = observedGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+			auto& characterPos = enemyObject->GetWorldTransform().GetPosition();
+			enemyObject->SetWorldPosition(xWorld, characterPos.y);
 
 			return std::make_unique<ClimbingState>();
 		}
@@ -202,8 +216,6 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::Update(GameObject*, float e
 		m_Timer -= elapsedSec;
 	}
 
-	// Handling Behaviour Logic of the Enemy
-
 	return nullptr;
 }
 
@@ -216,23 +228,41 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 			return nullptr;
 		}
 
-		auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
-		glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-		glm::vec2 rayDirection{ 0.0f, 1.0f };
-		auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, 2.0f);
+		const auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
+		const glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+		constexpr glm::vec2 rayDirection{ 0.0f, 1.0f };
+		constexpr float rayLength{ 2.0f };
+		auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
 
-		if (std::ranges::none_of(intersectedGameObjects, [](GameObject* gameObject)
+		if (std::ranges::none_of(intersectedGameObjects, [](const GameObject* gameObject)
 			{
 				return gameObject->GetTag() == make_sdbm_hash("Ladder");
 			}))
 		{
 
-			auto overlapShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect());
-
+			const auto overlapShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect());
 			auto& ownerPos = enemyObject->GetWorldTransform().GetPosition();
 			enemyObject->SetWorldPosition(ownerPos.x + overlapShift.x, ownerPos.y + overlapShift.y);
 
-			auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
+			const auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
+
+			constexpr float offset = 4.0f;
+
+			glm::vec2 rayOriginDownRight{ownerColliderRect.posX + ownerColliderRect.width + offset, ownerColliderRect.posY + ownerColliderRect.height };
+			glm::vec2 rayOriginDownLeft{ ownerColliderRect.posX - offset, ownerColliderRect.posY + ownerColliderRect.height };
+
+			auto objectsBelowRight = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOriginDownRight, rayDirection, rayLength);
+			auto objectsBelowLeft = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOriginDownLeft, rayDirection, rayLength);
+
+			bool platformBelowRight = std::ranges::any_of(objectsBelowRight, [](const GameObject* gameObject)
+				{
+					return gameObject->GetTag() == make_sdbm_hash("Platform");
+				});
+			bool platformBelowLeft = std::ranges::any_of(objectsBelowLeft, [](const GameObject* gameObject)
+				{
+					return gameObject->GetTag() == make_sdbm_hash("Platform");
+				});
+
 
 			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Right)
 			{
@@ -243,7 +273,34 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 				m_EnemyMoveComponentPtr->SetDirection({ -1.0f, 0.0f });
 			}
 
-			return std::make_unique<FinishedClimbingState>();
+			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Right && platformBelowRight)
+			{
+
+				m_EnemyMoveComponentPtr->SetDirection({ 1.0f, 0.0f });
+				return std::make_unique<FinishedClimbingState>();
+			}
+
+			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Left && platformBelowLeft)
+			{
+				m_EnemyMoveComponentPtr->SetDirection({ -1.0f, 0.0f });
+				return std::make_unique<FinishedClimbingState>();
+			}
+
+			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Right && !platformBelowRight && platformBelowLeft)
+			{
+				m_EnemyMoveComponentPtr->SetDirection({ -1.0f, 0.0f });
+				return std::make_unique<FinishedClimbingState>();
+			}
+
+			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Left && !platformBelowLeft && platformBelowRight)
+			{
+				m_EnemyMoveComponentPtr->SetDirection({ 1.0f, 0.0f });
+				return std::make_unique<FinishedClimbingState>();
+			}
+
+			// If this case occurs - continue climbing
+			std::cout << "No way to go - occured" << "\n";
+			return nullptr;
 		}
 	}
 	return nullptr;
@@ -258,7 +315,7 @@ void dae::FinishedClimbingState::OnEnter(GameObject* enemyObject)
 	m_SpritesheetComponentPtr = enemyObject->GetComponent<SpritesheetComponent>();
 
 	// Handling animations
-	auto direction = m_EnemyMoveComponentPtr->GetDirection();
+	auto& direction = m_EnemyMoveComponentPtr->GetDirection();
 
 	switch (m_EnemyComponentPtr->GetEnemyType())
 	{

@@ -4,10 +4,13 @@
 #include <SDL.h>
 
 #include "EnemyComponent.h"
+#include "EnemyMoveComponent.h"
 #include "InputManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "ServiceLocator.h"
+#include "SpritesheetComponent.h"
+#include "RectCollider2DComponent.h"
 
 bool dae::GameHandlerComponent::m_IsCreated = false;
 
@@ -52,6 +55,9 @@ void dae::GameHandlerComponent::Start()
 		auto& sound = ServiceLocator::GetSoundSystem();
 
 		sound.Play("MainTheme.mp3", 0.8f, true);
+
+		SpawnEnemy(EnemyType::Egg);
+		//SpawnEnemy(EnemyType::Pickle);
 	}
 }
 
@@ -106,11 +112,73 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 {
 	if (event.id == make_sdbm_hash("EnemyDied"))
 	{
-		constexpr float respawnDelay = 5.0f;
+		constexpr float respawnDelay = 2.0f;
 
 		m_GameplayData.enemyRespawnDelays.insert({ observedGameObject, respawnDelay });
 	}
 }
+
+void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
+{
+	auto activeScene = SceneManager::GetInstance().GetActiveScene();
+
+	auto go = std::make_unique<GameObject>();
+	go->SetTag(make_sdbm_hash("Enemy"));
+	go->AddComponent<RectCollider2DComponent>(16.0f, 16.0f)->SetShouldTriggerEvents(true);
+	go->AddComponent<EnemyComponent>(enemyType)->GetEnemyDyingEvent()->AddObserver(this);
+	go->AddComponent<EnemyMoveComponent>(m_GameplayData.players.front(), 30.0f);
+
+	int idx = std::rand() % static_cast<int>(m_GameplayData.enemyRespawnPoints.size());
+	auto& worldPos = m_GameplayData.enemyRespawnPoints[idx]->GetWorldTransform().GetPosition();
+	go->SetWorldPosition(worldPos);
+
+	switch (enemyType)
+	{
+	case EnemyType::HotDog:
+		{
+			auto spriteSheetCompHotDog = go->AddComponent<SpritesheetComponent>("Enemies");
+			spriteSheetCompHotDog->AddSprite("HotDogWalkingLeft.png", make_sdbm_hash("HotDogWalkingLeft"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompHotDog->AddSprite("HotDogWalkingRight.png", make_sdbm_hash("HotDogWalkingRight"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompHotDog->AddSprite("HotDogWalkingDown.png", make_sdbm_hash("HotDogWalkingDown"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompHotDog->AddSprite("HotDogWalkingUp.png", make_sdbm_hash("HotDogWalkingUp"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompHotDog->AddSprite("HotDogStunned.png", make_sdbm_hash("HotDogStunned"), SpritesheetComponent::SpriteMetaData(2, 0, 0.2f));
+			spriteSheetCompHotDog->AddSprite("HotDogDying.png", make_sdbm_hash("HotDogDying"), SpritesheetComponent::SpriteMetaData(4, 0, 0.5f));
+			spriteSheetCompHotDog->Play(make_sdbm_hash("HotDogWalkingLeft"));
+			break;
+		}
+	case EnemyType::Pickle:
+		{
+			auto spriteSheetCompPickle = go->AddComponent<SpritesheetComponent>("Enemies");
+			spriteSheetCompPickle->AddSprite("PickleWalkingLeft.png", make_sdbm_hash("PickleWalkingLeft"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompPickle->AddSprite("PickleWalkingRight.png", make_sdbm_hash("PickleWalkingRight"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompPickle->AddSprite("PickleWalkingDown.png", make_sdbm_hash("PickleWalkingDown"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompPickle->AddSprite("PickleWalkingUp.png", make_sdbm_hash("PickleWalkingUp"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompPickle->AddSprite("PickleStunned.png", make_sdbm_hash("PickleStunned"), SpritesheetComponent::SpriteMetaData(2, 0, 0.2f));
+			spriteSheetCompPickle->AddSprite("PickleDying.png", make_sdbm_hash("PickleDying"), SpritesheetComponent::SpriteMetaData(4, 0, 0.5f));
+			spriteSheetCompPickle->Play(make_sdbm_hash("PickleWalkingLeft"));
+			break;
+		}
+	case EnemyType::Egg:
+		{
+			auto spriteSheetCompEgg = go->AddComponent<SpritesheetComponent>("Enemies");
+			spriteSheetCompEgg->AddSprite("EggWalkingLeft.png", make_sdbm_hash("EggWalkingLeft"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompEgg->AddSprite("EggWalkingRight.png", make_sdbm_hash("EggWalkingRight"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompEgg->AddSprite("EggWalkingDown.png", make_sdbm_hash("EggWalkingDown"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompEgg->AddSprite("EggWalkingUp.png", make_sdbm_hash("EggWalkingUp"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+			spriteSheetCompEgg->AddSprite("EggStunned.png", make_sdbm_hash("EggStunned"), SpritesheetComponent::SpriteMetaData(2, 0, 0.2f));
+			spriteSheetCompEgg->AddSprite("EggDying.png", make_sdbm_hash("EggDying"), SpritesheetComponent::SpriteMetaData(4, 0, 0.5f));
+			spriteSheetCompEgg->Play(make_sdbm_hash("EggWalkingLeft"));
+			break;
+		}
+	}
+
+	go->Start();
+
+	m_GameplayData.enemies.push_back(go.get());
+
+	activeScene->Add(std::move(go));
+}
+
 
 
 

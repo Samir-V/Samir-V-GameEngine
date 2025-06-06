@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "EnemyComponent.h"
 #include "GameStates.h"
 #include "IObserver.h"
 
@@ -51,6 +52,8 @@ namespace dae
 		void ChangeState(std::unique_ptr<GameState> newState);
 
 		GameplayData& GetGameplayDataRef();
+
+		void SpawnEnemy(EnemyType enemyType);
 
 	private:
 
