@@ -161,20 +161,20 @@ void load()
 	go = std::make_unique<dae::GameObject>();
 
 	auto textComp = go->AddComponent<dae::TextComponent>("Burger Time!", fontBig);
-	textComp->SetLocalPosition(230, 40);
+	textComp->SetLocalPosition(30, 40);
 
 	auto textComp1 = go->AddComponent<dae::TextComponent>("Solo mode", font);
-	textComp1->SetLocalPosition(275, 110);
+	textComp1->SetLocalPosition(85, 110);
 
 	auto textComp2 = go->AddComponent<dae::TextComponent>("Co-op mode", font);
-	textComp2->SetLocalPosition(275, 160);
+	textComp2->SetLocalPosition(85, 160);
 
 	auto textComp3 = go->AddComponent<dae::TextComponent>("Versus mode", font);
-	textComp3->SetLocalPosition(275, 210);
+	textComp3->SetLocalPosition(85, 210);
 
 
 	textComp = go->AddComponent<dae::TextComponent>("--->", font);
-	textComp->SetLocalPosition(230, 110);
+	textComp->SetLocalPosition(40, 110);
 
 	go->AddComponent<dae::MenuHUDComponent>(textComp, std::vector<dae::TextComponent*>{{textComp1, textComp2, textComp3}});
 
@@ -1601,7 +1601,7 @@ void load()
 
 	dae::GameObject* playerPtr = go.get();
 
-	go->SetWorldPosition(20, 21);
+	go->SetWorldPosition(112, 181);
 
 	scene.Add(std::move(go));
 

@@ -185,10 +185,6 @@ void dae::MoveComponent::UpdateVerticalMovement()
 		}
 	}
 
-	/*bool ladderFound = std::ranges::any_of(intersectedGameObjects, [](const GameObject* gameObject) {
-		return gameObject->GetTag() == make_sdbm_hash("Ladder");
-		});*/
-
 	m_CanGoVertically = ladderFound;
 	m_CanGoHorizontally = false;
 
