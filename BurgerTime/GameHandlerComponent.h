@@ -33,6 +33,13 @@ namespace dae
 			int deadPlayerAmount;
 		};
 
+		struct EnemySpawnPattern
+		{
+			int hotDogsToSpawn;
+			int picklesToSpawn;
+			int eggsToSpawn;
+		};
+
 		GameHandlerComponent(GameObject* ownerPtr);
 		~GameHandlerComponent() override = default;
 
@@ -53,21 +60,27 @@ namespace dae
 		void ChangeState(std::unique_ptr<GameState> newState);
 
 		GameplayData& GetGameplayDataRef();
-
-		void SpawnEnemy(EnemyType enemyType);
-		void SpawnPlayer();
-
+		void SpawnLevelEnemies();
 		void ResetLevel();
+
+		void AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern);
+
+		Subject* GetEnemiesSpawnedEvent() const;
 
 	private:
 
+		void SpawnEnemy(EnemyType enemyType);
+
 		static bool m_IsCreated;
 
+		int m_LevelCounter;
 		GameMode m_GameMode{ GameMode::Solo };
 
 		GameplayData m_GameplayData;
-
+		std::vector<EnemySpawnPattern> m_EnemySpawnPatterns;
 		std::unique_ptr<GameState> m_State{};
+
+		std::unique_ptr<Subject> m_EnemiesSpawnedEvent;
 	};
 }
 

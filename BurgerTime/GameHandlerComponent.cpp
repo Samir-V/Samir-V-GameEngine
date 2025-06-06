@@ -15,7 +15,7 @@
 
 bool dae::GameHandlerComponent::m_IsCreated = false;
 
-dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): ComponentBase(ownerPtr), m_GameplayData{}
+dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): ComponentBase(ownerPtr), m_GameplayData{}, m_LevelCounter{}, m_EnemiesSpawnedEvent{std::make_unique<Subject>()}
 {
 	if (!m_IsCreated)
 	{
@@ -40,6 +40,13 @@ void dae::GameHandlerComponent::Start()
 	}
 	else
 	{
+		++m_LevelCounter;
+
+		if (m_LevelCounter > 3)
+		{
+			m_LevelCounter = 1;
+		}
+
 		m_GameplayData.players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
@@ -53,15 +60,13 @@ void dae::GameHandlerComponent::Start()
 			player->SetWorldPosition(worldPos.x, worldPos.y);
 		}
 
+		SpawnLevelEnemies();
+
 		ChangeState(std::make_unique<PlayingState>());
 		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
 
 		auto& sound = ServiceLocator::GetSoundSystem();
-
 		sound.Play("MainTheme.mp3", 0.8f, true);
-
-		SpawnEnemy(EnemyType::Egg);
-		//SpawnEnemy(EnemyType::Pickle);
 	}
 }
 
@@ -202,6 +207,7 @@ void dae::GameHandlerComponent::ResetLevel()
 	}
 
 	m_GameplayData.enemies.clear();
+	m_GameplayData.enemyRespawnDelays.clear();
 
 	const auto scene = SceneManager::GetInstance().GetActiveScene();
 
@@ -218,4 +224,34 @@ void dae::GameHandlerComponent::ResetLevel()
 	m_GameplayData.deadPlayerAmount = 0;
 }
 
+void dae::GameHandlerComponent::AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern)
+{
+	m_EnemySpawnPatterns.push_back(enemySpawnPattern);
+}
 
+void dae::GameHandlerComponent::SpawnLevelEnemies()
+{
+	auto [hotDogsToSpawn, picklesToSpawn, eggsToSpawn] = m_EnemySpawnPatterns[m_LevelCounter];
+
+	for (int counter{}; counter < hotDogsToSpawn; ++counter)
+	{
+		SpawnEnemy(EnemyType::HotDog);
+	}
+
+	for (int counter{}; counter < picklesToSpawn; ++counter)
+	{
+		SpawnEnemy(EnemyType::Pickle);
+	}
+
+	for (int counter{}; counter < eggsToSpawn; ++counter)
+	{
+		SpawnEnemy(EnemyType::Egg);
+	}
+
+	m_EnemiesSpawnedEvent->NotifyObservers(Event(make_sdbm_hash("EnemiesSpawned")), GetOwner());
+}
+
+dae::Subject* dae::GameHandlerComponent::GetEnemiesSpawnedEvent() const
+{
+	return m_EnemiesSpawnedEvent.get();
+}

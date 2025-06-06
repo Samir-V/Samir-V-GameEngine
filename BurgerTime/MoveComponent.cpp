@@ -92,7 +92,9 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 
 		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			if (observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType() != typeid(StunnedState))
+			auto enemyStateType = observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType();
+
+			if (enemyStateType != typeid(StunnedState) && enemyStateType != typeid(FallingState))
 			{
 				auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
 				peterPepperComp->ChangeState(std::make_unique<DyingState>());

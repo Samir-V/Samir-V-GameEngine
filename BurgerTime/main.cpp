@@ -150,6 +150,9 @@ void load()
 	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
 	auto go = std::make_unique<dae::GameObject>();
 	auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
+	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 3, 0, 1 });
+	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 3, 0, 1 });
+	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 2, 2, 1 });
 	go->SetTag(make_sdbm_hash("GameHandler"));
 	sceneDontDestroy.Add(std::move(go));
 

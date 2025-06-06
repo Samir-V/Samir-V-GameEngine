@@ -438,6 +438,7 @@ void dae::EnemyDyingState::OnEnter(GameObject* enemyObject)
 	m_SpritesheetComponentPtr = enemyObject->GetComponent<SpritesheetComponent>();
 
 	m_EnemyMoveComponentPtr->SetIsActive(false);
+	enemyObject->GetComponent<RectCollider2DComponent>()->SetIsActive(false);
 
 	switch (m_EnemyComponentPtr->GetEnemyType())
 	{
@@ -493,6 +494,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyDeadState::Update(GameObject*, float)
 void dae::EnemyDeadState::OnExit(GameObject* enemyObject)
 {
 	m_EnemyMoveComponentPtr->SetIsActive(true);
+	enemyObject->GetComponent<RectCollider2DComponent>()->SetIsActive(true);
 	enemyObject->SetIsActive(true);
 }
 

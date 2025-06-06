@@ -3,6 +3,7 @@
 
 #include "BurgerPartComponent.h"
 #include "EnemyComponent.h"
+#include "GameHandlerComponent.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
 #include "Scene.h"
@@ -18,7 +19,7 @@ dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textCom
 
 void dae::ScoreComponent::Start()
 {
-	if (auto scene = dae::SceneManager::GetInstance().GetActiveScene())
+	if (auto scene = SceneManager::GetInstance().GetActiveScene())
 	{
 		auto burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 
@@ -27,14 +28,13 @@ void dae::ScoreComponent::Start()
 			auto bPartComponent = burgerPart->GetComponent<BurgerPartComponent>();
 			bPartComponent->GetBurgerPartCollisionEvent()->AddObserver(this);
 		}
+	}
 
-		auto enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
+	if (auto sceneDontDestroyOnLoad = SceneManager::GetInstance().GetDontDestroyOnLoadScene())
+	{
+		auto gameHandler = sceneDontDestroyOnLoad->GetGameObjectsWithTag(make_sdbm_hash("GameHandler"));
 
-		for (auto enemy : enemies)
-		{
-			auto enemyComponent = enemy->GetComponent<EnemyComponent>();
-			enemyComponent->GetEnemyDyingEvent()->AddObserver(this);
-		}
+		gameHandler.front()->GetComponent<GameHandlerComponent>()->GetEnemiesSpawnedEvent()->AddObserver(this);
 	}
 }
 
@@ -53,17 +53,18 @@ void dae::ScoreComponent::Render() const
 
 void dae::ScoreComponent::Notify(const Event& event, GameObject*)
 {
-	/*if (event.id == make_sdbm_hash("SmallEnemyKilled"))
+	if (event.id == make_sdbm_hash("EnemiesSpawned"))
 	{
-		m_CurrentScore += 10;
-		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
-	}
+		auto scene = SceneManager::GetInstance().GetActiveScene();
 
-	if (event.id == make_sdbm_hash("EnemyKilled"))
-	{
-		m_CurrentScore += 100;
-		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
-	}*/
+		auto enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
+
+		for (auto enemy : enemies)
+		{
+			auto enemyComponent = enemy->GetComponent<EnemyComponent>();
+			enemyComponent->GetEnemyDyingEvent()->AddObserver(this);
+		}
+	}
 
 	if (event.id == make_sdbm_hash("BurgerPartLanded"))
 	{
@@ -77,15 +78,15 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject*)
 		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
 	}
 
-	if (event.id == make_sdbm_hash("EggKilled"))
-	{
-		m_CurrentScore += 300;
-		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
-	}
-
 	if (event.id == make_sdbm_hash("PickleKilled"))
 	{
 		m_CurrentScore += 200;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EggKilled"))
+	{
+		m_CurrentScore += 300;
 		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
 	}
 }
