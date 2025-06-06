@@ -71,7 +71,10 @@ void Scene::LateUpdate(float elapsedSec)
 	// Removing the objects from the objects that stay alive
 	for (auto& object : rangeToDestroy)
 	{
-		object->SetParent(nullptr, false);
+		if (object)
+		{
+			object->SetParent(nullptr, false);
+		}
 	}
 
 	m_Objects.erase(rangeToDestroy.begin(), m_Objects.end());

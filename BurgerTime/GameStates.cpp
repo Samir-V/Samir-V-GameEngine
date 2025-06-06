@@ -1,6 +1,7 @@
 #include "GameStates.h"
 
 #include "GameHandlerComponent.h"
+#include "RectCollider2DComponent.h"
 #include "BurgerPartComponent.h"
 #include "EnemyComponent.h"
 #include "PeterPepperComponent.h"
@@ -44,6 +45,7 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 			int idx = std::rand() % static_cast<int>(enemyRespawnPoints.size());
 			auto& worldPos = enemyRespawnPoints[idx]->GetWorldTransform().GetPosition();
 			it->first->SetWorldPosition(worldPos.x, worldPos.y);
+			it->first->GetComponent<RectCollider2DComponent>()->SetLocalPosition(0.0f, 0.0f);
 			it->first->GetComponent<EnemyComponent>()->Resurrect();
 			it = gameplayDataRef.enemyRespawnDelays.erase(it);
 		}

@@ -39,19 +39,17 @@ dae::Subject* dae::PeterPepperComponent::GetPlayerDiedEvent() const
 	return m_PlayerDiedEvent.get();
 }
 
-int dae::PeterPepperComponent::GetRemainingHealth() const
+int dae::PeterPepperComponent::GetRemainingLives() const
 {
-	return m_Health;
+	return m_Lives;
 }
 
-void dae::PeterPepperComponent::Damage(int damage)
+void dae::PeterPepperComponent::DecreaseLives(int amount)
 {
-	m_Health -= damage;
-
-	m_Health = std::max(m_Health, 0);
-
-	//m_PlayerDiedEvent->NotifyObservers(Event(make_sdbm_hash("PlayerDamaged")), GetOwner());
+	m_Lives -= amount;
+	m_Lives = std::max(m_Lives, 0);
 }
+
 
 void dae::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> newState)
 {
@@ -76,6 +74,29 @@ void dae::PeterPepperComponent::Resurrect()
 {
 	ChangeState(std::make_unique<WalkingState>());
 }
+
+void dae::PeterPepperComponent::SprayPepper()
+{
+	if (typeid(*m_State) == typeid(SprayingState))
+	{
+		return;
+	}
+
+	if (m_Peppers > 0)
+	{
+		m_Peppers -= 1;
+		ChangeState(std::make_unique<SprayingState>());
+	}
+}
+
+void dae::PeterPepperComponent::FullRespawn()
+{
+	ChangeState(std::make_unique<WalkingState>());
+	m_Peppers = 5;
+	m_Lives = 3;
+}
+
+
 
 
 

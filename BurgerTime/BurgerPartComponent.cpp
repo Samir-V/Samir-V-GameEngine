@@ -39,6 +39,10 @@ void dae::BurgerPartComponent::Start()
 
 void dae::BurgerPartComponent::Update(float elapsedSec)
 {
+	std::erase_if(m_EnemiesOnTop, [](const GameObject* gameObject) {
+		return (gameObject == nullptr) || (gameObject->IsMarkedToDestroy()) || (!gameObject->IsActive());
+		});
+
 	if (m_BurgerPartState == BurgerPartState::Falling)
 	{
 		const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
@@ -80,6 +84,8 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		// Keep track of the enemies on top of the burger bun
 		if (m_BurgerPartState == BurgerPartState::Idle && observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
+
+
 			m_EnemiesOnTop.push_back(observedGameObject);
 		}
 

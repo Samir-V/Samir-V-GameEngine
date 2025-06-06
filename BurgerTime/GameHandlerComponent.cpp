@@ -54,10 +54,13 @@ void dae::GameHandlerComponent::Start()
 		auto playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
 		for (const auto player : m_GameplayData.players)
 		{
-			player->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->AddObserver(this);
+			auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
+			peterPepperComponent->GetPlayerDiedEvent()->AddObserver(this);
+			peterPepperComponent->FullRespawn();
 			const int idx = std::rand() % static_cast<int>(playerRespawnPoints.size());
 			auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
 			player->SetWorldPosition(worldPos.x, worldPos.y);
+			player->SetIsActive(true);
 		}
 
 		SpawnLevelEnemies();
@@ -128,6 +131,16 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 
 	if (event.id == make_sdbm_hash("PlayerDied"))
 	{
+		if (std::ranges::all_of(m_GameplayData.players, [](const GameObject* player)
+		{
+				return player->GetComponent<PeterPepperComponent>()->GetRemainingLives() == 0;
+		}))
+		{
+			ChangeState(std::make_unique<MenuState>());
+			SwitchLevel("Menu");
+			return;
+		}
+
 		++m_GameplayData.deadPlayerAmount;
 
 		if (m_GameplayData.deadPlayerAmount == static_cast<int>(m_GameplayData.players.size()))
@@ -214,12 +227,15 @@ void dae::GameHandlerComponent::ResetLevel()
 	auto playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
 	for (const auto player : m_GameplayData.players)
 	{
-		player->GetComponent<PeterPepperComponent>()->Resurrect();
+		auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
+		peterPepperComponent->Resurrect();
 		const int idx = std::rand() % static_cast<int>(playerRespawnPoints.size());
 		auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
 		player->SetWorldPosition(worldPos.x, worldPos.y);
 		player->SetIsActive(true);
 	}
+
+	SpawnLevelEnemies();
 
 	m_GameplayData.deadPlayerAmount = 0;
 }
@@ -231,7 +247,7 @@ void dae::GameHandlerComponent::AddEnemySpawnPattern(EnemySpawnPattern enemySpaw
 
 void dae::GameHandlerComponent::SpawnLevelEnemies()
 {
-	auto [hotDogsToSpawn, picklesToSpawn, eggsToSpawn] = m_EnemySpawnPatterns[m_LevelCounter];
+	auto [hotDogsToSpawn, picklesToSpawn, eggsToSpawn] = m_EnemySpawnPatterns[m_LevelCounter - 1];
 
 	for (int counter{}; counter < hotDogsToSpawn; ++counter)
 	{

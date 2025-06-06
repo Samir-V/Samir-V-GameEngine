@@ -30,7 +30,7 @@ void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observe
 {
 	if (event.id == make_sdbm_hash("PlayerDamaged"))
 	{
-		m_HealthDisplay->SetText("Remaining Health: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingHealth()));
+		m_HealthDisplay->SetText("Remaining Health: " + std::to_string(observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingLives()));
 	}
 }
 

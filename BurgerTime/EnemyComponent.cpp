@@ -72,14 +72,17 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 
 		if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
 		{
-			// This algorithm differs since the state needs to be preserved and then returned
-			m_State->OnExit(GetOwner());
+			if (typeid(*m_State) != typeid(StunnedState))
+			{
+				// This algorithm differs since the state needs to be preserved and then returned
+				m_State->OnExit(GetOwner());
 
-			auto stunnedState = std::make_unique<StunnedState>(std::move(m_State));
+				auto stunnedState = std::make_unique<StunnedState>(std::move(m_State));
 
-			m_State = std::move(stunnedState);
+				m_State = std::move(stunnedState);
 
-			m_State->OnEnter(GetOwner());
+				m_State->OnEnter(GetOwner());
+			}
 		}
 
 		auto newState = m_State->OnCollisionEnter(GetOwner(), observedGameObject);

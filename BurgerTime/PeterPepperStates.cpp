@@ -208,7 +208,9 @@ void dae::DyingState::OnExit(GameObject* )
 void dae::DeadState::OnEnter(GameObject* peterPepperObject)
 {
 	peterPepperObject->SetIsActive(false);
-	peterPepperObject->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->NotifyObservers(Event(make_sdbm_hash("PlayerDied")), peterPepperObject);
+	auto peterPepperComponent = peterPepperObject->GetComponent<PeterPepperComponent>();
+	peterPepperComponent->DecreaseLives();
+	peterPepperComponent->GetPlayerDiedEvent()->NotifyObservers(Event(make_sdbm_hash("PlayerDied")), peterPepperObject);
 }
 
 std::unique_ptr<dae::PeterPepperState> dae::DeadState::Update(GameObject*, float)

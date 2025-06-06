@@ -25,17 +25,19 @@ namespace dae
 		void Render() const override;
 
 		Subject* GetPlayerDiedEvent() const;
-		int GetRemainingHealth() const;
-		void Damage(int damage = 1);
+		int GetRemainingLives() const;
 
 		void ChangeState(std::unique_ptr<PeterPepperState> newState);
 
 		void AssertVictory();
 		void Resurrect();
+		void SprayPepper();
+		void DecreaseLives(int amount = 1);
+		void FullRespawn();
 
 	private:
 
-		int m_Health{ 3 };
+		int m_Lives{ 3 };
 		int m_Peppers{ 5 };
 
 		std::unique_ptr<Subject> m_PlayerDiedEvent;

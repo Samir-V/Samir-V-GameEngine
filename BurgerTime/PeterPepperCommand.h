@@ -59,7 +59,7 @@ public:
 
 	void Execute() override
 	{
-		GetPeterPepperComponent()->ChangeState(std::make_unique<dae::SprayingState>());
+		GetPeterPepperComponent()->SprayPepper();
 	}
 };
 
