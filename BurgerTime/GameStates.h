@@ -36,7 +36,7 @@ namespace dae
 
 	private:
 
-		GameHandlerComponent* m_GameHandlerComponentPtr;
+		GameHandlerComponent* m_GameHandlerComponentPtr{};
 		std::vector<BurgerPartComponent*> m_BurgerPartComponents;
 	};
 

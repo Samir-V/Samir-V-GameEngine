@@ -19,14 +19,38 @@ dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, floa
 	m_Colliders.push_back(this);
 }
 
+dae::RectCollider2DComponent::~RectCollider2DComponent()
+{
+	const auto it = std::ranges::find_if(m_Colliders, [this](const RectCollider2DComponent* collider)
+		{
+			return collider == this;
+		});
+
+	m_Colliders.erase(it);
+
+	if (m_PreviousFrameCollisions.contains(this))
+	{
+		m_PreviousFrameCollisions.erase(this);
+	}
+
+	for (const auto other : m_Colliders)
+	{
+		if (other->m_PreviousFrameCollisions.contains(this))
+		{
+			other->m_PreviousFrameCollisions.erase(this);
+		}
+	}
+}
+
+
 void dae::RectCollider2DComponent::Start()
 {
 }
 
 void dae::RectCollider2DComponent::Update(float)
 {
-	auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();
 
+	auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();
 	m_CollisionRect.posX = ownerPos.x + m_LocalTransform.GetPosition().x;
 	m_CollisionRect.posY = ownerPos.y + m_LocalTransform.GetPosition().y;
 
@@ -35,6 +59,11 @@ void dae::RectCollider2DComponent::Update(float)
 	for (auto otherCollider : m_Colliders)
 	{
 		if (otherCollider == this)
+		{
+			continue;
+		}
+
+		if (otherCollider->GetOwner() == nullptr)
 		{
 			continue;
 		}
@@ -70,11 +99,11 @@ void dae::RectCollider2DComponent::Update(float)
 			continue;
 		}
 
-		if (!m_PreviousFrameCollisions.contains(otherCollider))
+		if (!m_PreviousFrameCollisions.contains(otherCollider) && otherCollider->GetOwner() != nullptr)
 		{
 			m_CollisionEnterEvent->NotifyObservers(Event(make_sdbm_hash("OnCollisionEnter")), otherCollider->GetOwner());
 		}
-		else
+		else if (otherCollider->GetOwner() != nullptr)
 		{
 			m_CollisionStayEvent->NotifyObservers(Event(make_sdbm_hash("OnCollisionStay")), otherCollider->GetOwner());
 		}
@@ -84,7 +113,9 @@ void dae::RectCollider2DComponent::Update(float)
 	{
 		for (auto prevCollider : m_PreviousFrameCollisions)
 		{
-			if (!currentFrameCollisions.contains(prevCollider))
+			if (!currentFrameCollisions.contains(prevCollider) && prevCollider->GetOwner() != nullptr 
+				&& prevCollider->GetOwner()->IsActive()
+				&& !prevCollider->GetOwner()->IsMarkedToDestroy())
 			{
 				m_CollisionExitEvent->NotifyObservers(Event(make_sdbm_hash("OnCollisionExit")), prevCollider->GetOwner());
 			}

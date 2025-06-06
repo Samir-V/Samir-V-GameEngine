@@ -94,7 +94,8 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 		{
 			if (observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType() != typeid(StunnedState))
 			{
-				GetOwner()->GetComponent<PeterPepperComponent>()->ChangeState(std::make_unique<DyingState>());
+				auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
+				peterPepperComp->ChangeState(std::make_unique<DyingState>());
 			}
 		}
 	}

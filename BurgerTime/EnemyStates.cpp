@@ -9,6 +9,7 @@
 #include "RectCollider2DComponent.h"
 #include "Utils.h"
 #include "GameObject.h"
+#include "ServiceLocator.h"
 
 void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 {
@@ -263,16 +264,6 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 					return gameObject->GetTag() == make_sdbm_hash("Platform");
 				});
 
-
-			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Right)
-			{
-				m_EnemyMoveComponentPtr->SetDirection({ 1.0f, 0.0f });
-			}
-			else
-			{
-				m_EnemyMoveComponentPtr->SetDirection({ -1.0f, 0.0f });
-			}
-
 			if (directives.horDirective == EnemyMoveComponent::HorizontalDirective::Right && platformBelowRight)
 			{
 
@@ -390,6 +381,10 @@ void dae::StunnedState::OnEnter(GameObject* enemyObject)
 		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleStunned"));
 		break;
 	}
+
+
+	auto& sound = ServiceLocator::GetSoundSystem();
+	sound.Play("EnemySprayed.wav", 0.8f);
 }
 
 std::unique_ptr<dae::EnemyState> dae::StunnedState::Update(GameObject*, float elapsedSec)
@@ -416,6 +411,9 @@ void dae::FallingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
 	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
+
+	auto& sound = ServiceLocator::GetSoundSystem();
+	sound.Play("EnemyFall.wav", 0.8f);
 }
 
 std::unique_ptr<dae::EnemyState> dae::FallingState::OnCollisionEnter(GameObject*, GameObject* observedGameObject)
@@ -453,6 +451,9 @@ void dae::EnemyDyingState::OnEnter(GameObject* enemyObject)
 		m_SpritesheetComponentPtr->Play(make_sdbm_hash("PickleDying"));
 		break;
 	}
+
+	auto& sound = ServiceLocator::GetSoundSystem();
+	sound.Play("EnemySquashed.wav", 0.8f);
 }
 
 std::unique_ptr<dae::EnemyState> dae::EnemyDyingState::Update(GameObject*, float elapsedSec)

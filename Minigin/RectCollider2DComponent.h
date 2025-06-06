@@ -21,7 +21,7 @@ namespace dae
 		};
 
 		RectCollider2DComponent(GameObject* ownerPtr, float collisionRectWidth, float collisionRectHeight);
-		~RectCollider2DComponent() override = default;
+		~RectCollider2DComponent() override;
 
 		RectCollider2DComponent(const RectCollider2DComponent& other) = delete;
 		RectCollider2DComponent(RectCollider2DComponent&& other) = delete;

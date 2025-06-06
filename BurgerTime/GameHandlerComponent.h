@@ -30,6 +30,7 @@ namespace dae
 			std::vector<GameObject*> burgerParts;
 
 			std::unordered_map<GameObject*, float> enemyRespawnDelays;
+			int deadPlayerAmount;
 		};
 
 		GameHandlerComponent(GameObject* ownerPtr);
@@ -54,6 +55,9 @@ namespace dae
 		GameplayData& GetGameplayDataRef();
 
 		void SpawnEnemy(EnemyType enemyType);
+		void SpawnPlayer();
+
+		void ResetLevel();
 
 	private:
 

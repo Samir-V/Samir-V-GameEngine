@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "MoveComponent.h"
 #include "PeterPepperComponent.h"
+#include "ServiceLocator.h"
 
 class PeterPepperCommand : public Command
 {
@@ -59,43 +60,6 @@ public:
 	void Execute() override
 	{
 		GetPeterPepperComponent()->ChangeState(std::make_unique<dae::SprayingState>());
-	}
-};
-
-class DamageCharacter : public PeterPepperCommand
-{
-public:
-	DamageCharacter(dae::GameObject* peterPepper, int damageAmount) : PeterPepperCommand(peterPepper), m_DamageAmount{ damageAmount } {};
-
-	void Execute() override
-	{
-		GetPeterPepperComponent()->Damage(m_DamageAmount);
-	}
-
-private:
-
-	int m_DamageAmount;
-};
-
-class KillEnemy : public PeterPepperCommand
-{
-public:
-	KillEnemy(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {};
-
-	void Execute() override
-	{
-		GetPeterPepperComponent()->GetEnemyKilledEvent()->NotifyObservers(Event(make_sdbm_hash("EnemyKilled")), GetPeterPepperObject());
-	}
-};
-
-class KillSmallEnemy : public PeterPepperCommand
-{
-public:
-	KillSmallEnemy(dae::GameObject* peterPepper) : PeterPepperCommand(peterPepper) {};
-
-	void Execute() override
-	{
-		GetPeterPepperComponent()->GetEnemyKilledEvent()->NotifyObservers(Event(make_sdbm_hash("SmallEnemyKilled")), GetPeterPepperObject());
 	}
 };
 

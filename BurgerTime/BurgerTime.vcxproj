@@ -516,6 +516,7 @@
     <ClCompile Include="MenuHUDComponent.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
+    <ClCompile Include="PeterPepperStates.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>

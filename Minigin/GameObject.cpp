@@ -163,7 +163,7 @@ void dae::GameObject::SetPositionIsDirty()
 void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStays)
 {
 	// Validation
-	assert(newParentPtr != m_Parent && newParentPtr != this && IsNotInChildren(this));
+	assert((newParentPtr == nullptr && m_Parent == nullptr) || (newParentPtr != m_Parent && newParentPtr != this && IsNotInChildren(this)));
 
 	if (newParentPtr == nullptr)
 	{

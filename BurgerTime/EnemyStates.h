@@ -46,7 +46,7 @@ namespace dae
 
 		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
 
-		GameObject* m_LadderBelowPtr;
+		GameObject* m_LadderBelowPtr{};
 
 		EnemyComponent* m_EnemyComponentPtr{};
 		EnemyMoveComponent* m_EnemyMoveComponentPtr{};

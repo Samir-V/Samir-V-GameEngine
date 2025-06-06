@@ -24,22 +24,21 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		Subject* GetObjectDeathEvent() const;
+		Subject* GetPlayerDiedEvent() const;
 		int GetRemainingHealth() const;
 		void Damage(int damage = 1);
-
-		Subject* GetEnemyKilledEvent() const;
 
 		void ChangeState(std::unique_ptr<PeterPepperState> newState);
 
 		void AssertVictory();
+		void Resurrect();
 
 	private:
 
 		int m_Health{ 3 };
+		int m_Peppers{ 5 };
 
-		std::unique_ptr<Subject> m_ObjectDeathEvent;
-		std::unique_ptr<Subject> m_EnemyKilledEvent;
+		std::unique_ptr<Subject> m_PlayerDiedEvent;
 
 		std::unique_ptr<PeterPepperState> m_State;
 	};

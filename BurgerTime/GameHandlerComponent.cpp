@@ -6,6 +6,7 @@
 #include "EnemyComponent.h"
 #include "EnemyMoveComponent.h"
 #include "InputManager.h"
+#include "PeterPepperComponent.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "ServiceLocator.h"
@@ -14,7 +15,7 @@
 
 bool dae::GameHandlerComponent::m_IsCreated = false;
 
-dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): ComponentBase(ownerPtr)
+dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): ComponentBase(ownerPtr), m_GameplayData{}
 {
 	if (!m_IsCreated)
 	{
@@ -40,13 +41,16 @@ void dae::GameHandlerComponent::Start()
 	else
 	{
 		m_GameplayData.players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-		m_GameplayData.enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
 
-		for (auto enemy : m_GameplayData.enemies)
+		auto playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
+		for (const auto player : m_GameplayData.players)
 		{
-			enemy->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
+			player->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->AddObserver(this);
+			const int idx = std::rand() % static_cast<int>(playerRespawnPoints.size());
+			auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
+			player->SetWorldPosition(worldPos.x, worldPos.y);
 		}
 
 		ChangeState(std::make_unique<PlayingState>());
@@ -116,6 +120,16 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 
 		m_GameplayData.enemyRespawnDelays.insert({ observedGameObject, respawnDelay });
 	}
+
+	if (event.id == make_sdbm_hash("PlayerDied"))
+	{
+		++m_GameplayData.deadPlayerAmount;
+
+		if (m_GameplayData.deadPlayerAmount == static_cast<int>(m_GameplayData.players.size()))
+		{
+			ResetLevel();
+		}
+	}
 }
 
 void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
@@ -180,5 +194,28 @@ void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
 }
 
 
+void dae::GameHandlerComponent::ResetLevel()
+{
+	for (auto enemy : m_GameplayData.enemies)
+	{
+		enemy->Destroy();
+	}
+
+	m_GameplayData.enemies.clear();
+
+	const auto scene = SceneManager::GetInstance().GetActiveScene();
+
+	auto playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
+	for (const auto player : m_GameplayData.players)
+	{
+		player->GetComponent<PeterPepperComponent>()->Resurrect();
+		const int idx = std::rand() % static_cast<int>(playerRespawnPoints.size());
+		auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
+		player->SetWorldPosition(worldPos.x, worldPos.y);
+		player->SetIsActive(true);
+	}
+
+	m_GameplayData.deadPlayerAmount = 0;
+}
 
 
