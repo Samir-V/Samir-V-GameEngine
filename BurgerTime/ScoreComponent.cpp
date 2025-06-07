@@ -5,6 +5,7 @@
 #include "EnemyComponent.h"
 #include "GameHandlerComponent.h"
 #include "GameObject.h"
+#include "PeterPepperComponent.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "TextComponent.h"
@@ -34,6 +35,13 @@ void dae::ScoreComponent::Start()
 		auto gameHandler = sceneDontDestroyOnLoad->GetGameObjectsWithTag(make_sdbm_hash("GameHandler"));
 
 		gameHandler.front()->GetComponent<GameHandlerComponent>()->GetEnemiesSpawnedEvent()->AddObserver(this);
+
+		auto peterPeppers = sceneDontDestroyOnLoad->GetGameObjectsWithTag(make_sdbm_hash("Player"));
+
+		for (auto peterPepper : peterPeppers)
+		{
+			peterPepper->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->AddObserver(this);
+		}
 	}
 }
 
@@ -65,6 +73,12 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObj
 		}*/
 
 		observedGameObject->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
+	}
+
+	if (event.id == make_sdbm_hash("PlayerRespawned"))
+	{
+		m_CurrentScore = 0;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
 	}
 
 	if (event.id == make_sdbm_hash("BurgerPartLanded"))

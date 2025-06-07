@@ -1,5 +1,6 @@
 #include "MoveComponent.h"
 
+
 #include "EnemyComponent.h"
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
@@ -61,6 +62,8 @@ void dae::MoveComponent::Update(float elapsedSec)
 	m_Direction = glm::vec2{ 0.0f, 0.0f };
 
 	const auto& pepperPos = GetOwner()->GetWorldTransform().GetPosition();
+
+	//std::cout << pepperPos.x << " " << pepperPos.y << "\n";
 
 	const auto newPepperPosX = pepperPos.x + m_Velocity.x * elapsedSec;
 	const auto newPepperPosY = pepperPos.y + m_Velocity.y * elapsedSec;
@@ -134,6 +137,14 @@ void dae::MoveComponent::SetDirection(const glm::vec2& direction)
 		m_Direction = direction;
 	}
 }
+
+void dae::MoveComponent::Reset()
+{
+	// to avoid referencing dangling pointers when reloading the level
+	m_CurrentPlatformsColliders.clear();
+	m_CurrentLadderColliders.clear();
+}
+
 
 void dae::MoveComponent::UpdateVerticalMovement()
 {

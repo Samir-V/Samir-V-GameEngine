@@ -84,11 +84,20 @@ void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 	sound.StopMusic();
 	sound.Play("RoundClear.wav", 0.8f);
 
-	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetGameplayDataRef().players;
+	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+
+	auto& players = gameHandlerComp->GetGameplayDataRef().players;
 
 	for (auto player : players)
 	{
 		player->GetComponent<PeterPepperComponent>()->AssertVictory();
+	}
+
+	auto& enemies = gameHandlerComp->GetGameplayDataRef().enemies;
+
+	for (auto enemy : enemies)
+	{
+		enemy->SetRunsUpdate(false);
 	}
 }
 
@@ -106,14 +115,15 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 
 void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
 {
-	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetGameplayDataRef().players;
+	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+	auto& players = gameHandlerComp->GetGameplayDataRef().players;
 
 	for (auto player : players)
 	{
 		player->SetIsActive(false);
 	}
 
-	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+	
 	gameHandlerComp->SwitchLevel("Menu");
 }
 

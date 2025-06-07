@@ -70,6 +70,13 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name, bool dontDes
 	}
 }
 
+std::shared_ptr<dae::Scene> dae::SceneManager::CreateSceneForFactory(const std::string& name)
+{
+	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
+	return scene;
+}
+
+
 dae::Scene* dae::SceneManager::GetSceneByName(const std::string& name)
 {
 	auto it = std::ranges::find_if(m_Scenes, [&name](const std::pair<std::string, std::shared_ptr<Scene>>& pair)
@@ -98,17 +105,46 @@ dae::Scene* dae::SceneManager::GetDontDestroyOnLoadScene() const
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
 {
-	auto it = std::ranges::find_if(m_Scenes, [&name](const std::pair<std::string, std::shared_ptr<Scene>>& pair)
+	/*auto it = std::ranges::find_if(m_Scenes, [&name](const std::pair<std::string, std::shared_ptr<Scene>>& pair)
 		{
 			return pair.first == name;
 		});
 
+	auto oldActiveScene = m_ActiveScene;
+
 	if (it != m_Scenes.end())
 	{
+
 		m_ActiveScene = it->second.get();
 		m_ActiveScene->Start();
+		m_DontDestroyOnLoadScene->Start();
+	}*/
+
+	auto fit = m_SceneFactories.find(name);
+	if (fit != m_SceneFactories.end())
+	{
+		m_Scenes[name] = fit->second();
+		m_ActiveScene = m_Scenes[name].get();
+		m_ActiveScene->Start();
+	}
+	else
+	{
+		auto it = m_Scenes.find(name);
+		if (it != m_Scenes.end())
+		{
+			m_ActiveScene = it->second.get();
+			m_ActiveScene->Start();
+		}
+	}
+
+	if (m_DontDestroyOnLoadScene)
+	{
 		m_DontDestroyOnLoadScene->Start();
 	}
 }
 
+void dae::SceneManager::RegisterSceneFactory(const std::string& name, std::function<std::shared_ptr<Scene>()> factory)
+{
+	m_SceneFactories[name] = std::move(factory);
+}
 

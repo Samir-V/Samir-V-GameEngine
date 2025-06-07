@@ -84,7 +84,7 @@ void dae::PeterPepperComponent::Resurrect()
 
 void dae::PeterPepperComponent::SprayPepper()
 {
-	if (typeid(*m_State) == typeid(SprayingState) || typeid(*m_State) == typeid(WinningState))
+	if (typeid(*m_State) != typeid(WalkingState))
 	{
 		return;
 	}

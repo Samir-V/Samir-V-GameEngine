@@ -3,6 +3,7 @@
 #include <SDL_mixer.h>
 #include <unordered_map>
 #include <array>
+#include <iostream>
 #include <mutex>
 #include <thread>
 #include <utility>
@@ -170,11 +171,25 @@ void SDLSoundSystem::SDLSoundSystemImpl::LoadSound(const std::string& sound, boo
 
 	if (isMusic)
 	{
-		m_Music.insert({ sound, Mix_LoadMUS(fullPath.c_str()) });
+		Mix_Music* mus = Mix_LoadMUS(fullPath.c_str());
+		if (!mus)
+		{
+			std::cerr << "Failed to load music \"" << fullPath << "\": " << Mix_GetError() << "\n";
+			m_Music.insert({ sound, nullptr });
+			return;
+		}
+		m_Music.insert({ sound, mus });
 	}
 	else
 	{
-		m_SoundChunks.insert({ sound, Mix_LoadWAV(fullPath.c_str()) });
+		Mix_Chunk* chunk = Mix_LoadWAV(fullPath.c_str());
+		if (!chunk)
+		{
+			std::cerr << "Failed to load chunk \"" << fullPath << "\": " << Mix_GetError() << "\n";
+			m_SoundChunks.insert({ sound, nullptr});
+			return;
+		}
+		m_SoundChunks.insert({ sound, chunk });
 	}
 }
 

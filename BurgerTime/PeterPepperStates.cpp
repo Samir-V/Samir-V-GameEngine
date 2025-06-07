@@ -225,4 +225,3 @@ void dae::DeadState::OnExit(GameObject* peterPepperObject)
 	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);
 }
-

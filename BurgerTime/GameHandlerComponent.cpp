@@ -64,14 +64,15 @@ void dae::GameHandlerComponent::Start()
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
 
-		auto playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
+		m_GameplayData.playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
 		for (const auto player : m_GameplayData.players)
 		{
 			auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
 			peterPepperComponent->GetPlayerDiedEvent()->AddObserver(this);
 			peterPepperComponent->FullRespawn();
-			const int idx = std::rand() % static_cast<int>(playerRespawnPoints.size());
-			auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
+			player->GetComponent<MoveComponent>()->Reset();
+			const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
+			auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
 			player->SetWorldPosition(worldPos.x, worldPos.y);
 			player->SetIsActive(true);
 		}
@@ -243,16 +244,15 @@ void dae::GameHandlerComponent::ResetLevel()
 
 	m_GameplayData.enemies.clear();
 	m_GameplayData.enemyRespawnDelays.clear();
+	m_GameplayData.pendingSpawns.clear();
 
-	const auto scene = SceneManager::GetInstance().GetActiveScene();
-
-	auto playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
 	for (const auto player : m_GameplayData.players)
 	{
 		auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
 		peterPepperComponent->Resurrect();
-		const int idx = std::rand() % static_cast<int>(playerRespawnPoints.size());
-		auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
+		player->GetComponent<MoveComponent>()->Reset();
+		const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
+		auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
 		player->SetWorldPosition(worldPos.x, worldPos.y);
 		player->SetIsActive(true);
 	}

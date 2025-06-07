@@ -46,6 +46,8 @@ namespace dae
 		void SetIsActive(bool newIsActive);
 		bool IsActive() const;
 
+		void SetRunsUpdate(bool runsUpdate);
+
 		template <typename ComponentType, typename... Args>
 			requires std::derived_from<ComponentType, ComponentBase>
 		ComponentType* AddComponent(Args&&... args)
@@ -114,6 +116,7 @@ namespace dae
 		bool m_PositionIsDirty		{ true };
 		bool m_MarkedToDestroy		{ };
 		bool m_IsActive				{ true };
+		bool m_RunsUpdate			{ true };
 
 		Tag m_Tag					{ make_sdbm_hash("DefaultTag") };
 

@@ -27,6 +27,7 @@ namespace dae
 			std::vector<GameObject*> players;
 			std::vector<GameObject*> enemies;
 			std::vector<GameObject*> enemyRespawnPoints;
+			std::vector<GameObject*> playerRespawnPoints;
 			std::vector<GameObject*> burgerParts;
 
 			std::unordered_map<GameObject*, float> enemyRespawnDelays;

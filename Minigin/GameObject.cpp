@@ -16,7 +16,12 @@ void dae::GameObject::Start()
 }
 
 void dae::GameObject::Update(float elapsedSec)
-{ 
+{
+	if (!m_RunsUpdate)
+	{
+		return;
+	}
+
 	for (const auto& component : m_Components)
 	{
 		if (component->IsActive())
@@ -28,11 +33,14 @@ void dae::GameObject::Update(float elapsedSec)
 
 void dae::GameObject::LateUpdate(float elapsedSec)
 {
-	for (const auto& component : m_Components)
+	if (m_RunsUpdate)
 	{
-		if (component->IsActive())
+		for (const auto& component : m_Components)
 		{
-			component->LateUpdate(elapsedSec);
+			if (component->IsActive())
+			{
+				component->LateUpdate(elapsedSec);
+			}
 		}
 	}
 
@@ -121,6 +129,11 @@ void dae::GameObject::SetIsActive(bool newIsActive)
 bool dae::GameObject::IsActive() const
 {
 	return m_IsActive;
+}
+
+void dae::GameObject::SetRunsUpdate(bool runsUpdate)
+{
+	m_RunsUpdate = runsUpdate;
 }
 
 const dae::Transform& dae::GameObject::GetWorldTransform()

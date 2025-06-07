@@ -29,6 +29,8 @@ namespace dae
 
 		void SetDirection(const glm::vec2& direction);
 
+		void Reset();
+
 		const glm::vec2& GetVelocity() const;
 		const glm::vec2& GetLastDirection() const;
 
