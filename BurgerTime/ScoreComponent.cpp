@@ -5,7 +5,6 @@
 #include "EnemyComponent.h"
 #include "GameHandlerComponent.h"
 #include "GameObject.h"
-#include "PeterPepperComponent.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "TextComponent.h"

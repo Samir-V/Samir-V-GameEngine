@@ -106,6 +106,13 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 
 void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
 {
+	auto& players = gameHandlerObject->GetComponent<GameHandlerComponent>()->GetGameplayDataRef().players;
+
+	for (auto player : players)
+	{
+		player->SetIsActive(false);
+	}
+
 	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
 	gameHandlerComp->SwitchLevel("Menu");
 }

@@ -37,9 +37,18 @@ void dae::GameHandlerComponent::Start()
 	if (scene->GetName() == "Menu")
 	{
 		input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
+
+		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+
+		sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUD")).front()->SetIsActive(false);
 	}
 	else
 	{
+		if (m_LevelCounter != 0)
+		{
+			// Here add pepper
+		}
+
 		++m_LevelCounter;
 
 		if (m_LevelCounter > 3)
@@ -48,6 +57,8 @@ void dae::GameHandlerComponent::Start()
 		}
 
 		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+
+		sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUD")).front()->SetIsActive(true);
 
 		m_GameplayData.players = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
@@ -63,6 +74,13 @@ void dae::GameHandlerComponent::Start()
 			auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
 			player->SetWorldPosition(worldPos.x, worldPos.y);
 			player->SetIsActive(true);
+		}
+
+		auto pepperSprays = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("PepperSpray"));
+
+		for (auto pepperSpray : pepperSprays)
+		{
+			pepperSpray->SetIsActive(false);
 		}
 
 		SpawnLevelEnemies();
@@ -237,6 +255,13 @@ void dae::GameHandlerComponent::ResetLevel()
 		auto& worldPos = playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
 		player->SetWorldPosition(worldPos.x, worldPos.y);
 		player->SetIsActive(true);
+	}
+
+	auto pepperSprays = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("PepperSpray"));
+
+	for (auto pepperSpray : pepperSprays)
+	{
+		pepperSpray->SetIsActive(false);
 	}
 
 	SpawnLevelEnemies();

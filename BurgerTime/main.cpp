@@ -194,33 +194,43 @@ void load()
 	/*register_factories();
 	load_level_from_json("levels.json", scene);*/
 
+
+	auto goHUD = std::make_unique<dae::GameObject>();
+	goHUD->SetTag(make_sdbm_hash("GameplayHUD"));
+	auto goHUDptr = goHUD.get();
+	sceneDontDestroy.Add(std::move(goHUD));
+
 	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
 	textComp = go->AddComponent<dae::TextComponent>("Score: 0", font);
 	textComp->SetLocalPosition(5, 0);
-	scene.Add(std::move(go));
+	sceneDontDestroy.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
 	go->AddComponent<dae::ScoreComponent>(textComp);
-	scene.Add(std::move(go));
-
+	sceneDontDestroy.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetWorldPosition(0, 220.0f);
+	go->SetParent(goHUDptr, false);
+	go->SetLocalPosition(0, 220.0f);
 	auto firstLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
 	auto secondLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
 	firstLifeDisplay->SetLocalPosition(0, 0);
 	secondLifeDisplay->SetLocalPosition(0, -10);
 	go->AddComponent<dae::HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay });
-	scene.Add(std::move(go));
+	sceneDontDestroy.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
 	textComp = go->AddComponent<dae::TextComponent>("Peppers: 5", font);
 	textComp->SetLocalPosition(170, 0);
-	scene.Add(std::move(go));
+	sceneDontDestroy.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
 	go->AddComponent<dae::PepperDisplayComponent>(textComp);
-	scene.Add(std::move(go));
+	sceneDontDestroy.Add(std::move(go));
 
 	// Column x = 16
 	go = std::make_unique<dae::GameObject>();

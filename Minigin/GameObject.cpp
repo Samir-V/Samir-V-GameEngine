@@ -111,6 +111,11 @@ void dae::GameObject::SetWorldPosition(const glm::vec3& pos)
 void dae::GameObject::SetIsActive(bool newIsActive)
 {
 	m_IsActive = newIsActive;
+
+	for (const auto child : m_Children)
+	{
+		child->SetIsActive(newIsActive);
+	}
 }
 
 bool dae::GameObject::IsActive() const

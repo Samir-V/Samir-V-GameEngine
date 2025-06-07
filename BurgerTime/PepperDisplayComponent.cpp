@@ -12,7 +12,6 @@ dae::PepperDisplayComponent::PepperDisplayComponent(GameObject* ownerPtr, TextCo
 void dae::PepperDisplayComponent::Start()
 {
 	auto players = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-
 	players.front()->GetComponent<PeterPepperComponent>()->GetPepperSprayedEvent()->AddObserver(this);
 }
 
