@@ -51,6 +51,8 @@ void dae::WalkingState::OnExit(GameObject*)
 
 void dae::SprayingState::OnEnter(GameObject* peterPepperObject)
 {
+	peterPepperObject->GetComponent<PeterPepperComponent>()->GetPepperSprayedEvent()->NotifyObservers(Event(make_sdbm_hash("PepperSprayed")), peterPepperObject);
+
 	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	m_LastDirection = moveComponent->GetLastDirection();
 

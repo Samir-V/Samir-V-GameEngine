@@ -8,12 +8,13 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	ComponentBase(ownerPtr)
 {
 	m_PlayerDiedEvent = std::make_unique<Subject>();
+	m_PepperSprayedEvent = std::make_unique<Subject>();
+	m_State = std::make_unique<WalkingState>();
+	m_State->OnEnter(GetOwner());
 }
 
 void dae::PeterPepperComponent::Start()
 {
-	m_State = std::make_unique<WalkingState>();
-	m_State->OnEnter(GetOwner());
 }
 
 void dae::PeterPepperComponent::Update(float elapsedSec)
@@ -38,6 +39,12 @@ dae::Subject* dae::PeterPepperComponent::GetPlayerDiedEvent() const
 {
 	return m_PlayerDiedEvent.get();
 }
+
+dae::Subject* dae::PeterPepperComponent::GetPepperSprayedEvent() const
+{
+	return m_PepperSprayedEvent.get();
+}
+
 
 int dae::PeterPepperComponent::GetRemainingLives() const
 {
@@ -95,6 +102,12 @@ void dae::PeterPepperComponent::FullRespawn()
 	m_Peppers = 5;
 	m_Lives = 3;
 }
+
+int dae::PeterPepperComponent::GetRemainingPeppers() const
+{
+	return m_Peppers;
+}
+
 
 
 

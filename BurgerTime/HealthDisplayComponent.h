@@ -1,16 +1,18 @@
 #pragma once
+#include <vector>
+
 #include "ComponentBase.h"
 #include "IObserver.h"
 
 namespace dae
 {
-	class TextComponent;
+	class Texture2DComponent;
 
 	class HealthDisplayComponent final : public ComponentBase, public IObserver
 	{
 	public:
 
-		HealthDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent);
+		HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays);
 		~HealthDisplayComponent() override = default;
 
 		HealthDisplayComponent(const HealthDisplayComponent& other) = delete;
@@ -27,7 +29,7 @@ namespace dae
 
 	private:
 
-		TextComponent* m_HealthDisplay;
+		std::vector<Texture2DComponent*> m_LifeDisplays;
 	};
 }
 

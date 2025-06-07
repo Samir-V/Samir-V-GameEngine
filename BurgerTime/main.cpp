@@ -36,6 +36,7 @@
 #include "GameHandlerComponent.h"
 #include "MenuCommand.h"
 #include "MenuHUDComponent.h"
+#include "PepperDisplayComponent.h"
 #include "ScoreComponent.h"
 
 void find_resources()
@@ -200,6 +201,25 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->AddComponent<dae::ScoreComponent>(textComp);
+	scene.Add(std::move(go));
+
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetWorldPosition(0, 220.0f);
+	auto firstLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
+	auto secondLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
+	firstLifeDisplay->SetLocalPosition(0, 0);
+	secondLifeDisplay->SetLocalPosition(0, -10);
+	go->AddComponent<dae::HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay });
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	textComp = go->AddComponent<dae::TextComponent>("Peppers: 5", font);
+	textComp->SetLocalPosition(170, 0);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->AddComponent<dae::PepperDisplayComponent>(textComp);
 	scene.Add(std::move(go));
 
 	// Column x = 16
@@ -1206,9 +1226,11 @@ void load()
 
 	input.RegisterControllerCommand(make_sdbm_hash("GameplayMap"), std::make_unique<SprayPepper>(go.get()), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
 
+	go->SetIsActive(false);
+
 	dae::GameObject* playerPtr = go.get();
 
-	scene.Add(std::move(go));
+	sceneDontDestroy.Add(std::move(go));
 
 
 	// Pepper Spray
@@ -1229,7 +1251,7 @@ void load()
 
 	go->SetIsActive(false);
 
-	scene.Add(std::move(go));
+	sceneDontDestroy.Add(std::move(go));
 
 	// Sound addition
 

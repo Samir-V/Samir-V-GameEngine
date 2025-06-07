@@ -47,7 +47,9 @@ void dae::GameHandlerComponent::Start()
 			m_LevelCounter = 1;
 		}
 
-		m_GameplayData.players = scene->GetGameObjectsWithTag(make_sdbm_hash("Player"));
+		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+
+		m_GameplayData.players = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
 

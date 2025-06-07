@@ -515,6 +515,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuHUDComponent.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
+    <ClCompile Include="PepperDisplayComponent.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="PeterPepperStates.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
@@ -532,6 +533,7 @@
     <ClInclude Include="MenuCommand.h" />
     <ClInclude Include="MenuHUDComponent.h" />
     <ClInclude Include="MoveComponent.h" />
+    <ClInclude Include="PepperDisplayComponent.h" />
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="PeterPepperStates.h" />

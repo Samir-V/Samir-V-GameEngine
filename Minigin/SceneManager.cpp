@@ -43,14 +43,14 @@ void dae::SceneManager::LateUpdate(float elapsedSec)
 
 void dae::SceneManager::Render()
 {
-	m_DontDestroyOnLoadScene->Render();
-
 	if (!m_ActiveScene)
 	{
 		return;
 	}
 
 	m_ActiveScene->Render();
+
+	m_DontDestroyOnLoadScene->Render();
 }
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name, bool dontDestroyOnLoad)

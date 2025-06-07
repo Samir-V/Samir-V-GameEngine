@@ -25,7 +25,9 @@ namespace dae
 		void Render() const override;
 
 		Subject* GetPlayerDiedEvent() const;
+		Subject* GetPepperSprayedEvent() const;
 		int GetRemainingLives() const;
+		int GetRemainingPeppers() const;
 
 		void ChangeState(std::unique_ptr<PeterPepperState> newState);
 
@@ -41,6 +43,7 @@ namespace dae
 		int m_Peppers{ 5 };
 
 		std::unique_ptr<Subject> m_PlayerDiedEvent;
+		std::unique_ptr<Subject> m_PepperSprayedEvent;
 
 		std::unique_ptr<PeterPepperState> m_State;
 	};
