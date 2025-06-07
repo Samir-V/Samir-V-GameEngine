@@ -508,7 +508,6 @@
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyMoveComponent.cpp" />
     <ClCompile Include="EnemyStates.cpp" />
-    <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameHandlerComponent.cpp" />
     <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
@@ -518,7 +517,6 @@
     <ClCompile Include="PepperDisplayComponent.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="PeterPepperStates.cpp" />
-    <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -526,7 +524,6 @@
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyMoveComponent.h" />
     <ClInclude Include="EnemyStates.h" />
-    <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameHandlerComponent.h" />
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
@@ -537,7 +534,6 @@
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="PeterPepperStates.h" />
-    <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

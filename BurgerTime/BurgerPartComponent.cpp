@@ -212,6 +212,27 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 				soundSystem.Play("BurgerFall.wav", 0.5f);
 			}
 		}
+
+		// Checking when falling if burger part collided with another burger part, that is already in final position (When multiple parts fall at the same time)
+		if (m_BurgerPartState == BurgerPartState::Falling && observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+		{
+			if (observedGameObject->GetComponent<BurgerPartComponent>()->m_BurgerPartState == BurgerPartState::Assembled)
+			{
+				m_ExtraLevelsToFall = 0;
+
+				const auto& burgerPartPos = GetOwner()->GetWorldTransform().GetPosition();
+
+				const auto newBurgerPartPosY = observedGameObject->GetWorldTransform().GetPosition().y - 7.0f;
+
+				GetOwner()->SetWorldPosition(burgerPartPos.x, newBurgerPartPosY);
+
+				m_BurgerPartState = BurgerPartState::Assembled;
+				std::ranges::fill(m_OffsetsY, 0.0f);
+
+				soundSystem.Play("BurgerLand.wav", 0.5f);
+				m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("BurgerPartLanded")), GetOwner());
+			}
+		}
 	}
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))
