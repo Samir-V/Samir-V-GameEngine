@@ -51,11 +51,11 @@ void dae::ScoreComponent::Render() const
 {
 }
 
-void dae::ScoreComponent::Notify(const Event& event, GameObject*)
+void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObject)
 {
-	if (event.id == make_sdbm_hash("EnemiesSpawned"))
+	if (event.id == make_sdbm_hash("EnemySpawned"))
 	{
-		auto scene = SceneManager::GetInstance().GetActiveScene();
+		/*auto scene = SceneManager::GetInstance().GetActiveScene();
 
 		auto enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
 
@@ -63,7 +63,9 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject*)
 		{
 			auto enemyComponent = enemy->GetComponent<EnemyComponent>();
 			enemyComponent->GetEnemyDyingEvent()->AddObserver(this);
-		}
+		}*/
+
+		observedGameObject->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
 	}
 
 	if (event.id == make_sdbm_hash("BurgerPartLanded"))

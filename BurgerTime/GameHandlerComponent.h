@@ -31,6 +31,8 @@ namespace dae
 
 			std::unordered_map<GameObject*, float> enemyRespawnDelays;
 			int deadPlayerAmount;
+
+			std::vector<EnemyType> pendingSpawns;
 		};
 
 		struct EnemySpawnPattern
@@ -60,6 +62,7 @@ namespace dae
 		void ChangeState(std::unique_ptr<GameState> newState);
 
 		GameplayData& GetGameplayDataRef();
+		void SpawnEnemy(EnemyType enemyType);
 		void SpawnLevelEnemies();
 		void ResetLevel();
 
@@ -69,15 +72,13 @@ namespace dae
 
 	private:
 
-		void SpawnEnemy(EnemyType enemyType);
-
 		static bool m_IsCreated;
 
 		int m_LevelCounter;
 		GameMode m_GameMode{ GameMode::Solo };
 
 		GameplayData m_GameplayData;
-		std::vector<EnemySpawnPattern> m_EnemySpawnPatterns;
+		std::vector<EnemySpawnPattern> m_EnemySpawnPatterns{};
 		std::unique_ptr<GameState> m_State{};
 
 		std::unique_ptr<Subject> m_EnemiesSpawnedEvent;

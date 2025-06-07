@@ -84,7 +84,7 @@ void dae::PeterPepperComponent::Resurrect()
 
 void dae::PeterPepperComponent::SprayPepper()
 {
-	if (typeid(*m_State) == typeid(SprayingState))
+	if (typeid(*m_State) == typeid(SprayingState) || typeid(*m_State) == typeid(WinningState))
 	{
 		return;
 	}
@@ -101,6 +101,9 @@ void dae::PeterPepperComponent::FullRespawn()
 	ChangeState(std::make_unique<WalkingState>());
 	m_Peppers = 5;
 	m_Lives = 3;
+
+	m_PlayerDiedEvent->NotifyObservers(Event(make_sdbm_hash("PlayerRespawned")), GetOwner());
+	m_PepperSprayedEvent->NotifyObservers(Event(make_sdbm_hash("PlayerRespawned")), GetOwner());
 }
 
 int dae::PeterPepperComponent::GetRemainingPeppers() const

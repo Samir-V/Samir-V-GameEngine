@@ -208,6 +208,8 @@ void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
 
 	go->Start();
 
+	m_EnemiesSpawnedEvent->NotifyObservers(Event(make_sdbm_hash("EnemySpawned")), go.get());
+
 	m_GameplayData.enemies.push_back(go.get());
 
 	activeScene->Add(std::move(go));
@@ -253,20 +255,20 @@ void dae::GameHandlerComponent::SpawnLevelEnemies()
 
 	for (int counter{}; counter < hotDogsToSpawn; ++counter)
 	{
-		SpawnEnemy(EnemyType::HotDog);
+		m_GameplayData.pendingSpawns.push_back(EnemyType::HotDog);
 	}
 
 	for (int counter{}; counter < picklesToSpawn; ++counter)
 	{
-		SpawnEnemy(EnemyType::Pickle);
+		m_GameplayData.pendingSpawns.push_back(EnemyType::Pickle);
 	}
 
 	for (int counter{}; counter < eggsToSpawn; ++counter)
 	{
-		SpawnEnemy(EnemyType::Egg);
+		m_GameplayData.pendingSpawns.push_back(EnemyType::Egg);
 	}
 
-	m_EnemiesSpawnedEvent->NotifyObservers(Event(make_sdbm_hash("EnemiesSpawned")), GetOwner());
+	//m_EnemiesSpawnedEvent->NotifyObservers(Event(make_sdbm_hash("EnemiesSpawned")), GetOwner());
 }
 
 dae::Subject* dae::GameHandlerComponent::GetEnemiesSpawnedEvent() const

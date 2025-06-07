@@ -36,6 +36,13 @@ void dae::PepperDisplayComponent::Notify(const Event& event, GameObject* observe
 
 		m_PepperDisplay->SetText("Peppers: " + std::to_string(remainingPeppers));
 	}
+
+	if (event.id == make_sdbm_hash("PlayerRespawned"))
+	{
+		int remainingPeppers = observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingPeppers();
+
+		m_PepperDisplay->SetText("Peppers: " + std::to_string(remainingPeppers));
+	}
 }
 
 

@@ -38,6 +38,8 @@ namespace dae
 
 		GameHandlerComponent* m_GameHandlerComponentPtr{};
 		std::vector<BurgerPartComponent*> m_BurgerPartComponents;
+
+		float m_TimeSinceLastSpawn{};
 	};
 
 	class GameWinningState final : public GameState

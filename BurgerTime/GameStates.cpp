@@ -55,6 +55,21 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 		}
 	}
 
+	if (!gameplayDataRef.pendingSpawns.empty())
+	{
+		m_TimeSinceLastSpawn += elapsedSec;
+
+		if (m_TimeSinceLastSpawn >= 1.0f)
+		{
+			m_TimeSinceLastSpawn = 0.0f;
+
+			EnemyType nextType = gameplayDataRef.pendingSpawns.front();
+			gameplayDataRef.pendingSpawns.erase(gameplayDataRef.pendingSpawns.begin());
+
+			m_GameHandlerComponentPtr->SpawnEnemy(nextType);
+		}
+	}
+
 	return nullptr;
 }
 
