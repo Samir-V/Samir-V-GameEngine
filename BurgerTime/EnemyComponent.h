@@ -7,6 +7,11 @@
 #include "EnemyStates.h"
 #include "Subject.h"
 
+namespace dae
+{
+	class BurgerPartComponent;
+}
+
 using EnemyType = dae::EnemyState::EnemyType;
 
 namespace dae
@@ -43,6 +48,8 @@ namespace dae
 
 		std::unique_ptr<EnemyState> m_State;
 		std::unique_ptr<Subject>    m_EnemyDyingEvent;
+
+		std::set<BurgerPartComponent*> m_CollidedBurgerPartComponents;
 
 		EnemyType m_EnemyType{};
 	};

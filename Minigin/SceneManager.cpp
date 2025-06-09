@@ -105,21 +105,6 @@ dae::Scene* dae::SceneManager::GetDontDestroyOnLoadScene() const
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
 {
-	/*auto it = std::ranges::find_if(m_Scenes, [&name](const std::pair<std::string, std::shared_ptr<Scene>>& pair)
-		{
-			return pair.first == name;
-		});
-
-	auto oldActiveScene = m_ActiveScene;
-
-	if (it != m_Scenes.end())
-	{
-
-		m_ActiveScene = it->second.get();
-		m_ActiveScene->Start();
-		m_DontDestroyOnLoadScene->Start();
-	}*/
-
 	auto fit = m_SceneFactories.find(name);
 	if (fit != m_SceneFactories.end())
 	{

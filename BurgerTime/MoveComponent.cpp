@@ -14,6 +14,7 @@ dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : Compon
 void dae::MoveComponent::Start()
 {
 	m_OwnerColliderPtr->GetCollisionEnterEvent()->AddObserver(this);
+	m_OwnerColliderPtr->GetCollisionStayEvent()->AddObserver(this);
 	m_OwnerColliderPtr->GetCollisionExitEvent()->AddObserver(this);
 }
 
@@ -95,12 +96,46 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 
 		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			auto enemyStateType = observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType();
+			/*auto enemyStateType = observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType();
 
 			if (enemyStateType != typeid(StunnedState) && enemyStateType != typeid(FallingState))
 			{
 				auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
 				peterPepperComp->ChangeState(std::make_unique<DyingState>());
+			}*/
+
+			m_CurrentEnemyColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+		}
+	}
+
+	if (event.id == make_sdbm_hash("OnCollisionStay"))
+	{
+		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		{
+			for (auto currentEnemyCollider : m_CurrentEnemyColliders)
+			{
+				const auto playerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+				const auto enemyColliderRect = currentEnemyCollider->GetCollisionRect();
+
+				const float playerCenterY = playerColliderRect.posY + playerColliderRect.height * 0.5f;
+				const float enemyCenterY = enemyColliderRect.posY + enemyColliderRect.height * 0.5f;
+
+				const float verticalThreshold = playerColliderRect.height * 0.25f;
+				const float absDY = std::abs(playerCenterY - enemyCenterY);
+
+				if (absDY > verticalThreshold)
+				{
+					continue;
+				}
+
+				auto enemyStateType = observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType();
+
+				if (enemyStateType != typeid(StunnedState) && enemyStateType != typeid(FallingState))
+				{
+					auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
+					peterPepperComp->ChangeState(std::make_unique<DyingState>());
+					break;
+				}
 			}
 		}
 	}
@@ -115,6 +150,11 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
 		{
 			m_CurrentLadderColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
+		}
+
+		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		{
+			m_CurrentEnemyColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
 		}
 	}
 }
@@ -143,6 +183,7 @@ void dae::MoveComponent::Reset()
 	// to avoid referencing dangling pointers when reloading the level
 	m_CurrentPlatformsColliders.clear();
 	m_CurrentLadderColliders.clear();
+	m_CurrentEnemyColliders.clear();
 }
 
 

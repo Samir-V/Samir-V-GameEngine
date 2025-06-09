@@ -48,6 +48,7 @@ namespace dae
 
 		std::set<RectCollider2DComponent*> m_CurrentPlatformsColliders;
 		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
+		std::set<RectCollider2DComponent*> m_CurrentEnemyColliders;
 
 		const float m_MaxSpeed{};
 

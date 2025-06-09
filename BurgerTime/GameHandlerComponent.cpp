@@ -71,9 +71,14 @@ void dae::GameHandlerComponent::Start()
 			peterPepperComponent->GetPlayerDiedEvent()->AddObserver(this);
 			peterPepperComponent->FullRespawn();
 			player->GetComponent<MoveComponent>()->Reset();
-			const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
-			auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
-			player->SetWorldPosition(worldPos.x, worldPos.y);
+
+			if (!m_GameplayData.playerRespawnPoints.empty())
+			{
+				const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
+				auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
+				player->SetWorldPosition(worldPos.x, worldPos.y);
+			}
+
 			player->SetIsActive(true);
 		}
 
@@ -276,6 +281,11 @@ void dae::GameHandlerComponent::AddEnemySpawnPattern(EnemySpawnPattern enemySpaw
 
 void dae::GameHandlerComponent::SpawnLevelEnemies()
 {
+	if (m_GameplayData.enemyRespawnPoints.empty())
+	{
+		return;
+	}
+
 	auto [hotDogsToSpawn, picklesToSpawn, eggsToSpawn] = m_EnemySpawnPatterns[m_LevelCounter - 1];
 
 	for (int counter{}; counter < hotDogsToSpawn; ++counter)

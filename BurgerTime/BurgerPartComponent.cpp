@@ -84,8 +84,6 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 		// Keep track of the enemies on top of the burger bun
 		if (m_BurgerPartState == BurgerPartState::Idle && observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-
-
 			m_EnemiesOnTop.push_back(observedGameObject);
 		}
 
@@ -172,17 +170,22 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			const auto playerColliderRect = m_PlayerCollider->GetCollisionRect();
 
 			const auto& pos = GetOwner()->GetWorldTransform().GetPosition();
-			const int sliceWidth = m_SrcRects[0].w;
 
 			const float playerCenterX = playerColliderRect.posX + playerColliderRect.width * 0.5f;
+			const float playerCenterY = playerColliderRect.posY + playerColliderRect.height * 0.5f;
 
-			int idx = static_cast<int>(playerCenterX - pos.x) / sliceWidth;
-			idx = std::clamp(idx, 0, static_cast<int>(m_SrcRects.size()) - 1);
-
-			if (m_OffsetsY[idx] < 2.0f)
+			if (const float burgerY = pos.y; playerCenterY < burgerY)
 			{
-				m_OffsetsY[idx] = 2.0f;
-				soundSystem.Play("BurgerStep.wav", 0.3f);
+				const int sliceWidth = m_SrcRects[0].w;
+
+				int idx = static_cast<int>(playerCenterX - pos.x) / sliceWidth;
+				idx = std::clamp(idx, 0, static_cast<int>(m_SrcRects.size()) - 1);
+
+				if (m_OffsetsY[idx] < 2.0f)
+				{
+					m_OffsetsY[idx] = 2.0f;
+					soundSystem.Play("BurgerStep.wav", 0.3f);
+				}
 			}
 		}
 

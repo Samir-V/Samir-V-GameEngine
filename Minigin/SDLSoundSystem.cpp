@@ -84,6 +84,13 @@ SDLSoundSystem::SDLSoundSystemImpl::~SDLSoundSystemImpl()
 
 void SDLSoundSystem::SDLSoundSystemImpl::Play(const std::string& sound, const float volume, bool isMusic)
 {
+	std::scoped_lock lock(m_Mtx);
+	// Prevents the queue from breaking
+	// If multiple messages are queued while there are some in the loop already,
+	// Update loop can modify the m_Head, which can cause this for loop to incorrectly
+	// evaluate pending messages
+
+
 	for (int index = m_Head; index != m_Tail; index = (index + 1) % m_MaxPending)
 	{
 		if (m_Pending[index].name == sound)
