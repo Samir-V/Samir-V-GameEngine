@@ -64,8 +64,6 @@ void dae::MoveComponent::Update(float elapsedSec)
 
 	const auto& pepperPos = GetOwner()->GetWorldTransform().GetPosition();
 
-	//std::cout << pepperPos.x << " " << pepperPos.y << "\n";
-
 	const auto newPepperPosX = pepperPos.x + m_Velocity.x * elapsedSec;
 	const auto newPepperPosY = pepperPos.y + m_Velocity.y * elapsedSec;
 
@@ -96,14 +94,6 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 
 		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			/*auto enemyStateType = observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType();
-
-			if (enemyStateType != typeid(StunnedState) && enemyStateType != typeid(FallingState))
-			{
-				auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
-				peterPepperComp->ChangeState(std::make_unique<DyingState>());
-			}*/
-
 			m_CurrentEnemyColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
 		}
 	}
@@ -184,6 +174,8 @@ void dae::MoveComponent::Reset()
 	m_CurrentPlatformsColliders.clear();
 	m_CurrentLadderColliders.clear();
 	m_CurrentEnemyColliders.clear();
+	m_CanGoHorizontally = false;
+	m_CanGoVertically = false;
 }
 
 

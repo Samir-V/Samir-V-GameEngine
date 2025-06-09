@@ -12,6 +12,8 @@ using Tag = unsigned int;
 
 namespace dae
 {
+	class Scene;
+
 	class GameObject final
 	{
 	public:
@@ -34,6 +36,9 @@ namespace dae
 		void SetWorldPosition(const glm::vec3& pos);
 		void SetParent(GameObject* newParentPtr, bool worldPositionStays);
 		std::vector<GameObject*>& GetChildrenVector();
+
+		void SetParentScene(Scene* scene);
+		Scene* GetParentScene() const;
 
 		const Transform& GetWorldTransform();
 		const Transform& GetLocalTransform() const;
@@ -123,6 +128,8 @@ namespace dae
 		Transform m_LocalTransform	{ };
 		Transform m_WorldTransform	{ };
 		GameObject* m_Parent		{ };
+
+		Scene* m_ParentScene		{ };
 
 		std::vector<std::unique_ptr<ComponentBase>> m_Components{ };
 		std::vector<GameObject*>					m_Children	{ };

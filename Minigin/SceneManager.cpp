@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "RectCollider2DComponent.h"
 #include "Scene.h"
 
 void dae::SceneManager::Start()
@@ -105,6 +106,8 @@ dae::Scene* dae::SceneManager::GetDontDestroyOnLoadScene() const
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
 {
+	RectCollider2DComponent::RemoveAllCollidersFromScene(m_ActiveScene);
+
 	auto fit = m_SceneFactories.find(name);
 	if (fit != m_SceneFactories.end())
 	{

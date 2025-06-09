@@ -1,5 +1,7 @@
 #include "GameStates.h"
 
+#include <iostream>
+
 #include "GameHandlerComponent.h"
 #include "RectCollider2DComponent.h"
 #include "BurgerPartComponent.h"
@@ -75,6 +77,7 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 
 void dae::PlayingState::OnExit(GameObject* )
 {
+	std::cout << "Exiting playing state" << "\n";
 }
 
 
@@ -105,7 +108,7 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 {
 	if (m_Timer < 0.0f)
 	{
-		return std::make_unique<MenuState>();
+		return std::make_unique<PlayingState>();
 	}
 
 	m_Timer -= elapsedSec;
@@ -123,8 +126,15 @@ void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
 		player->SetIsActive(false);
 	}
 
-	
-	gameHandlerComp->SwitchLevel("Menu");
+	int currentLevelCounter = gameHandlerComp->GetLevelCounter();
+	++currentLevelCounter;
+
+	if (currentLevelCounter > 3)
+	{
+		currentLevelCounter = 1;
+	}
+
+	gameHandlerComp->SwitchLevel("Level" + std::to_string(currentLevelCounter));
 }
 
 

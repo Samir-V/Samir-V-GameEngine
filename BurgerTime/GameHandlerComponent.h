@@ -70,6 +70,7 @@ namespace dae
 		void AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern);
 
 		Subject* GetEnemiesSpawnedEvent() const;
+		int GetLevelCounter() const;
 
 	private:
 

@@ -90,8 +90,6 @@ void dae::GameHandlerComponent::Start()
 		}
 
 		SpawnLevelEnemies();
-
-		ChangeState(std::make_unique<PlayingState>());
 		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
 
 		auto& sound = ServiceLocator::GetSoundSystem();
@@ -256,9 +254,14 @@ void dae::GameHandlerComponent::ResetLevel()
 		auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
 		peterPepperComponent->Resurrect();
 		player->GetComponent<MoveComponent>()->Reset();
-		const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
-		auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
-		player->SetWorldPosition(worldPos.x, worldPos.y);
+
+		if (!m_GameplayData.playerRespawnPoints.empty())
+		{
+			const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
+			auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
+			player->SetWorldPosition(worldPos.x, worldPos.y);
+		}
+
 		player->SetIsActive(true);
 	}
 
@@ -302,11 +305,15 @@ void dae::GameHandlerComponent::SpawnLevelEnemies()
 	{
 		m_GameplayData.pendingSpawns.push_back(EnemyType::Egg);
 	}
-
-	//m_EnemiesSpawnedEvent->NotifyObservers(Event(make_sdbm_hash("EnemiesSpawned")), GetOwner());
 }
 
 dae::Subject* dae::GameHandlerComponent::GetEnemiesSpawnedEvent() const
 {
 	return m_EnemiesSpawnedEvent.get();
 }
+
+int dae::GameHandlerComponent::GetLevelCounter() const
+{
+	return m_LevelCounter;
+}
+

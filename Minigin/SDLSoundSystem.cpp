@@ -120,7 +120,7 @@ void SDLSoundSystem::SDLSoundSystemImpl::Update(std::stop_token stopToken)
 {
 	while (!stopToken.stop_requested())
 	{
-		std::unique_lock<std::mutex> lck(m_Mtx);
+		std::unique_lock lck(m_Mtx);
 		m_CV.wait(lck, [this, &stopToken] { return m_NumPending != 0 || stopToken.stop_requested(); });
 
 		if (m_Head == m_Tail)

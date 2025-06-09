@@ -8,6 +8,8 @@
 
 namespace dae
 {
+	class Scene;
+
 	class RectCollider2DComponent : public ComponentBase
 	{
 	public:
@@ -50,6 +52,7 @@ namespace dae
 		static bool IsOverlapping(const Rect& rect1, const Rect& rect2);
 		static glm::vec2 GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2);
 		static std::unordered_set<GameObject*> GetRayIntersectedGameObjects(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength);
+		static void RemoveAllCollidersFromScene(const Scene* scene);
 
 	private:
 

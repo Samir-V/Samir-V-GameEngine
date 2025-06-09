@@ -15,6 +15,7 @@ Scene::~Scene() = default;
 
 void Scene::Add(std::unique_ptr<GameObject> object)
 {
+	object->SetParentScene(this);
 	m_Objects.emplace_back(std::move(object));
 }
 

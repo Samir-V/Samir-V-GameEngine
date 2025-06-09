@@ -1,5 +1,10 @@
 #include "RectCollider2DComponent.h"
+
+#include <iostream>
+
 #include "GameObject.h"
+#include "Scene.h"
+#include "SceneManager.h"
 
 std::vector<dae::RectCollider2DComponent*> dae::RectCollider2DComponent::m_Colliders{};
 
@@ -21,12 +26,7 @@ dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, floa
 
 dae::RectCollider2DComponent::~RectCollider2DComponent()
 {
-	const auto it = std::ranges::find_if(m_Colliders, [this](const RectCollider2DComponent* collider)
-		{
-			return collider == this;
-		});
-
-	m_Colliders.erase(it);
+	std::erase(m_Colliders, this);
 
 	if (m_PreviousFrameCollisions.contains(this))
 	{
@@ -64,6 +64,12 @@ void dae::RectCollider2DComponent::Update(float)
 		}
 
 		if (otherCollider->GetOwner() == nullptr)
+		{
+			continue;
+		}
+
+		if (otherCollider->GetOwner()->GetParentScene() != SceneManager::GetInstance().GetActiveScene() 
+			&& otherCollider->GetOwner()->GetParentScene() != SceneManager::GetInstance().GetDontDestroyOnLoadScene())
 		{
 			continue;
 		}
@@ -306,4 +312,20 @@ dae::Subject* dae::RectCollider2DComponent::GetCollisionStayEvent() const
 dae::RectCollider2DComponent::Rect dae::RectCollider2DComponent::GetCollisionRect() const
 {
 	return m_CollisionRect;
+}
+
+void dae::RectCollider2DComponent::RemoveAllCollidersFromScene(const Scene* scene)
+{
+	auto it = m_Colliders.begin();
+	while (it != m_Colliders.end())
+	{
+		if ((*it)->GetOwner()->GetParentScene() == scene)
+		{
+			it = m_Colliders.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 }

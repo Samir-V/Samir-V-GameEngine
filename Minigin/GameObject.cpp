@@ -241,12 +241,26 @@ dae::GameObject* dae::GameObject::GetParent() const
 	return m_Parent;
 }
 
+void dae::GameObject::SetParentScene(Scene* scene)
+{
+	m_ParentScene = scene;
+}
+
+dae::Scene* dae::GameObject::GetParentScene() const
+{
+	return m_ParentScene;
+}
+
+
+
 void dae::GameObject::Destroy()
 {
 	m_MarkedToDestroy = true;
 
 	for (const auto child : m_Children)
 	{
+		assert(child != nullptr);
+
 		child->Destroy();
 	}
 }
