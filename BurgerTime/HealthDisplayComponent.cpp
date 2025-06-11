@@ -41,7 +41,7 @@ void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observe
 
 		const int index = remainingLives - 1;
 
-		if (index >= 0 && index < m_LifeDisplays.size())
+		if (index >= 0 && index < static_cast<int>(m_LifeDisplays.size()))
 		{
 			m_LifeDisplays[index]->SetIsActive(false);
 		}

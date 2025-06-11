@@ -137,13 +137,11 @@ void dae::InputManager::HandleControllerInput() const
 
 void dae::InputManager::RegisterKeyboardCommand(InputMap inputMap, std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType)
 {
-	//m_KeyboardCommands.emplace_back(std::move(command), key, activationType);
 	m_KeyboardCommands.at(inputMap).emplace_back(std::move(command), key, activationType);
 }
 
 void dae::InputManager::RegisterControllerCommand(InputMap inputMap, std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex)
 {
-	//m_ControllerCommands.emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
 	m_ControllerCommands.at(inputMap).emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
 }
 
