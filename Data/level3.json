@@ -1,0 +1,3128 @@
+{
+  "name": "level3",
+  "gameObjects": [
+    {
+      "tag": 1046614259,
+      "position": [16.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [32.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [64.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [80.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [112.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [128.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [160.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [176.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [208.0, 36.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [19.0, 40.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [67.0, 40.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [91.0, 40.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [139.0, 40.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [211.0, 40.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [16.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [32.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [64.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [80.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [112.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [128.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [160.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [176.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/WidePlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 1046614259,
+      "position": [208.0, 52.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortPlatform.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [19.0, 56.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [67.0, 56.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [91.0, 56.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [115.0, 56.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [163.0, 56.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+      "tag": 2953416802,
+      "position": [211.0, 56.0],
+      "components": [
+        {
+          "type": "Texture2DComponent",
+          "args": {
+            "texturePath": "Level/ShortLadder.png"
+          }
+        },
+        {
+          "type": "RectCollider2DComponent",
+          "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+          }
+        }
+      ]
+    },
+    {
+    "tag": 1046614259,
+    "position": [16.0, 68.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/ShortPlatform.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 16.0,
+          "height": 4.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [32.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [80.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [112.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [176.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [208.0, 68.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [19.0, 72.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [91.0, 72.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [115.0, 72.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 72.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [211.0, 72.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [16.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [32.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [80.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [112.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [128.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [176.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [208.0, 84.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 88.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [91.0, 88.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 100.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/Ladder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 16.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [91.0, 100.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/Ladder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 16.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [115.0, 88.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [139.0, 88.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [112.0, 100.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [128.0, 100.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 100.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [115.0, 104.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 104.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 116.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [80.0, 116.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [112.0, 116.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [128.0, 116.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 116.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 120.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 120.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 132.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/Ladder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 16.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 132.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/Ladder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 16.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [16.0, 148.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [32.0, 148.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 148.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 148.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [176.0, 148.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [208.0, 148.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [19.0, 152.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [43.0, 152.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 152.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 152.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [211.0, 152.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [16.0, 164.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [32.0, 164.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 164.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 164.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [176.0, 164.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [208.0, 164.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [19.0, 168.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [43.0, 168.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 168.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 168.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [187.0, 168.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [211.0, 168.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [16.0, 180.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [32.0, 180.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 180.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 180.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [176.0, 180.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [208.0, 180.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 184.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 184.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 196.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [80.0, 196.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [112.0, 196.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [128.0, 196.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 196.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [67.0, 200.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [91.0, 200.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [139.0, 200.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 2953416802,
+        "position": [163.0, 200.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortLadder.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 10.0,
+            "height": 12.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [64.0, 212.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [80.0, 212.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [112.0, 212.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [128.0, 212.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/WidePlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 32.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+        "tag": 1046614259,
+        "position": [160.0, 212.0],
+        "components": [
+        {
+            "type": "Texture2DComponent",
+            "args": {
+            "texturePath": "Level/ShortPlatform.png"
+            }
+        },
+        {
+            "type": "RectCollider2DComponent",
+            "args": {
+            "width": 16.0,
+            "height": 4.0,
+            "shouldCollide": false,
+            "shouldTriggerEvents": false,
+            "isStatic": false
+            }
+        }
+        ]
+    },
+    {
+    "tag": 3043290120,
+    "position": [32.0, 34.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunTop.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [32.0, 66.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/Burger.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [32.0, 82.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunBottom.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [176.0, 34.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunTop.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [176.0, 66.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/Tomato.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [176.0, 82.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunBottom.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [128.0, 34.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunTop.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [128.0, 50.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/Burger.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [128.0, 82.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunBottom.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [80.0, 34.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunTop.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [80.0, 50.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/Tomato.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [80.0, 82.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunBottom.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [176.0, 146.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunTop.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [176.0, 162.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/Burger.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [176.0, 178.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunBottom.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [32.0, 146.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunTop.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [32.0, 162.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/Tomato.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 3043290120,
+    "position": [32.0, 178.0],
+    "components": [
+      {
+        "type": "BurgerPartComponent",
+        "args": {
+          "spritePath": "BurgerParts/BurgerBunBottom.png",
+          "sliceCount": 8
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 32.0,
+          "height": 7.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": true,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 183877046,
+    "position": [29.0, 124.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/Plate.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 38.0,
+          "height": 5.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 183877046,
+    "position": [29.0, 235.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/Plate.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 38.0,
+          "height": 5.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 183877046,
+    "position": [77.0, 172.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/Plate.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 38.0,
+          "height": 5.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 183877046,
+    "position": [125.0, 172.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/Plate.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 38.0,
+          "height": 5.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 183877046,
+    "position": [173.0, 124.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/Plate.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 38.0,
+          "height": 5.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 183877046,
+    "position": [173.0, 235.0],
+    "components": [
+      {
+        "type": "Texture2DComponent",
+        "args": {
+          "texturePath": "Level/Plate.png"
+        }
+      },
+      {
+        "type": "RectCollider2DComponent",
+        "args": {
+          "width": 38.0,
+          "height": 5.0,
+          "shouldCollide": false,
+          "shouldTriggerEvents": false,
+          "isStatic": false
+        }
+      }
+    ]
+  },
+  {
+    "tag": 2916356432,
+    "position": [0.0, 20.0],
+    "components": []
+  },
+  {
+    "tag": 2916356432,
+    "position": [224.0, 20.0],
+    "components": []
+  },
+  {
+    "tag": 2916356432,
+    "position": [0.0, 164.0],
+    "components": []
+  },
+  {
+    "tag": 2916356432,
+    "position": [224.0, 132.0],
+    "components": []
+  },
+  {
+    "tag": 108461449,
+    "position": [112.0, 197.0],
+    "components": []
+  }
+  ]
+}

@@ -4,9 +4,17 @@
 
 #include "GameObject.h"
 
-dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, GameObject* playerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_PlayerTargetPtr{playerPtr}, m_MaxSpeed { maxSpeed }
+dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, const std::vector<GameObject*>& players, float maxSpeed) :
+	ComponentBase(ownerPtr)
+	, m_Players{players}
+	, m_MaxSpeed { maxSpeed }
 {
 }
+
+dae::EnemyMoveComponent::~EnemyMoveComponent()
+{
+}
+
 
 void dae::EnemyMoveComponent::Start()
 {
@@ -56,36 +64,48 @@ void dae::EnemyMoveComponent::SetDirection(const glm::vec2& direction)
 
 dae::EnemyMoveComponent::MovingDirective dae::EnemyMoveComponent::CalculateDirectionDirectives()
 {
-	auto playerWorldPos = m_PlayerTargetPtr->GetWorldTransform().GetPosition();
+	assert(!m_Players.empty());
+
 	auto worldPos = GetOwner()->GetWorldTransform().GetPosition();
 
-	auto diff = playerWorldPos - worldPos;
+	auto activePlayers = m_Players | std::views::filter([](const GameObject* player) {
+		return player->IsActive();
+		});
+
+	if (activePlayers.empty())
+	{
+		return { m_CurrentHorizontalDirective, m_CurrentVerticalDirective };
+	}
+
+	const auto closestPlayer = *std::ranges::min_element(activePlayers,
+	                                                     [&worldPos](GameObject* a, GameObject* b) {
+		                                                     const auto diffA = a->GetWorldTransform().GetPosition() - worldPos;
+		                                                     const auto diffB = b->GetWorldTransform().GetPosition() - worldPos;
+		                                                     return (diffA.x * diffA.x + diffA.y * diffA.y) < (diffB.x * diffB.x + diffB.y * diffB.y);
+	                                                     });
+
+	const auto diff = closestPlayer->GetWorldTransform().GetPosition() - worldPos;
 
 	if (diff.x >= 0.0f)
 	{
 		m_CurrentHorizontalDirective = HorizontalDirective::Right;
-		//std::cout << "Horizontal - Right" << "\n";
 	}
 	else
 	{
 		m_CurrentHorizontalDirective = HorizontalDirective::Left;
-		//std::cout << "Horizontal - Left" << "\n";
 	}
 
 	if (diff.y > 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Down;
-		//std::cout << "Vertical - Down" << "\n";
 	}	
 	else if (diff.y < 0.0f)
 	{
 		m_CurrentVerticalDirective = VerticalDirective::Up;
-		//std::cout << "Vertical - Up" << "\n";
 	}
 	else
 	{
 		m_CurrentVerticalDirective = VerticalDirective::None;
-		//std::cout << "Vertical - None" << "\n";
 	}
 
 	return { m_CurrentHorizontalDirective, m_CurrentVerticalDirective };

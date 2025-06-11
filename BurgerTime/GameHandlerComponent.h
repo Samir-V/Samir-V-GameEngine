@@ -72,6 +72,8 @@ namespace dae
 		Subject* GetEnemiesSpawnedEvent() const;
 		int GetLevelCounter() const;
 
+		void SpawnSecondPlayerObjects();
+
 	private:
 
 		static bool m_IsCreated;

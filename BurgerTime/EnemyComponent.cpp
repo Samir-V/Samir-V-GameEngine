@@ -7,7 +7,10 @@
 #include "EnemyMoveComponent.h"
 #include "Utils.h"
 
-dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) : ComponentBase(ownerPtr), m_EnemyType{ enemyType }, m_EnemyDyingEvent{std::make_unique<Subject>()}
+dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) :
+	ComponentBase(ownerPtr)
+	, m_EnemyDyingEvent{std::make_unique<Subject>()}
+	, m_EnemyType{ enemyType }
 {
 }
 

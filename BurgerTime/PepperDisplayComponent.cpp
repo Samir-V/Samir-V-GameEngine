@@ -5,14 +5,18 @@
 #include "SceneManager.h"
 #include "TextComponent.h"
 
-dae::PepperDisplayComponent::PepperDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent): ComponentBase(ownerPtr), m_PepperDisplay{textComponent}
+dae::PepperDisplayComponent::PepperDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent, GameObject* petterPepper):
+	ComponentBase(ownerPtr)
+	, m_PepperDisplay{textComponent}
+	, m_PeterPepperPtr{ petterPepper }
 {
 }
 
 void dae::PepperDisplayComponent::Start()
 {
-	auto players = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-	players.front()->GetComponent<PeterPepperComponent>()->GetPepperSprayedEvent()->AddObserver(this);
+	assert(m_PeterPepperPtr != nullptr);
+
+	m_PeterPepperPtr->GetComponent<PeterPepperComponent>()->GetPepperSprayedEvent()->AddObserver(this);
 }
 
 void dae::PepperDisplayComponent::Update(float)

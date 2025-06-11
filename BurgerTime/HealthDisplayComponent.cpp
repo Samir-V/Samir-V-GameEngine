@@ -4,20 +4,21 @@
 
 #include "GameObject.h"
 #include "PeterPepperComponent.h"
-#include "Scene.h"
 #include "SceneManager.h"
 #include "Texture2DComponent.h"
 
-dae::HealthDisplayComponent::HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays) :
-	ComponentBase(ownerPtr),
-	m_LifeDisplays{std::move(lifeDisplays)}
+dae::HealthDisplayComponent::HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays, GameObject* peterPepper) :
+	ComponentBase(ownerPtr)
+	, m_LifeDisplays{std::move(lifeDisplays)}
+	, m_PeterPepperPtr{peterPepper}
 {
 }
 
 void dae::HealthDisplayComponent::Start()
 {
-	auto players = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("Player"));
-	players.front()->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->AddObserver(this);
+	assert(m_PeterPepperPtr != nullptr);
+
+	m_PeterPepperPtr->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->AddObserver(this);
 }
 
 void dae::HealthDisplayComponent::Update(float)
@@ -38,9 +39,11 @@ void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observe
 	{
 		const int remainingLives = observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingLives();
 
-		if (remainingLives != 0)
+		const int index = remainingLives - 1;
+
+		if (index >= 0 && index < m_LifeDisplays.size())
 		{
-			m_LifeDisplays[remainingLives - 1]->SetIsActive(false);
+			m_LifeDisplays[index]->SetIsActive(false);
 		}
 	}
 

@@ -38,7 +38,7 @@ namespace dae
 			int controllerIndex;
 		};
 
-		bool ProcessInput() const;
+		bool ProcessInput();
 
 		bool HandleKeyboardInput() const;
 		void HandleControllerInput() const;
@@ -83,15 +83,18 @@ namespace dae
 		}
 
 		void AddController(int index);
+		void RemoveController(int index);
 
 	private:
-		//std::vector<KeyboardCommand> m_KeyboardCommands{};
-		//std::vector<ControllerCommand> m_ControllerCommands{};
+
+		void FlushPendingControllers();
 
 		std::unordered_map<InputMap, std::vector<KeyboardCommand>> m_KeyboardCommands{};
 		std::unordered_map<InputMap, std::vector<ControllerCommand>> m_ControllerCommands{};
 
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};
+		std::vector<int> m_PendingControllersToAdd{};
+		std::vector<int> m_PendingControllersToRemove{};
 
 		InputMap m_CurrentInputMap{};
 	};

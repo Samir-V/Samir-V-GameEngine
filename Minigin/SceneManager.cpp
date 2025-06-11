@@ -106,7 +106,12 @@ dae::Scene* dae::SceneManager::GetDontDestroyOnLoadScene() const
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
 {
-	RectCollider2DComponent::RemoveAllCollidersFromScene(m_ActiveScene);
+	if (m_ActiveScene)
+	{
+		std::cout << "Clearing colliders of scene: " + m_ActiveScene->GetName() << "\n";
+		m_ActiveScene->ForcePendingDestroys();
+		RectCollider2DComponent::RemoveAllCollidersFromScene(m_ActiveScene);
+	}
 
 	auto fit = m_SceneFactories.find(name);
 	if (fit != m_SceneFactories.end())

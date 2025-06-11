@@ -63,22 +63,7 @@ void Scene::LateUpdate(float elapsedSec)
 		}
 	}
 
-	// Deletion of marked objects happens at the very end
-	auto rangeToDestroy = std::ranges::remove_if(m_Objects, [](const auto& object)
-		{
-			return object->IsMarkedToDestroy();
-		});
-
-	// Removing the objects from the objects that stay alive
-	for (auto& object : rangeToDestroy)
-	{
-		if (object)
-		{
-			object->SetParent(nullptr, false);
-		}
-	}
-
-	m_Objects.erase(rangeToDestroy.begin(), m_Objects.end());
+	ForcePendingDestroys();
 }
 
 
@@ -120,5 +105,24 @@ const std::string& Scene::GetName() const
 	return m_Name;
 }
 
+void Scene::ForcePendingDestroys()
+{
+	// Deletion of marked objects happens at the very end
+	auto rangeToDestroy = std::ranges::remove_if(m_Objects, [](const std::unique_ptr<GameObject>& gameObject)
+		{
+			return gameObject->IsMarkedToDestroy();
+		});
+
+	// Removing the objects from the objects that stay alive
+	for (auto& object : rangeToDestroy)
+	{
+		if (object)
+		{
+			object->SetParent(nullptr, false);
+		}
+	}
+
+	m_Objects.erase(rangeToDestroy.begin(), m_Objects.end());
+}
 
 

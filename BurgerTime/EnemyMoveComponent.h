@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "ComponentBase.h"
 
 namespace dae
@@ -29,8 +31,8 @@ namespace dae
 			VerticalDirective verDirective;
 		};
 
-		EnemyMoveComponent(GameObject* ownerPtr, GameObject* playerPtr, float maxSpeed);
-		~EnemyMoveComponent() override = default;
+		EnemyMoveComponent(GameObject* ownerPtr, const std::vector<GameObject*>& players, float maxSpeed);
+		~EnemyMoveComponent() override;
 
 		EnemyMoveComponent(const EnemyMoveComponent& other) = delete;
 		EnemyMoveComponent(EnemyMoveComponent&& other) = delete;
@@ -49,7 +51,7 @@ namespace dae
 
 	private:
 
-		GameObject* m_PlayerTargetPtr{};
+		std::vector<GameObject*> m_Players;
 
 		HorizontalDirective m_CurrentHorizontalDirective{};
 		VerticalDirective m_CurrentVerticalDirective{};
@@ -57,6 +59,6 @@ namespace dae
 		glm::vec2 m_Velocity{};
 		glm::vec2 m_Direction{};
 
-		const float m_MaxSpeed{};
+		const float m_MaxSpeed;
 	};
 }

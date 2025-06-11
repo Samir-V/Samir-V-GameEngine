@@ -28,6 +28,8 @@ namespace dae
 		std::vector<GameObject*> GetGameObjectsWithTag(Tag tag) const;
 		const std::string& GetName() const;
 
+		void ForcePendingDestroys();
+
 	private: 
 		explicit Scene(const std::string& name);
 

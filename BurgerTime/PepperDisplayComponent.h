@@ -10,7 +10,7 @@ namespace dae
 	{
 	public:
 
-		PepperDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent);
+		PepperDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent, GameObject* peterPepper);
 		~PepperDisplayComponent() override = default;
 
 		PepperDisplayComponent(const PepperDisplayComponent& other) = delete;
@@ -28,6 +28,7 @@ namespace dae
 	private:
 
 		TextComponent* m_PepperDisplay;
+		GameObject* m_PeterPepperPtr;
 	};
 }
 

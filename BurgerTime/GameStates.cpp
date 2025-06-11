@@ -77,7 +77,6 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 
 void dae::PlayingState::OnExit(GameObject* )
 {
-	std::cout << "Exiting playing state" << "\n";
 }
 
 

@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 
-		HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays);
+		HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays, GameObject* peterPepper);
 		~HealthDisplayComponent() override = default;
 
 		HealthDisplayComponent(const HealthDisplayComponent& other) = delete;
@@ -30,6 +30,7 @@ namespace dae
 	private:
 
 		std::vector<Texture2DComponent*> m_LifeDisplays;
+		GameObject* m_PeterPepperPtr;
 	};
 }
 

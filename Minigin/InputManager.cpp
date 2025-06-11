@@ -1,8 +1,9 @@
 #include <SDL.h>
 #include "InputManager.h"
 
-bool dae::InputManager::ProcessInput() const
+bool dae::InputManager::ProcessInput()
 {
+	FlushPendingControllers();
 	HandleControllerInput();
 	return HandleKeyboardInput();
 }
@@ -148,8 +149,32 @@ void dae::InputManager::RegisterControllerCommand(InputMap inputMap, std::unique
 
 void dae::InputManager::AddController(int index)
 {
-	m_Controllers.emplace_back(std::make_unique<Controller>(index));
+	m_PendingControllersToAdd.push_back(index);
 }
+
+void dae::InputManager::RemoveController(int index)
+{
+	if (index >= 0 && index < static_cast<int>(m_Controllers.size()))
+	{
+		m_PendingControllersToRemove.push_back(index);
+	}
+}
+
+void dae::InputManager::FlushPendingControllers()
+{
+	for (int index : m_PendingControllersToAdd)
+	{
+		m_Controllers.emplace_back(std::make_unique<Controller>(index));
+	}
+	m_PendingControllersToAdd.clear();
+
+	for (int index : m_PendingControllersToRemove)
+	{
+		m_Controllers.erase(m_Controllers.begin() + index);
+	}
+	m_PendingControllersToRemove.clear();
+}
+
 
 void dae::InputManager::AddInputMap(InputMap inputMap)
 {
