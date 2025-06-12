@@ -70,12 +70,6 @@ void dae::GameHandlerComponent::Start()
 
 		sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUD")).front()->SetIsActive(true);
 
-		if (m_GameMode == GameMode::Coop)
-		{
-			// Add the second HUD? Activate it?
-			// Not even needed?
-		}
-
 		m_GameplayData.players = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
@@ -136,6 +130,32 @@ void dae::GameHandlerComponent::SwitchLevel(const std::string& name)
 {
 	SceneManager::GetInstance().SetActiveScene(name);
 }
+
+void dae::GameHandlerComponent::SkipLevel()
+{
+	for (auto enemy : m_GameplayData.enemies)
+	{
+		enemy->Destroy();
+	}
+
+	m_GameplayData.enemies.clear();
+	m_GameplayData.enemyRespawnDelays.clear();
+	m_GameplayData.pendingSpawns.clear();
+
+	int currentLevelCounter = m_LevelCounter;
+	++currentLevelCounter;
+
+	if (currentLevelCounter > 3)
+	{
+		currentLevelCounter = 1;
+	}
+
+	SwitchLevel("Level" + std::to_string(currentLevelCounter));
+
+	// Starting state is executed anew
+	m_State->OnEnter(GetOwner());
+}
+
 
 void dae::GameHandlerComponent::SetGameMode(GameMode gameMode)
 {
@@ -384,18 +404,18 @@ void dae::GameHandlerComponent::SpawnSecondPlayerObjects()
 
 	auto spriteSheetComp = go->AddComponent<SpritesheetComponent>("PeterPepper");
 
-	spriteSheetComp->AddSprite("PPWalkingDown.png", make_sdbm_hash("PPWalkingDown"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingUp.png", make_sdbm_hash("PPWalkingUp"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingLeft.png", make_sdbm_hash("PPWalkingLeft"), SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPWalkingRight.png", make_sdbm_hash("PPWalkingRight"), SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
-	spriteSheetComp->AddSprite("PPIdleDown.png", make_sdbm_hash("PPIdleDown"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPIdleUp.png", make_sdbm_hash("PPIdleUp"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPSprayDown.png", make_sdbm_hash("PPSprayDown"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPSprayUp.png", make_sdbm_hash("PPSprayUp"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPSprayLeft.png", make_sdbm_hash("PPSprayLeft"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPSprayRight.png", make_sdbm_hash("PPSprayRight"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
-	spriteSheetComp->AddSprite("PPDying.png", make_sdbm_hash("PPDying"), SpritesheetComponent::SpriteMetaData(5, 0, 0.4f));
-	spriteSheetComp->AddSprite("PPWin.png", make_sdbm_hash("PPWin"), SpritesheetComponent::SpriteMetaData(2, 0, 0.3f));
+	spriteSheetComp->AddSprite("PPWalkingDownPink.png", make_sdbm_hash("PPWalkingDown"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingUpPink.png", make_sdbm_hash("PPWalkingUp"), SpritesheetComponent::SpriteMetaData(2, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingLeftPink.png", make_sdbm_hash("PPWalkingLeft"), SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPWalkingRightPink.png", make_sdbm_hash("PPWalkingRight"), SpritesheetComponent::SpriteMetaData(3, 0, 0.12f));
+	spriteSheetComp->AddSprite("PPIdleDownPink.png", make_sdbm_hash("PPIdleDown"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPIdleUpPink.png", make_sdbm_hash("PPIdleUp"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayDownPink.png", make_sdbm_hash("PPSprayDown"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayUpPink.png", make_sdbm_hash("PPSprayUp"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayLeftPink.png", make_sdbm_hash("PPSprayLeft"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPSprayRightPink.png", make_sdbm_hash("PPSprayRight"), SpritesheetComponent::SpriteMetaData(1, 0, 0.0f));
+	spriteSheetComp->AddSprite("PPDyingPink.png", make_sdbm_hash("PPDying"), SpritesheetComponent::SpriteMetaData(5, 0, 0.4f));
+	spriteSheetComp->AddSprite("PPWinPink.png", make_sdbm_hash("PPWin"), SpritesheetComponent::SpriteMetaData(2, 0, 0.3f));
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
 	auto rectColliderCompController = go->AddComponent<RectCollider2DComponent>(16.0f, 16.0f);
@@ -448,8 +468,8 @@ void dae::GameHandlerComponent::SpawnSecondPlayerObjects()
 	go = std::make_unique<GameObject>();
 	go->SetParent(goHUDptr, false);
 	go->SetLocalPosition(0, 220.0f);
-	auto firstLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/Life.png");
-	auto secondLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/Life.png");
+	auto firstLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
+	auto secondLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
 	firstLifeDisplay->SetLocalPosition(10, 0);
 	secondLifeDisplay->SetLocalPosition(10, -10);
 	go->AddComponent<HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay }, playerPtr);

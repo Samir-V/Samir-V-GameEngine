@@ -59,6 +59,7 @@ namespace dae
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
 		void SwitchLevel(const std::string& name);
+		void SkipLevel();
 		void SetGameMode(GameMode gameMode);
 		void ChangeState(std::unique_ptr<GameState> newState);
 

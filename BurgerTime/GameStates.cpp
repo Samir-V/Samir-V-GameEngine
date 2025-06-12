@@ -1,7 +1,4 @@
 #include "GameStates.h"
-
-#include <iostream>
-
 #include "GameHandlerComponent.h"
 #include "RectCollider2DComponent.h"
 #include "BurgerPartComponent.h"
@@ -13,6 +10,8 @@
 
 void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 {
+	m_BurgerPartComponents.clear();
+
 	m_GameHandlerComponentPtr = gameHandlerObject->GetComponent<GameHandlerComponent>();
 
 	auto& burgerParts = m_GameHandlerComponentPtr->GetGameplayDataRef().burgerParts;
@@ -25,10 +24,12 @@ void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 
 std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float elapsedSec)
 {
-	bool allAssembled = std::ranges::all_of(m_BurgerPartComponents, [](const BurgerPartComponent* burgerPartComponent)
+	const bool allAssembled = std::ranges::all_of(m_BurgerPartComponents, [](const BurgerPartComponent* burgerPartComponent)
 		{
-			return burgerPartComponent->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Assembled;
+			const auto state = burgerPartComponent->GetBurgerPartState();
+			return state == BurgerPartComponent::BurgerPartState::Assembled;
 		});
+
 
 	if (allAssembled)
 	{

@@ -8,7 +8,8 @@ class NullSoundSystem final : public SoundSystem
 	void Play(const std::string&, const float, bool) override {}
 	void StopMusic() override {}
 	void LoadSound(const std::string&, bool) override {}
-	void SetFolder(std::string folderName) override {}
+	void SetFolder(std::string) override {}
+	void SetMute(bool) override {}
 };
 
 class ServiceLocator final

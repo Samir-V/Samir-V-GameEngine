@@ -23,6 +23,7 @@ public:
 	void Update(std::stop_token stopToken);
 	void LoadSound(const std::string& sound, bool isMusic = false);
 	void SetFolder(std::string folderName);
+	void SetMute(bool mute);
 
 private:
 	struct PlayMessage
@@ -37,6 +38,8 @@ private:
 
 	int m_Head		 { 0 };
 	int m_Tail		 { 0 };
+
+	bool m_Mute		 { false };
 
 	std::string				m_FolderName { };
 
@@ -84,6 +87,11 @@ SDLSoundSystem::SDLSoundSystemImpl::~SDLSoundSystemImpl()
 
 void SDLSoundSystem::SDLSoundSystemImpl::Play(const std::string& sound, const float volume, bool isMusic)
 {
+	if (m_Mute)
+	{
+		return;
+	}
+
 	std::scoped_lock lock(m_Mtx);
 	// Prevents the queue from breaking
 	// If multiple messages are queued while there are some in the loop already,
@@ -205,6 +213,20 @@ void SDLSoundSystem::SDLSoundSystemImpl::SetFolder(std::string folderName)
 	m_FolderName = std::move(folderName);
 }
 
+void SDLSoundSystem::SDLSoundSystemImpl::SetMute(bool mute)
+{
+	m_Mute = mute;
+
+	if (m_Mute)
+	{
+		Mix_PauseMusic();
+	}
+	else
+	{
+		Mix_ResumeMusic();
+	}
+}
+
 SDLSoundSystem::SDLSoundSystem()
 {
 	m_pImpl = std::make_unique<SDLSoundSystemImpl>();
@@ -231,6 +253,11 @@ void SDLSoundSystem::SetFolder(std::string folderName)
 void SDLSoundSystem::StopMusic()
 {
 	m_pImpl->StopMusic();
+}
+
+void SDLSoundSystem::SetMute(bool mute)
+{
+	m_pImpl->SetMute(mute);
 }
 
 

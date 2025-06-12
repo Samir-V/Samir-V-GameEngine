@@ -176,6 +176,7 @@ void dae::InputManager::FlushPendingControllers()
 
 void dae::InputManager::AddInputMap(InputMap inputMap)
 {
+	m_KeyboardCommands.emplace(inputMap, std::vector<KeyboardCommand>{});
 	m_ControllerCommands.emplace(inputMap, std::vector<ControllerCommand>{});
 }
 

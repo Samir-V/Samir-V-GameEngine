@@ -13,6 +13,7 @@ public:
 	void StopMusic() override;
 	void LoadSound(const std::string& sound, bool isMusic = false) override;
 	void SetFolder(std::string folderName) override;
+	void SetMute(bool mute) override;
 
 private:
 

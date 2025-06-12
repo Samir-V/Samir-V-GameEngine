@@ -15,4 +15,5 @@ public:
 	virtual void StopMusic() = 0;
 	virtual void LoadSound(const std::string& sound, bool isMusic = false) = 0;
 	virtual void SetFolder(std::string folderName) = 0;
+	virtual void SetMute(bool mute) = 0;
 };

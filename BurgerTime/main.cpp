@@ -33,6 +33,7 @@
 #include "GameHandlerComponent.h"
 #include "MenuCommand.h"
 #include "MenuHUDComponent.h"
+#include "MiscCommand.h"
 #include "PepperDisplayComponent.h"
 #include "ScoreComponent.h"
 
@@ -142,8 +143,6 @@ void load()
 	input.AddInputMap(make_sdbm_hash("GameplayMap"));
 	input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
 
-
-
 	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
 	auto go = std::make_unique<dae::GameObject>();
 	auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
@@ -151,7 +150,13 @@ void load()
 	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 3, 0, 1 });
 	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 2, 2, 1 });
 	go->SetTag(make_sdbm_hash("GameHandler"));
+	auto gameHandler = go.get();
 	sceneDontDestroy.Add(std::move(go));
+
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<SkipLevel>(gameHandler), SDL_SCANCODE_F1, dae::InputManager::ActivationType::Pressing);
+
+	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<MuteSound>(gameHandler), SDL_SCANCODE_F2, dae::InputManager::ActivationType::Pressing);
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MuteSound>(gameHandler), SDL_SCANCODE_F2, dae::InputManager::ActivationType::Pressing);
 
 	// Menu scene
 	auto& menuScene = dae::SceneManager::GetInstance().CreateScene("Menu", false);
@@ -181,6 +186,10 @@ void load()
 	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Pressing, 0);
 	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), XINPUT_GAMEPAD_DPAD_DOWN, dae::InputManager::ActivationType::Pressing, 0);
 	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
+
+	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), SDL_SCANCODE_UP, dae::InputManager::ActivationType::Pressing);
+	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), SDL_SCANCODE_DOWN, dae::InputManager::ActivationType::Pressing);
+	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), SDL_SCANCODE_SPACE, dae::InputManager::ActivationType::Pressing);
 
 	menuScene.Add(std::move(go));
 
@@ -221,6 +230,13 @@ void load()
 	input.RegisterControllerCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputManager::ActivationType::Holding, 0);
 
 	input.RegisterControllerCommand(make_sdbm_hash("GameplayMap"), std::make_unique<SprayPepper>(go.get()), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
+
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, -1.0f)), SDL_SCANCODE_W, dae::InputManager::ActivationType::Holding);
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MoveInDirection>(go.get(), glm::vec2(-1.0f, 0.0f)), SDL_SCANCODE_A, dae::InputManager::ActivationType::Holding);
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MoveInDirection>(go.get(), glm::vec2(0.0f, 1.0f)), SDL_SCANCODE_S, dae::InputManager::ActivationType::Holding);
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MoveInDirection>(go.get(), glm::vec2(1.0f, 0.0f)), SDL_SCANCODE_D, dae::InputManager::ActivationType::Holding);
+
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<SprayPepper>(go.get()), SDL_SCANCODE_K, dae::InputManager::ActivationType::Pressing);
 
 	go->SetIsActive(false);
 
