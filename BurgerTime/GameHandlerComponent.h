@@ -60,6 +60,8 @@ namespace dae
 
 		void SwitchLevel(const std::string& name);
 		void SkipLevel();
+		void SwitchToScoreView();
+		void ReturnToMenu();
 		void SetGameMode(GameMode gameMode);
 		void ChangeState(std::unique_ptr<GameState> newState);
 

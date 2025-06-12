@@ -8,7 +8,7 @@ namespace dae
 {
 	class TextComponent;
 
-	class HighScoreInputComponent : public ComponentBase
+	class HighScoreInputComponent final : public ComponentBase
 	{
 	public:
 

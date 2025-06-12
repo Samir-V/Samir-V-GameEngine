@@ -518,6 +518,7 @@
     <ClCompile Include="PepperDisplayComponent.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
     <ClCompile Include="PeterPepperStates.cpp" />
+    <ClCompile Include="ScoreboardDisplayComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +539,7 @@
     <ClInclude Include="PeterPepperCommand.h" />
     <ClInclude Include="PeterPepperComponent.h" />
     <ClInclude Include="PeterPepperStates.h" />
+    <ClInclude Include="ScoreboardDisplayComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -38,6 +38,7 @@
 #include "PepperDisplayComponent.h"
 #include "ScoreComponent.h"
 #include "HighScoreCommand.h"
+#include "ScoreboardDisplayComponent.h"
 
 void find_resources()
 {
@@ -139,11 +140,13 @@ void load_level_from_json(const std::string& filename, dae::Scene& scene)
 void load()
 {
 	ServiceLocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
+	register_factories();
 
 	auto& input = dae::InputManager::GetInstance();
 	input.AddInputMap(make_sdbm_hash("MenuMap"));
 	input.AddInputMap(make_sdbm_hash("GameplayMap"));
 	input.AddInputMap(make_sdbm_hash("HighScoreInputMap"));
+	input.AddInputMap(make_sdbm_hash("HighScoreViewMap"));
 	input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
 
 	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
@@ -156,92 +159,164 @@ void load()
 	auto gameHandler = go.get();
 	sceneDontDestroy.Add(std::move(go));
 
-	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<SkipLevel>(gameHandler), SDL_SCANCODE_F1, dae::InputManager::ActivationType::Pressing);
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<dae::SkipLevel>(gameHandler), SDL_SCANCODE_F1, dae::InputManager::ActivationType::Pressing);
+	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<dae::MuteSound>(gameHandler), SDL_SCANCODE_F2, dae::InputManager::ActivationType::Pressing);
 
-	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<MuteSound>(gameHandler), SDL_SCANCODE_F2, dae::InputManager::ActivationType::Pressing);
-	input.RegisterKeyboardCommand(make_sdbm_hash("GameplayMap"), std::make_unique<MuteSound>(gameHandler), SDL_SCANCODE_F2, dae::InputManager::ActivationType::Pressing);
+	auto& sceneManager = dae::SceneManager::GetInstance();
 
-	// Menu scene
-	auto& menuScene = dae::SceneManager::GetInstance().CreateScene("Menu", false);
-	auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+	sceneManager.RegisterSceneFactory("Menu", [&sceneManager]() -> std::shared_ptr<dae::Scene>
+		{
+			// Menu scene
+			auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
+			auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
-	go = std::make_unique<dae::GameObject>();
+			auto& input = dae::InputManager::GetInstance();
 
-	auto textComp = go->AddComponent<dae::TextComponent>("Burger Time!", fontBig);
-	textComp->SetLocalPosition(30, 40);
+			auto menuScene = sceneManager.CreateSceneForFactory("Menu");
+			auto go = std::make_unique<dae::GameObject>();
 
-	auto textComp1 = go->AddComponent<dae::TextComponent>("Solo mode", font);
-	textComp1->SetLocalPosition(85, 110);
+			auto textComp = go->AddComponent<dae::TextComponent>("Burger Time!", fontBig);
+			textComp->SetLocalPosition(30, 40);
 
-	auto textComp2 = go->AddComponent<dae::TextComponent>("Co-op mode", font);
-	textComp2->SetLocalPosition(85, 160);
+			auto textComp1 = go->AddComponent<dae::TextComponent>("Solo mode", font);
+			textComp1->SetLocalPosition(85, 110);
 
-	auto textComp3 = go->AddComponent<dae::TextComponent>("Versus mode", font);
-	textComp3->SetLocalPosition(85, 210);
+			auto textComp2 = go->AddComponent<dae::TextComponent>("Co-op mode", font);
+			textComp2->SetLocalPosition(85, 160);
 
-
-	textComp = go->AddComponent<dae::TextComponent>("--->", font);
-	textComp->SetLocalPosition(40, 110);
-
-	go->AddComponent<dae::MenuHUDComponent>(textComp, std::vector<dae::TextComponent*>{{textComp1, textComp2, textComp3}});
-
-	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Pressing, 0);
-	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), XINPUT_GAMEPAD_DPAD_DOWN, dae::InputManager::ActivationType::Pressing, 0);
-	input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
-
-	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), SDL_SCANCODE_UP, dae::InputManager::ActivationType::Pressing);
-	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), SDL_SCANCODE_DOWN, dae::InputManager::ActivationType::Pressing);
-	input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), SDL_SCANCODE_SPACE, dae::InputManager::ActivationType::Pressing);
-
-	menuScene.Add(std::move(go));
-
-	// HighScore scene
-
-	auto& highScoreInputScene = dae::SceneManager::GetInstance().CreateScene("HighScoreInput", false);
-
-	go = std::make_unique<dae::GameObject>();
-	auto scoreShowcase = go->AddComponent<dae::TextComponent>("Your score: 0", fontBig);
-	scoreShowcase->SetLocalPosition(30, 40);
-	highScoreInputScene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	auto nameShowcase = go->AddComponent<dae::TextComponent>("Your name", fontBig);
-	nameShowcase->SetLocalPosition(30, 80);
-	highScoreInputScene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	auto leftLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
-	leftLetterShowcase->SetLocalPosition(90, 130);
-	auto mainLetterShowcase = go->AddComponent<dae::TextComponent>("", fontBig);
-	mainLetterShowcase->SetLocalPosition(110, 120);
-	auto rightLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
-	rightLetterShowcase->SetLocalPosition(140, 130);
-	highScoreInputScene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetTag(make_sdbm_hash("HighScoreInputShowcase"));
-	auto highScoreInputObject = go.get();
-	go->AddComponent<dae::HighScoreInputComponent>(scoreShowcase, nameShowcase, std::vector{leftLetterShowcase, mainLetterShowcase, rightLetterShowcase});
-	highScoreInputScene.Add(std::move(go));
-
-	input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, -1), XINPUT_GAMEPAD_DPAD_LEFT, dae::InputManager::ActivationType::Pressing, 0);
-	input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, 1), XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputManager::ActivationType::Pressing, 0);
-
-	input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmLetter>(highScoreInputObject), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
-	input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmName>(highScoreInputObject), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
+			auto textComp3 = go->AddComponent<dae::TextComponent>("Versus mode", font);
+			textComp3->SetLocalPosition(85, 210);
 
 
-	input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, -1), SDL_SCANCODE_LEFT, dae::InputManager::ActivationType::Pressing);
-	input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, 1), SDL_SCANCODE_RIGHT, dae::InputManager::ActivationType::Pressing);
+			textComp = go->AddComponent<dae::TextComponent>("--->", font);
+			textComp->SetLocalPosition(40, 110);
 
-	input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmLetter>(highScoreInputObject), SDL_SCANCODE_Y, dae::InputManager::ActivationType::Pressing);
-	input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmName>(highScoreInputObject), SDL_SCANCODE_SPACE, dae::InputManager::ActivationType::Pressing);
+			go->AddComponent<dae::MenuHUDComponent>(textComp, std::vector<dae::TextComponent*>{{textComp1, textComp2, textComp3}});
 
+			const auto sceneDontDestroy = dae::SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+			auto gameHandlerObject = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameHandler")).front();
+
+			input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), XINPUT_GAMEPAD_DPAD_UP, dae::InputManager::ActivationType::Pressing, 0);
+			input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), XINPUT_GAMEPAD_DPAD_DOWN, dae::InputManager::ActivationType::Pressing, 0);
+			input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
+			input.RegisterControllerCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::VisitHighScoreView>(gameHandlerObject), XINPUT_GAMEPAD_Y, dae::InputManager::ActivationType::Pressing, 0);
+
+			input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), -1), SDL_SCANCODE_UP, dae::InputManager::ActivationType::Pressing);
+			input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::AlterHUDCounter>(go.get(), 1), SDL_SCANCODE_DOWN, dae::InputManager::ActivationType::Pressing);
+			input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::ConfirmModeChoice>(go.get()), SDL_SCANCODE_SPACE, dae::InputManager::ActivationType::Pressing);
+			input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::VisitHighScoreView>(gameHandlerObject), SDL_SCANCODE_M, dae::InputManager::ActivationType::Pressing);
+
+			menuScene->Add(std::move(go));
+			return menuScene;
+		});
+
+	sceneManager.RegisterSceneFactory("HighScoreInput", [&sceneManager]() -> std::shared_ptr<dae::Scene>
+		{
+			// HighScore scene
+			auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
+			auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+
+			auto& input = dae::InputManager::GetInstance();
+
+			auto highScoreInputScene = sceneManager.CreateSceneForFactory("HighScoreInput");
+			
+			auto go = std::make_unique<dae::GameObject>();
+			auto scoreShowcase = go->AddComponent<dae::TextComponent>("Your score: 0", fontBig);
+			scoreShowcase->SetLocalPosition(30, 40);
+			highScoreInputScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto nameShowcase = go->AddComponent<dae::TextComponent>("Your name", fontBig);
+			nameShowcase->SetLocalPosition(30, 80);
+			highScoreInputScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto leftLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
+			leftLetterShowcase->SetLocalPosition(90, 130);
+			auto mainLetterShowcase = go->AddComponent<dae::TextComponent>("", fontBig);
+			mainLetterShowcase->SetLocalPosition(110, 120);
+			auto rightLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
+			rightLetterShowcase->SetLocalPosition(140, 130);
+			highScoreInputScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			go->SetTag(make_sdbm_hash("HighScoreInputShowcase"));
+			auto highScoreInputObject = go.get();
+			go->AddComponent<dae::HighScoreInputComponent>(scoreShowcase, nameShowcase, std::vector{ leftLetterShowcase, mainLetterShowcase, rightLetterShowcase });
+			highScoreInputScene->Add(std::move(go));
+
+			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, -1), XINPUT_GAMEPAD_DPAD_LEFT, dae::InputManager::ActivationType::Pressing, 0);
+			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, 1), XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputManager::ActivationType::Pressing, 0);
+
+			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmLetter>(highScoreInputObject), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
+			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmName>(highScoreInputObject), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
+
+
+			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, -1), SDL_SCANCODE_LEFT, dae::InputManager::ActivationType::Pressing);
+			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, 1), SDL_SCANCODE_RIGHT, dae::InputManager::ActivationType::Pressing);
+
+			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmLetter>(highScoreInputObject), SDL_SCANCODE_E, dae::InputManager::ActivationType::Pressing);
+			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmName>(highScoreInputObject), SDL_SCANCODE_SPACE, dae::InputManager::ActivationType::Pressing);
+
+			return highScoreInputScene;
+		});
+
+	sceneManager.RegisterSceneFactory("HighScoreView", [&sceneManager]() -> std::shared_ptr<dae::Scene>
+		{
+			// HighScore view scene
+			auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
+			auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+
+			auto& input = dae::InputManager::GetInstance();
+
+			auto highScoreViewScene = sceneManager.CreateSceneForFactory("HighScoreView");
+
+			auto go = std::make_unique<dae::GameObject>();
+			auto title = go->AddComponent<dae::TextComponent>("Scoreboard", fontBig);
+			title->SetLocalPosition(30, 40);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto firstPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			firstPlayer->SetLocalPosition(30, 80);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto secondPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			secondPlayer->SetLocalPosition(30, 100);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto thirdPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			thirdPlayer->SetLocalPosition(30, 120);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto fourthPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			fourthPlayer->SetLocalPosition(30, 140);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto fifthPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			fifthPlayer->SetLocalPosition(30, 160);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			go->AddComponent<dae::ScoreboardDisplayComponent>(std::vector{ firstPlayer, secondPlayer, thirdPlayer, fourthPlayer, fifthPlayer });
+			highScoreViewScene->Add(std::move(go));
+
+			const auto sceneDontDestroy = dae::SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+			auto gameHandlerObject = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameHandler")).front();
+
+			input.RegisterControllerCommand(make_sdbm_hash("HighScoreViewMap"), std::make_unique<dae::ReturnToMenu>(gameHandlerObject), XINPUT_GAMEPAD_B, dae::InputManager::ActivationType::Pressing, 0);
+			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreViewMap"), std::make_unique<dae::ReturnToMenu>(gameHandlerObject), SDL_SCANCODE_BACKSPACE, dae::InputManager::ActivationType::Pressing);
+
+			return highScoreViewScene;
+		});
 
 	// Dont destroy on load scene
 
-	// Controller Peter Pepper
+	// Peter Pepper
 
 	input.AddController(0);
 
@@ -312,6 +387,9 @@ void load()
 
 	// Gameplay HUD
 
+	auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+
 	auto goHUD = std::make_unique<dae::GameObject>();
 	goHUD->SetTag(make_sdbm_hash("GameplayHUD"));
 	auto goHUDptr = goHUD.get();
@@ -319,7 +397,7 @@ void load()
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetParent(goHUDptr, false);
-	textComp = go->AddComponent<dae::TextComponent>("Score: 0", font);
+	auto textComp = go->AddComponent<dae::TextComponent>("Score: 0", font);
 	textComp->SetLocalPosition(5, 0);
 	sceneDontDestroy.Add(std::move(go));
 
@@ -350,9 +428,8 @@ void load()
 	go->AddComponent<dae::PepperDisplayComponent>(textComp, playerPtr);
 	sceneDontDestroy.Add(std::move(go));
 
-	register_factories();
+	// Levels loaded
 
-	auto& sceneManager = dae::SceneManager::GetInstance();
 	sceneManager.RegisterSceneFactory("Level1", [&sceneManager]() -> std::shared_ptr<dae::Scene>
 		{
 			auto scene = sceneManager.CreateSceneForFactory("Level1");

@@ -11,8 +11,8 @@
 #include "TextComponent.h"
 
 dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textComponent) :
-	ComponentBase(ownerPtr),
-	m_ScoreDisplay(textComponent)
+	ComponentBase(ownerPtr)
+	, m_ScoreDisplay{textComponent}
 {
 
 }

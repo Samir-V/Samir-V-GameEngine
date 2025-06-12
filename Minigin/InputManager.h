@@ -45,6 +45,7 @@ namespace dae
 
 		void AddInputMap(InputMap inputMap);
 		void SetActiveInputMap(InputMap inputMap);
+		void ClearInputMap(InputMap inputMap);
 
 		void RegisterKeyboardCommand(InputMap inputMap, std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType);
 		void RegisterControllerCommand(InputMap inputMap, std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex);
@@ -88,6 +89,7 @@ namespace dae
 	private:
 
 		void FlushPendingControllers();
+		void FlushPendingInputMaps();
 
 		std::unordered_map<InputMap, std::vector<KeyboardCommand>> m_KeyboardCommands{};
 		std::unordered_map<InputMap, std::vector<ControllerCommand>> m_ControllerCommands{};
@@ -95,6 +97,7 @@ namespace dae
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};
 		std::vector<int> m_PendingControllersToAdd{};
 		std::vector<int> m_PendingControllersToRemove{};
+		std::vector<InputMap> m_PendingInputMapsToClear{};
 
 		InputMap m_CurrentInputMap{};
 	};

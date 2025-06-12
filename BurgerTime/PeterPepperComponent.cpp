@@ -6,10 +6,10 @@
 
 dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	ComponentBase(ownerPtr)
+	, m_PlayerDiedEvent{std::make_unique<Subject>()}
+	, m_PepperSprayedEvent{std::make_unique<Subject>()}
+	, m_State{std::make_unique<WalkingState>()}
 {
-	m_PlayerDiedEvent = std::make_unique<Subject>();
-	m_PepperSprayedEvent = std::make_unique<Subject>();
-	m_State = std::make_unique<WalkingState>();
 	m_State->OnEnter(GetOwner());
 }
 

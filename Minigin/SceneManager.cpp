@@ -1,7 +1,5 @@
 #include "SceneManager.h"
 
-#include <iostream>
-
 #include "RectCollider2DComponent.h"
 #include "Scene.h"
 
@@ -108,7 +106,6 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 {
 	if (m_ActiveScene)
 	{
-		std::cout << "Clearing colliders of scene: " + m_ActiveScene->GetName() << "\n";
 		m_ActiveScene->ForcePendingDestroys();
 		RectCollider2DComponent::RemoveAllCollidersFromScene(m_ActiveScene);
 	}

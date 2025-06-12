@@ -7,11 +7,8 @@
 namespace dae
 {
 	class TextComponent;
-}
 
-namespace dae
-{
-	class MenuHUDComponent final : public dae::ComponentBase
+	class MenuHUDComponent final : public ComponentBase
 	{
 	public:
 

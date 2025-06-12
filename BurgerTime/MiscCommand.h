@@ -4,55 +4,84 @@
 #include "GameObject.h"
 #include "ServiceLocator.h"
 
-class MiscCommand : public Command
+namespace dae
 {
-public:
-
-	MiscCommand(const dae::GameObject* gameHandlerObject)
+	class MiscCommand : public Command
 	{
-		m_MenuGameHandlerComponentPtr = gameHandlerObject->GetComponent<dae::GameHandlerComponent>();
-	}
-	virtual ~MiscCommand() override = default;
+	public:
 
-protected:
+		MiscCommand(const GameObject* gameHandlerObject)
+		{
+			m_GameHandlerComponentPtr = gameHandlerObject->GetComponent<GameHandlerComponent>();
+		}
+		virtual ~MiscCommand() override = default;
 
-	dae::GameHandlerComponent* GetGameHandlerComponent() const { return m_MenuGameHandlerComponentPtr; }
+	protected:
 
-private:
+		GameHandlerComponent* GetGameHandlerComponent() const { return m_GameHandlerComponentPtr; }
 
-	dae::GameHandlerComponent* m_MenuGameHandlerComponentPtr;
-};
+	private:
 
-class MuteSound : public MiscCommand
-{
-public:
+		GameHandlerComponent* m_GameHandlerComponentPtr;
+	};
 
-	MuteSound(const dae::GameObject* gameHandlerObject): MiscCommand(gameHandlerObject)
+	class MuteSound : public MiscCommand
 	{
-	}
+	public:
 
-	void Execute() override
+		MuteSound(const GameObject* gameHandlerObject) : MiscCommand(gameHandlerObject)
+		{
+		}
+
+		void Execute() override
+		{
+			m_Mute = !m_Mute;
+			ServiceLocator::GetSoundSystem().SetMute(m_Mute);
+		}
+
+	private:
+
+		bool m_Mute{ false };
+	};
+
+
+	class SkipLevel : public MiscCommand
 	{
-		m_Mute = !m_Mute;
-		ServiceLocator::GetSoundSystem().SetMute(m_Mute);
-	}
+	public:
 
-private:
+		SkipLevel(const GameObject* gameHandlerObject) : MiscCommand(gameHandlerObject)
+		{
+		}
 
-	bool m_Mute{ false };
-};
+		void Execute() override
+		{
+			GetGameHandlerComponent()->SkipLevel();
+		}
+	};
 
-
-class SkipLevel : public MiscCommand
-{
-public:
-
-	SkipLevel(const dae::GameObject* gameHandlerObject) : MiscCommand(gameHandlerObject)
+	class VisitHighScoreView : public MiscCommand
 	{
-	}
+	public:
+		VisitHighScoreView(const GameObject* gameHandlerObject) : MiscCommand(gameHandlerObject)
+		{
+		}
 
-	void Execute() override
+		void Execute() override
+		{
+			GetGameHandlerComponent()->SwitchToScoreView();
+		}
+	};
+
+	class ReturnToMenu : public MiscCommand
 	{
-		GetGameHandlerComponent()->SkipLevel();
-	}
-};
+	public:
+		ReturnToMenu(const GameObject* gameHandlerObject) : MiscCommand(gameHandlerObject)
+		{
+		}
+
+		void Execute() override
+		{
+			GetGameHandlerComponent()->ReturnToMenu();
+		}
+	};
+}

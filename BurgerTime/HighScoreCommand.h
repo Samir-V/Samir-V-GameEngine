@@ -2,6 +2,7 @@
 #include "Command.h"
 #include "GameObject.h"
 #include "HighScoreInputComponent.h"
+#include "GameHandlerComponent.h"
 
 namespace dae
 {
@@ -9,26 +10,26 @@ namespace dae
 	{
 	public:
 
-		HighScoreCommand(const dae::GameObject* highScoreInputObject)
+		HighScoreCommand(const GameObject* highScoreInputObject)
 		{
-			m_HighScoreInputComponentPtr = highScoreInputObject->GetComponent<dae::HighScoreInputComponent>();
+			m_HighScoreInputComponentPtr = highScoreInputObject->GetComponent<HighScoreInputComponent>();
 		}
 		virtual ~HighScoreCommand() override = default;
 
 	protected:
 
-		dae::HighScoreInputComponent* GetHighScoreInputComponent() const { return m_HighScoreInputComponentPtr; }
+		HighScoreInputComponent* GetHighScoreInputComponent() const { return m_HighScoreInputComponentPtr; }
 
 	private:
 
-		dae::HighScoreInputComponent* m_HighScoreInputComponentPtr;
+		HighScoreInputComponent* m_HighScoreInputComponentPtr;
 	};
 
 	class ConfirmLetter : public HighScoreCommand
 	{
 	public:
 
-		ConfirmLetter(const dae::GameObject* highScoreInputObject) : HighScoreCommand(highScoreInputObject)
+		ConfirmLetter(const GameObject* highScoreInputObject) : HighScoreCommand(highScoreInputObject)
 		{
 		}
 
@@ -42,20 +43,27 @@ namespace dae
 	{
 	public:
 
-		ConfirmName(const dae::GameObject* highScoreInputObject) : HighScoreCommand(highScoreInputObject)
+		ConfirmName(const GameObject* highScoreInputObject) : HighScoreCommand(highScoreInputObject)
 		{
+			auto gameHandlerObj = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("GameHandler")).front();
+			m_GameHandlerComponentPtr = gameHandlerObj->GetComponent<GameHandlerComponent>();
 		}
 
 		void Execute() override
 		{
 			GetHighScoreInputComponent()->ConfirmName();
+			m_GameHandlerComponentPtr->SwitchToScoreView();
 		}
+
+	private:
+
+		GameHandlerComponent* m_GameHandlerComponentPtr;
 	};
 
 	class AlterLetterIndex : public HighScoreCommand
 	{
 	public:
-		AlterLetterIndex(const dae::GameObject* highScoreInputObject, int deltaIndex) : HighScoreCommand(highScoreInputObject), m_IndexDelta{ deltaIndex }
+		AlterLetterIndex(const GameObject* highScoreInputObject, int deltaIndex) : HighScoreCommand(highScoreInputObject), m_IndexDelta{ deltaIndex }
 		{
 			m_IndexDelta = std::clamp(m_IndexDelta, -1, 1);
 		}

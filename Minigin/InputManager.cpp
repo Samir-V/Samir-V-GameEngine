@@ -4,6 +4,7 @@
 bool dae::InputManager::ProcessInput()
 {
 	FlushPendingControllers();
+	FlushPendingInputMaps();
 	HandleControllerInput();
 	return HandleKeyboardInput();
 }
@@ -184,3 +185,21 @@ void dae::InputManager::SetActiveInputMap(InputMap inputMap)
 {
 	m_CurrentInputMap = inputMap;
 }
+
+void dae::InputManager::ClearInputMap(InputMap inputMap)
+{
+	m_PendingInputMapsToClear.push_back(inputMap);
+}
+
+void dae::InputManager::FlushPendingInputMaps()
+{
+	for (InputMap pendingInputMapToClear : m_PendingInputMapsToClear)
+	{
+		m_KeyboardCommands.at(pendingInputMapToClear).clear();
+		m_ControllerCommands.at(pendingInputMapToClear).clear();
+	}
+
+	m_PendingInputMapsToClear.clear();
+}
+
+

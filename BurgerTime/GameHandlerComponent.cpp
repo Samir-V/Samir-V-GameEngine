@@ -69,6 +69,10 @@ void dae::GameHandlerComponent::Start()
 
 		scene->GetGameObjectsWithTag(make_sdbm_hash("HighScoreInputShowcase")).front()->GetComponent<HighScoreInputComponent>()->SetScore(m_FinalScore);
 	}
+	else if (scene->GetName() == "HighScoreView")
+	{
+		input.SetActiveInputMap(make_sdbm_hash("HighScoreViewMap"));
+	}
 	else
 	{
 		if (m_LevelCounter != 0)
@@ -97,7 +101,6 @@ void dae::GameHandlerComponent::Start()
 		{
 			auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
 			peterPepperComponent->GetPlayerDiedEvent()->AddObserver(this);
-			//peterPepperComponent->FullRespawn();
 			player->GetComponent<MoveComponent>()->Reset();
 
 			if (!m_GameplayData.playerRespawnPoints.empty())
@@ -145,6 +148,22 @@ void dae::GameHandlerComponent::LateUpdate(float)
 
 void dae::GameHandlerComponent::SwitchLevel(const std::string& name)
 {
+	auto& input = InputManager::GetInstance();
+	auto activeScene = SceneManager::GetInstance().GetActiveScene();
+
+	if (activeScene && activeScene->GetName() == "Menu")
+	{
+		input.ClearInputMap(make_sdbm_hash("MenuMap"));
+	}
+	else if (activeScene && activeScene->GetName() == "HighScoreInput")
+	{
+		input.ClearInputMap(make_sdbm_hash("HighScoreInputMap"));
+	}
+	else if (activeScene && activeScene->GetName() == "HighScoreView")
+	{
+		input.ClearInputMap(make_sdbm_hash("HighScoreViewMap"));
+	}
+
 	SceneManager::GetInstance().SetActiveScene(name);
 }
 
@@ -336,7 +355,6 @@ void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
 	activeScene->Add(std::move(go));
 }
 
-
 void dae::GameHandlerComponent::ResetLevel()
 {
 	for (auto enemy : m_GameplayData.enemies)
@@ -509,3 +527,16 @@ void dae::GameHandlerComponent::SpawnSecondPlayerObjects()
 	go->AddComponent<PepperDisplayComponent>(textComp, playerPtr);
 	sceneDontDestroy->Add(std::move(go));
 }
+
+void dae::GameHandlerComponent::SwitchToScoreView()
+{
+	ChangeState(std::make_unique<HighScoreViewState>());
+	SwitchLevel("HighScoreView");
+}
+
+void dae::GameHandlerComponent::ReturnToMenu()
+{
+	ChangeState(std::make_unique<MenuState>());
+	SwitchLevel("Menu");
+}
+

@@ -26,6 +26,11 @@ namespace dae
 		
 	};
 
+	class HighScoreViewState final : public GameState
+	{
+
+	};
+
 	class PlayingState final : public GameState
 	{
 	public:
