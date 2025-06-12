@@ -62,16 +62,6 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObj
 {
 	if (event.id == make_sdbm_hash("EnemySpawned"))
 	{
-		/*auto scene = SceneManager::GetInstance().GetActiveScene();
-
-		auto enemies = scene->GetGameObjectsWithTag(make_sdbm_hash("Enemy"));
-
-		for (auto enemy : enemies)
-		{
-			auto enemyComponent = enemy->GetComponent<EnemyComponent>();
-			enemyComponent->GetEnemyDyingEvent()->AddObserver(this);
-		}*/
-
 		observedGameObject->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
 	}
 
@@ -104,4 +94,9 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObj
 		m_CurrentScore += 300;
 		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
 	}
+}
+
+int dae::ScoreComponent::GetScore() const
+{
+	return m_CurrentScore;
 }

@@ -6,7 +6,7 @@ namespace dae
 {
 	class TextComponent;
 
-	class ScoreComponent : public dae::ComponentBase, public dae::IObserver
+	class ScoreComponent : public ComponentBase, public IObserver
 	{
 	public:
 
@@ -24,6 +24,8 @@ namespace dae
 		void Update(float elapsedSec) override;
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
+
+		int GetScore() const;
 
 	private:
 

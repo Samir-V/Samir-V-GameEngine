@@ -80,6 +80,7 @@ namespace dae
 		static bool m_IsCreated;
 
 		int m_LevelCounter;
+		int m_FinalScore;
 		GameMode m_GameMode{ GameMode::Solo };
 
 		GameplayData m_GameplayData;

@@ -21,7 +21,7 @@ namespace dae
 		
 	};
 
-	class PauseState final : public GameState
+	class HighScoreMenuState final : public GameState
 	{
 		
 	};

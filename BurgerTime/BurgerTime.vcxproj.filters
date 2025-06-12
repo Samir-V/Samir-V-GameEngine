@@ -69,6 +69,9 @@
     <ClCompile Include="PepperDisplayComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="HighScoreInputComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScoreComponent.h">
@@ -117,6 +120,12 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="MiscCommand.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreInputComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreCommand.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>

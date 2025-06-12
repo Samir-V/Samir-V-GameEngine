@@ -19,13 +19,20 @@
 #include "Texture2DComponent.h"
 #include "PepperDisplayComponent.h"
 #include "HealthDisplayComponent.h"
+#include "HighScoreInputComponent.h"
 #include "PeterPepperCommand.h"
+#include "ScoreComponent.h"
 #include "Windows.h"
 #include "Xinput.h"
 
 bool dae::GameHandlerComponent::m_IsCreated = false;
 
-dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr): ComponentBase(ownerPtr), m_GameplayData{}, m_LevelCounter{}, m_EnemiesSpawnedEvent{std::make_unique<Subject>()}
+dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr):
+	ComponentBase(ownerPtr)
+	, m_LevelCounter{0}
+	, m_FinalScore{0}
+	, m_GameplayData{}
+	, m_EnemiesSpawnedEvent{std::make_unique<Subject>()}
 {
 	if (!m_IsCreated)
 	{
@@ -51,6 +58,16 @@ void dae::GameHandlerComponent::Start()
 		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
 
 		sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUD")).front()->SetIsActive(false);
+	}
+	else if (scene->GetName() == "HighScoreInput")
+	{
+		input.SetActiveInputMap(make_sdbm_hash("HighScoreInputMap"));
+
+		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+
+		sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUD")).front()->SetIsActive(false);
+
+		scene->GetGameObjectsWithTag(make_sdbm_hash("HighScoreInputShowcase")).front()->GetComponent<HighScoreInputComponent>()->SetScore(m_FinalScore);
 	}
 	else
 	{
@@ -141,6 +158,9 @@ void dae::GameHandlerComponent::SkipLevel()
 	m_GameplayData.enemies.clear();
 	m_GameplayData.enemyRespawnDelays.clear();
 	m_GameplayData.pendingSpawns.clear();
+	m_GameplayData.burgerParts.clear();
+	m_GameplayData.enemyRespawnPoints.clear();
+	m_GameplayData.deadPlayerAmount = 0;
 
 	int currentLevelCounter = m_LevelCounter;
 	++currentLevelCounter;
@@ -202,13 +222,15 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 				return player->GetComponent<PeterPepperComponent>()->GetRemainingLives() == 0;
 		}))
 		{
-			ChangeState(std::make_unique<MenuState>());
+			const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+			m_FinalScore = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUDScore")).front()->GetComponent<ScoreComponent>()->GetScore();
 
 			m_GameplayData.players.front()->GetComponent<PeterPepperComponent>()->FullRespawn();
+			m_GameplayData.players.front()->SetIsActive(false);
 
 			if (m_GameMode == GameMode::Coop)
 			{
-				const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
+				
 				m_GameplayData.players.back()->Destroy();
 				auto secondPlayerHUD = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("SecondGameplayHUD"));
 				for (auto secondPlayerHud : secondPlayerHUD)
@@ -236,8 +258,9 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 			m_GameplayData.enemyRespawnDelays.clear();
 			m_GameplayData.pendingSpawns.clear();
 
-			SwitchLevel("Menu");
+			SwitchLevel("HighScoreInput");
 			m_LevelCounter = 0;
+			ChangeState(std::make_unique<HighScoreMenuState>()); // if no,  move up
 			return;
 		}
 

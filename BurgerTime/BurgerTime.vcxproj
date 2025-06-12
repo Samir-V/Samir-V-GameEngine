@@ -511,6 +511,7 @@
     <ClCompile Include="GameHandlerComponent.cpp" />
     <ClCompile Include="GameStates.cpp" />
     <ClCompile Include="HealthDisplayComponent.cpp" />
+    <ClCompile Include="HighScoreInputComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuHUDComponent.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
@@ -527,6 +528,8 @@
     <ClInclude Include="GameHandlerComponent.h" />
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="HealthDisplayComponent.h" />
+    <ClInclude Include="HighScoreCommand.h" />
+    <ClInclude Include="HighScoreInputComponent.h" />
     <ClInclude Include="MenuCommand.h" />
     <ClInclude Include="MenuHUDComponent.h" />
     <ClInclude Include="MiscCommand.h" />
