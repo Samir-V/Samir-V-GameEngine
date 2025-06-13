@@ -15,7 +15,7 @@ dae::MenuHUDComponent::MenuHUDComponent(GameObject* ownerPtr, TextComponent* mar
 
 void dae::MenuHUDComponent::Start()
 {
-	auto gameHandlerObject = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("GameHandler"));
+	const auto gameHandlerObject = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("GameHandler"));
 
 	m_GameHandlerComponentPtr = gameHandlerObject.front()->GetComponent<GameHandlerComponent>();
 }
@@ -43,9 +43,9 @@ void dae::MenuHUDComponent::ChangeMarkerIndexBy(int delta)
 
 void dae::MenuHUDComponent::UpdateMarkerPosition() const
 {
-	auto markerPos = m_MarkerTextComponentPtr->GetLocalTransform().GetPosition();
+	const auto markerPos = m_MarkerTextComponentPtr->GetLocalTransform().GetPosition();
 
-	auto newMarkerPosY = m_Buttons[m_CurrentIndex]->GetLocalTransform().GetPosition().y;
+	const auto newMarkerPosY = m_Buttons[m_CurrentIndex]->GetLocalTransform().GetPosition().y;
 
 	m_MarkerTextComponentPtr->SetLocalPosition(markerPos.x, newMarkerPosY);
 }

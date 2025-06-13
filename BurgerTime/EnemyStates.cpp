@@ -21,7 +21,7 @@ void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 	m_RectCollider2DComponentPtr = enemyObject->GetComponent<RectCollider2DComponent>();
 
 	// Handling animations
-	auto direction = m_EnemyMoveComponentPtr->GetDirection();
+	const auto direction = m_EnemyMoveComponentPtr->GetDirection();
 
 	switch (m_EnemyComponentPtr->GetEnemyType())
 	{
@@ -61,15 +61,15 @@ void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enemyObject, float)
 {
 
-	auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
-	glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height + 1.0f };
-	glm::vec2 rayDirection{ 0.0f, 1.0f };
+	const auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
+	const glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height + 1.0f };
+	constexpr glm::vec2 rayDirection{ 0.0f, 1.0f };
 
-	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, 4.0f);
+	const auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, 4.0f);
 
 	bool ladderFound{ false };
 
-	for (auto intersectedGameObject : intersectedGameObjects)
+	for (const auto intersectedGameObject : intersectedGameObjects)
 	{
 		if (intersectedGameObject->GetTag() == make_sdbm_hash("Ladder"))
 		{
@@ -80,7 +80,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enem
 
 	if (ladderFound)
 	{
-		auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
+		const auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
 
 		if (directives.verDirective == EnemyMoveComponent::VerticalDirective::Up)
 		{
@@ -98,10 +98,10 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enem
 			m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
 		}
 
-		auto ladderWidth = m_LadderBelowPtr->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
-		auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
+		const auto ladderWidth = m_LadderBelowPtr->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+		const auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
 
-		float xWorld = m_LadderBelowPtr->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+		const float xWorld = m_LadderBelowPtr->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
 		auto& characterPos = enemyObject->GetWorldTransform().GetPosition();
 		enemyObject->SetWorldPosition(xWorld, characterPos.y);
 
@@ -120,7 +120,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameOb
 
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -158,11 +158,11 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
 	{
-		auto distance = enemyObject->GetWorldTransform().GetPosition().x - observedGameObject->GetWorldTransform().GetPosition().x;
+		const auto distance = enemyObject->GetWorldTransform().GetPosition().x - observedGameObject->GetWorldTransform().GetPosition().x;
 
 		if ( abs(distance) <= 0.25f )
 		{
-			auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
+			const auto directives = m_EnemyMoveComponentPtr->CalculateDirectionDirectives();
 
 			if (directives.verDirective == EnemyMoveComponent::VerticalDirective::Down)
 			{
@@ -180,10 +180,10 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 				m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
 			}
 
-			auto ladderWidth = observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
-			auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
+			const auto ladderWidth = observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+			const auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
 
-			float xWorld = observedGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+			const float xWorld = observedGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
 			auto& characterPos = enemyObject->GetWorldTransform().GetPosition();
 			enemyObject->SetWorldPosition(xWorld, characterPos.y);
 
@@ -193,7 +193,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		for (auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
+		for (const auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
 			if (burgerPartComponent->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 			{
@@ -223,7 +223,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionExit(GameObj
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -242,7 +242,7 @@ void dae::ClimbingState::OnEnter(GameObject* enemyObject)
 	m_SpritesheetComponentPtr = enemyObject->GetComponent<SpritesheetComponent>();
 	m_RectCollider2DComponentPtr = enemyObject->GetComponent<RectCollider2DComponent>();
 
-	auto direction = m_EnemyMoveComponentPtr->GetDirection();
+	const auto direction = m_EnemyMoveComponentPtr->GetDirection();
 
 	switch (m_EnemyComponentPtr->GetEnemyType())
 	{
@@ -294,7 +294,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionEnter(GameObject
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -434,7 +434,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionExit(GameObject*
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -504,7 +504,7 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionEnter(Ga
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -542,7 +542,7 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionStay(Gam
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		for (auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
+		for (const auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
 			if (burgerPartComponent->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 			{
@@ -572,7 +572,7 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionExit(Gam
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -633,7 +633,7 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionEnter(GameObject*
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -666,7 +666,7 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionStay(GameObject* 
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		for (auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
+		for (const auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
 			if (burgerPartComponent->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 			{
@@ -696,7 +696,7 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionExit(GameObject*,
 {
 	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}

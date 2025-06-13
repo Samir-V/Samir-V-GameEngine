@@ -8,7 +8,7 @@ namespace dae
 {
 	class TextComponent;
 
-	class ScoreboardDisplayComponent final : public dae::ComponentBase
+	class ScoreboardDisplayComponent final : public ComponentBase
 	{
 	public:
 
@@ -31,7 +31,7 @@ namespace dae
 
 		const std::string m_Filename = "highscores.txt";
 		std::vector<HighScoreEntry> m_Entries;
-		std::vector<TextComponent*> m_Displays{};
+		std::vector<TextComponent*> m_Displays;
 	};
 }
 

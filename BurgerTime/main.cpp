@@ -47,13 +47,13 @@ void find_resources()
 	const std::filesystem::path resFolderName{ "Data" };
 	int counter{ 0 };
 
-	while (!std::filesystem::exists(resFolderName) && counter < MAX_TRAVERSAL)
+	while (!exists(resFolderName) && counter < MAX_TRAVERSAL)
 	{
 		std::filesystem::current_path("..");
 		counter++;
 	}
 
-	std::filesystem::current_path(resFolderName);
+	current_path(resFolderName);
 }
 
 using json = nlohmann::json;
@@ -73,7 +73,7 @@ void register_factories()
 	g_ComponentFactories["RectCollider2DComponent"] =
 		[](dae::GameObject* go, const json& args)
 		{
-			auto collider = go->AddComponent<dae::RectCollider2DComponent>(
+			const auto collider = go->AddComponent<dae::RectCollider2DComponent>(
 				args.at("width").get<float>(),
 				args.at("height").get<float>()
 			);
@@ -153,7 +153,7 @@ void load()
 	// Adding the gamehandler to the dont destroy on load scene
 	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
 	auto go = std::make_unique<dae::GameObject>();
-	auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
+	const auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
 	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 3, 0, 1 });
 	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 2, 1, 1 });
 	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 2, 2, 1 });
@@ -215,12 +215,12 @@ void load()
 			menuScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel = go->AddComponent<dae::TextComponent>("To go to Scoreboard", fontSmall);
+			const auto controlsPanel = go->AddComponent<dae::TextComponent>("To go to Scoreboard", fontSmall);
 			controlsPanel->SetLocalPosition(0, 213);
 			menuScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press Right on D-PAD or Keyboard", fontSmall);
+			const auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press Right on D-PAD or Keyboard", fontSmall);
 			controlsPanel2->SetLocalPosition(0, 227);
 			menuScene->Add(std::move(go));
 
@@ -249,27 +249,27 @@ void load()
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto leftArrow = go->AddComponent<dae::TextComponent>("<---", font);
+			const auto leftArrow = go->AddComponent<dae::TextComponent>("<---", font);
 			leftArrow->SetLocalPosition(63, 130);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto leftLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
+			const auto leftLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
 			leftLetterShowcase->SetLocalPosition(90, 130);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto mainLetterShowcase = go->AddComponent<dae::TextComponent>("", fontBig);
+			const auto mainLetterShowcase = go->AddComponent<dae::TextComponent>("", fontBig);
 			mainLetterShowcase->SetLocalPosition(110, 120);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto rightLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
+			const auto rightLetterShowcase = go->AddComponent<dae::TextComponent>("", font);
 			rightLetterShowcase->SetLocalPosition(140, 130);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto rightArrow = go->AddComponent<dae::TextComponent>("--->", font);
+			const auto rightArrow = go->AddComponent<dae::TextComponent>("--->", font);
 			rightArrow->SetLocalPosition(155, 130);
 			highScoreInputScene->Add(std::move(go));
 
@@ -280,22 +280,22 @@ void load()
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel = go->AddComponent<dae::TextComponent>("Use arrows/D-PAD to switch letters", fontSmall);
+			const auto controlsPanel = go->AddComponent<dae::TextComponent>("Use arrows/D-PAD to switch letters", fontSmall);
 			controlsPanel->SetLocalPosition(0, 185);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press E/A to confirm a letter", fontSmall);
+			const auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press E/A to confirm a letter", fontSmall);
 			controlsPanel2->SetLocalPosition(0, 199);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel3 = go->AddComponent<dae::TextComponent>("Remove letters with Backspace/B", fontSmall);
+			const auto controlsPanel3 = go->AddComponent<dae::TextComponent>("Remove letters with Backspace/B", fontSmall);
 			controlsPanel3->SetLocalPosition(0, 213);
 			highScoreInputScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel4 = go->AddComponent<dae::TextComponent>("Confirm name with Space/X", fontSmall);
+			const auto controlsPanel4 = go->AddComponent<dae::TextComponent>("Confirm name with Space/X", fontSmall);
 			controlsPanel4->SetLocalPosition(0, 227);
 			highScoreInputScene->Add(std::move(go));
 
@@ -331,32 +331,32 @@ void load()
 			auto highScoreViewScene = sceneManager.CreateSceneForFactory("HighScoreView");
 
 			auto go = std::make_unique<dae::GameObject>();
-			auto title = go->AddComponent<dae::TextComponent>("Scoreboard", fontBig);
+			const auto title = go->AddComponent<dae::TextComponent>("Scoreboard", fontBig);
 			title->SetLocalPosition(30, 40);
 			highScoreViewScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto firstPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			const auto firstPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
 			firstPlayer->SetLocalPosition(30, 80);
 			highScoreViewScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto secondPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			const auto secondPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
 			secondPlayer->SetLocalPosition(30, 100);
 			highScoreViewScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto thirdPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			const auto thirdPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
 			thirdPlayer->SetLocalPosition(30, 120);
 			highScoreViewScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto fourthPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			const auto fourthPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
 			fourthPlayer->SetLocalPosition(30, 140);
 			highScoreViewScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto fifthPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
+			const auto fifthPlayer = go->AddComponent<dae::TextComponent>("Empty", font);
 			fifthPlayer->SetLocalPosition(30, 160);
 			highScoreViewScene->Add(std::move(go));
 
@@ -371,12 +371,12 @@ void load()
 			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreViewMap"), std::make_unique<dae::ReturnToMenu>(gameHandlerObject), SDL_SCANCODE_LEFT, dae::InputManager::ActivationType::Pressing);
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel = go->AddComponent<dae::TextComponent>("To go to Main Menu", fontSmall);
+			const auto controlsPanel = go->AddComponent<dae::TextComponent>("To go to Main Menu", fontSmall);
 			controlsPanel->SetLocalPosition(0, 213);
 			highScoreViewScene->Add(std::move(go));
 
 			go = std::make_unique<dae::GameObject>();
-			auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press Left on D-PAD or Keyboard", fontSmall);
+			const auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press Left on D-PAD or Keyboard", fontSmall);
 			controlsPanel2->SetLocalPosition(0, 227);
 			highScoreViewScene->Add(std::move(go));
 
@@ -407,7 +407,7 @@ void load()
 	spriteSheetComp->AddSprite("PPWin.png", make_sdbm_hash("PPWin"), dae::SpritesheetComponent::SpriteMetaData(2, 0, 0.3f));
 	spriteSheetComp->Play(make_sdbm_hash("PPIdleDown"));
 
-	auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	const auto rectColliderCompController = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	rectColliderCompController->SetShouldTriggerEvents(true);
 
 	go->AddComponent<dae::MoveComponent>(50.0f);
@@ -446,7 +446,7 @@ void load()
 	spriteSheetComp->AddSprite("SpraySideways.png", make_sdbm_hash("SpraySideways"), dae::SpritesheetComponent::SpriteMetaData(4, 0, 0.25f));
 	spriteSheetComp->Play(make_sdbm_hash("SpraySideways"));
 
-	auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
+	const auto rectColliderComp = go->AddComponent<dae::RectCollider2DComponent>(16.0f, 16.0f);
 	rectColliderComp->SetShouldTriggerEvents(true);
 
 	go->SetIsActive(false);
@@ -460,7 +460,7 @@ void load()
 
 	auto goHUD = std::make_unique<dae::GameObject>();
 	goHUD->SetTag(make_sdbm_hash("GameplayHUD"));
-	auto goHUDptr = goHUD.get();
+	const auto goHUDptr = goHUD.get();
 	sceneDontDestroy.Add(std::move(goHUD));
 
 	go = std::make_unique<dae::GameObject>();
@@ -478,8 +478,8 @@ void load()
 	go = std::make_unique<dae::GameObject>();
 	go->SetParent(goHUDptr, false);
 	go->SetLocalPosition(0, 220.0f);
-	auto firstLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
-	auto secondLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
+	const auto firstLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
+	const auto secondLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
 	firstLifeDisplay->SetLocalPosition(0, 0);
 	secondLifeDisplay->SetLocalPosition(0, -10);
 	go->AddComponent<dae::HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay }, playerPtr);

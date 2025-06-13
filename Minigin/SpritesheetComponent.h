@@ -46,15 +46,15 @@ namespace dae
 			SpriteMetaData metaData;
 		};
 
-		int   m_CurrentCol{};
-		int   m_CurrentRow{};
-		float m_Accumulator{};
+		int   m_CurrentCol;
+		int   m_CurrentRow;
+		float m_Accumulator;
 
-		std::string m_FolderPath{};
+		std::string m_FolderPath;
 
 		SpriteData* m_CurrentSprite{ nullptr };
 
-		std::unordered_map<SpriteID, SpriteData> m_SpriteSheet{};
+		std::unordered_map<SpriteID, SpriteData> m_SpriteSheet;
 	};
 }
 

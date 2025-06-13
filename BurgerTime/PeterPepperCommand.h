@@ -10,7 +10,7 @@ class PeterPepperCommand : public Command
 {
 public:
 
-	PeterPepperCommand(dae::GameObject* peterPepper) : m_PeterPepperObjectPtr(peterPepper)
+	PeterPepperCommand(dae::GameObject* peterPepper) : m_PeterPepperObjectPtr{peterPepper}
 	{
 		m_PeterPepperComponentPtr = peterPepper->GetComponent<dae::PeterPepperComponent>();
 		m_MoveComponentPtr = peterPepper->GetComponent<dae::MoveComponent>();
@@ -36,7 +36,6 @@ public:
 
 	MoveInDirection(dae::GameObject* peterPepper, const glm::vec2& direction) : PeterPepperCommand(peterPepper), m_Direction{direction}
 	{
-
 		m_Direction.x = std::clamp(m_Direction.x, -1.0f, 1.0f);
 		m_Direction.y = std::clamp(m_Direction.y, -1.0f, 1.0f);
 	}

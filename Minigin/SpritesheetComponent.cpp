@@ -5,8 +5,11 @@
 #include "GameObject.h"
 
 dae::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr, std::string folderPath):
-	ComponentBase(ownerPtr),
-	m_FolderPath(std::move(folderPath))
+	ComponentBase(ownerPtr)
+	, m_CurrentCol{0}
+	, m_CurrentRow{0}
+	, m_Accumulator{0}
+	, m_FolderPath(std::move(folderPath))
 {
 }
 
@@ -18,16 +21,16 @@ void dae::SpritesheetComponent::Update(float elapsedSec)
 {
 	assert(m_CurrentSprite != nullptr);
 
-	auto metaData = m_CurrentSprite->metaData;
+	auto [numOfCols, numOfRows, timeStep] = m_CurrentSprite->metaData;
 
-	if (metaData.numOfCols <= 1 && metaData.numOfRows == 0)
+	if (numOfCols <= 1 && numOfRows == 0)
 	{
 		return;
 	}
 
 	m_Accumulator += elapsedSec;
 
-	if (m_Accumulator < metaData.timeStep)
+	if (m_Accumulator < timeStep)
 	{
 		return;
 	}
@@ -35,7 +38,7 @@ void dae::SpritesheetComponent::Update(float elapsedSec)
 	m_Accumulator = 0.0f;
 	m_CurrentCol++;
 
-	if (m_CurrentCol < metaData.numOfCols)
+	if (m_CurrentCol < numOfCols)
 	{
 		return;
 	}
@@ -43,7 +46,7 @@ void dae::SpritesheetComponent::Update(float elapsedSec)
 	m_CurrentCol = 0;
 	m_CurrentRow++;
 
-	if (m_CurrentRow < metaData.numOfRows)
+	if (m_CurrentRow < numOfRows)
 	{
 		return;
 	}
@@ -59,10 +62,10 @@ void dae::SpritesheetComponent::Render() const
 {
 	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + GetLocalTransform().GetPosition();
 
-	auto textureSize = m_CurrentSprite->texture->GetSize();
-	auto metaData = m_CurrentSprite->metaData;
+	const auto textureSize = m_CurrentSprite->texture->GetSize();
+	const auto metaData = m_CurrentSprite->metaData;
 
-	auto frameWidth = textureSize.x / metaData.numOfCols;
+	const auto frameWidth = textureSize.x / metaData.numOfCols;
 	auto frameHeight = textureSize.y;
 
 	SDL_Rect sourceRect{};
@@ -94,7 +97,7 @@ void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteI
 		fullPath = spriteName;
 	}
 
-	auto texture = ResourceManager::GetInstance().LoadTexture(fullPath);
+	const auto texture = ResourceManager::GetInstance().LoadTexture(fullPath);
 	m_SpriteSheet.insert({ spriteId, SpriteData{ texture, spriteMetadata }});
 }
 

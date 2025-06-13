@@ -9,18 +9,18 @@
 #include "RectCollider2DComponent.h"
 #include "ServiceLocator.h"
 
-dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices): ComponentBase(ownerPtr), m_NrOfSlices{nrOfSlices}, m_ExtraLevelsToFall{0}
+dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices):
+	ComponentBase(ownerPtr)
+	, m_NrOfSlices{nrOfSlices}
+	, m_ExtraLevelsToFall{0}
+	, m_BurgerPartCollisionEvent{ std::make_unique<Subject>() }
 {
-	m_BurgerPartCollisionEvent = std::make_unique<Subject>();
-
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filepath);
-
-	const auto& textureSize = m_Texture->GetSize();
-
-	int sliceWidth = textureSize.x / m_NrOfSlices;
-
 	m_SrcRects.assign(m_NrOfSlices, {});
 	m_OffsetsY.assign(m_NrOfSlices, 0.0f);
+
+	m_Texture = ResourceManager::GetInstance().LoadTexture(filepath);
+	const auto& textureSize = m_Texture->GetSize();
+	const int sliceWidth = textureSize.x / m_NrOfSlices;
 
 	for (int index = 0; index < m_NrOfSlices; ++index)
 	{
@@ -30,7 +30,7 @@ dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::s
 
 void dae::BurgerPartComponent::Start()
 {
-	auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
+	const auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
 
 	rectColliderComp->GetCollisionEnterEvent()->AddObserver(this);
 	rectColliderComp->GetCollisionStayEvent()->AddObserver(this);
@@ -200,13 +200,13 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 			{
 				m_ExtraLevelsToFall = static_cast<int>(m_EnemiesOnTop.size());
 
-				for (auto enemy : m_EnemiesOnTop)
+				for (const auto enemy : m_EnemiesOnTop)
 				{
-					auto enemyComponent = enemy->GetComponent<EnemyComponent>();
+					const auto enemyComponent = enemy->GetComponent<EnemyComponent>();
 					enemyComponent->StartFalling(GetOwner());
 				}
 
-				int enemiesOnTopCount = static_cast<int>(m_EnemiesOnTop.size());
+				const int enemiesOnTopCount = static_cast<int>(m_EnemiesOnTop.size());
 
 				if (enemiesOnTopCount != 0)
 				{
@@ -268,7 +268,7 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 	{
 		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			auto it = std::ranges::find(m_EnemiesOnTop, observedGameObject);
+			const auto it = std::ranges::find(m_EnemiesOnTop, observedGameObject);
 			if (it != m_EnemiesOnTop.end())
 			{
 				m_EnemiesOnTop.erase(it);

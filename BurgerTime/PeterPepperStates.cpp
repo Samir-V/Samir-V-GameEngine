@@ -10,8 +10,8 @@ void dae::WalkingState::OnEnter(GameObject* peterPepperObject)
 
 std::unique_ptr<dae::PeterPepperState> dae::WalkingState::Update(GameObject*, float)
 {
-	auto velocity = m_MoveComponentPtr->GetVelocity();
-	auto lastNonZeroDirection = m_MoveComponentPtr->GetLastDirection();
+	const auto velocity = m_MoveComponentPtr->GetVelocity();
+	const auto lastNonZeroDirection = m_MoveComponentPtr->GetLastDirection();
 
 	if (velocity.x < 0)
 	{
@@ -53,7 +53,7 @@ void dae::SprayingState::OnEnter(GameObject* peterPepperObject)
 {
 	peterPepperObject->GetComponent<PeterPepperComponent>()->GetPepperAmountChangedEvent()->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), peterPepperObject);
 
-	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	m_LastDirection = moveComponent->GetLastDirection();
 
 	moveComponent->SetDirection(glm::vec2(0.0f, 0.0f));
@@ -62,7 +62,7 @@ void dae::SprayingState::OnEnter(GameObject* peterPepperObject)
 	m_SpritesheetComponentPtr = peterPepperObject->GetComponent<SpritesheetComponent>();
 
 	// Here also needed to get the child object of PeterPepper and activate it, which is the pepper spray object
-	auto it = std::ranges::find_if(peterPepperObject->GetChildrenVector(), [](GameObject* child)
+	const auto it = std::ranges::find_if(peterPepperObject->GetChildrenVector(), [](GameObject* child)
 		{
 			return child->GetTag() == make_sdbm_hash("PepperSpray");
 		});
@@ -73,7 +73,7 @@ void dae::SprayingState::OnEnter(GameObject* peterPepperObject)
 
 	m_PepperSprayObjectPtr->SetIsActive(true);
 
-	auto spraySpriteSheetComp = m_PepperSprayObjectPtr->GetComponent<SpritesheetComponent>();
+	const auto spraySpriteSheetComp = m_PepperSprayObjectPtr->GetComponent<SpritesheetComponent>();
 	spraySpriteSheetComp->ResetSpriteTiming();
 
 	if (m_LastDirection.y > 0)
@@ -133,7 +133,7 @@ std::unique_ptr<dae::PeterPepperState> dae::SprayingState::Update(GameObject*, f
 
 void dae::SprayingState::OnExit(GameObject* peterPepperObject)
 {
-	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);
 
 	// Here also needed to get the child object of PeterPepper and deactivate it, which is the pepper spray object
@@ -143,12 +143,12 @@ void dae::SprayingState::OnExit(GameObject* peterPepperObject)
 
 void dae::WinningState::OnEnter(GameObject* peterPepperObject)
 {
-	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 
 	moveComponent->SetDirection(glm::vec2(0.0f, 0.0f));
 	moveComponent->SetIsActive(false);
 
-	auto spriteSheetComp = peterPepperObject->GetComponent<SpritesheetComponent>();
+	const auto spriteSheetComp = peterPepperObject->GetComponent<SpritesheetComponent>();
 	spriteSheetComp->ResetSpriteTiming();
 
 	spriteSheetComp->Play(make_sdbm_hash("PPWin"));
@@ -168,19 +168,19 @@ std::unique_ptr<dae::PeterPepperState> dae::WinningState::Update(GameObject*, fl
 
 void dae::WinningState::OnExit(GameObject* peterPepperObject)
 {
-	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);
 }
 
 
 void dae::DyingState::OnEnter(GameObject* peterPepperObject)
 {
-	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 
 	moveComponent->SetDirection(glm::vec2(0.0f, 0.0f));
 	moveComponent->SetIsActive(false);
 
-	auto spriteSheetComp = peterPepperObject->GetComponent<SpritesheetComponent>();
+	const auto spriteSheetComp = peterPepperObject->GetComponent<SpritesheetComponent>();
 	spriteSheetComp->ResetSpriteTiming();
 
 	spriteSheetComp->Play(make_sdbm_hash("PPDying"));
@@ -210,7 +210,7 @@ void dae::DyingState::OnExit(GameObject* )
 void dae::DeadState::OnEnter(GameObject* peterPepperObject)
 {
 	peterPepperObject->SetIsActive(false);
-	auto peterPepperComponent = peterPepperObject->GetComponent<PeterPepperComponent>();
+	const auto peterPepperComponent = peterPepperObject->GetComponent<PeterPepperComponent>();
 	peterPepperComponent->DecreaseLives();
 	peterPepperComponent->GetPlayerDiedEvent()->NotifyObservers(Event(make_sdbm_hash("PlayerDied")), peterPepperObject);
 }
@@ -222,6 +222,6 @@ std::unique_ptr<dae::PeterPepperState> dae::DeadState::Update(GameObject*, float
 
 void dae::DeadState::OnExit(GameObject* peterPepperObject)
 {
-	auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
+	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);
 }

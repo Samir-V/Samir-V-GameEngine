@@ -49,7 +49,7 @@ void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observe
 
 	if (event.id == make_sdbm_hash("PlayerRespawned"))
 	{
-		for (auto lifeDisplay : m_LifeDisplays)
+		for (const auto lifeDisplay : m_LifeDisplays)
 		{
 			lifeDisplay->SetIsActive(true);
 		}

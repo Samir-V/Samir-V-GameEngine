@@ -40,8 +40,8 @@ namespace dae
 
 	private:
 
-		int m_Lives{ 3 };
-		int m_Peppers{ 5 };
+		int m_Lives;
+		int m_Peppers;
 
 		std::unique_ptr<Subject> m_PlayerDiedEvent;
 		std::unique_ptr<Subject> m_PepperAmountChangedEvent;

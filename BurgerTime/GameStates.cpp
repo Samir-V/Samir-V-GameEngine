@@ -14,9 +14,9 @@ void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 
 	m_GameHandlerComponentPtr = gameHandlerObject->GetComponent<GameHandlerComponent>();
 
-	auto& burgerParts = m_GameHandlerComponentPtr->GetGameplayDataRef().burgerParts;
+	const auto& burgerParts = m_GameHandlerComponentPtr->GetGameplayDataRef().burgerParts;
 
-	for (auto burgerPart : burgerParts)
+	for (const auto burgerPart : burgerParts)
 	{
 		m_BurgerPartComponents.emplace_back(burgerPart->GetComponent<BurgerPartComponent>());
 	}
@@ -37,7 +37,7 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 	}
 
 	auto& gameplayDataRef = m_GameHandlerComponentPtr->GetGameplayDataRef();
-	auto& enemyRespawnPoints = gameplayDataRef.enemyRespawnPoints;
+	const auto& enemyRespawnPoints = gameplayDataRef.enemyRespawnPoints;
 
 	for (auto it = gameplayDataRef.enemyRespawnDelays.begin(); it != gameplayDataRef.enemyRespawnDelays.end(); )
 	{
@@ -45,7 +45,7 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 
 		if (it->second <= 0.0f)
 		{
-			int idx = std::rand() % static_cast<int>(enemyRespawnPoints.size());
+			const int idx = std::rand() % static_cast<int>(enemyRespawnPoints.size());
 			auto& worldPos = enemyRespawnPoints[idx]->GetWorldTransform().GetPosition();
 			it->first->SetWorldPosition(worldPos.x, worldPos.y);
 			it->first->GetComponent<RectCollider2DComponent>()->SetLocalPosition(0.0f, 0.0f);
@@ -66,7 +66,7 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 		{
 			m_TimeSinceLastSpawn = 0.0f;
 
-			EnemyType nextType = gameplayDataRef.pendingSpawns.front();
+			const EnemyType nextType = gameplayDataRef.pendingSpawns.front();
 			gameplayDataRef.pendingSpawns.erase(gameplayDataRef.pendingSpawns.begin());
 
 			m_GameHandlerComponentPtr->SpawnEnemy(nextType);
@@ -87,18 +87,18 @@ void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 	sound.StopMusic();
 	sound.Play("RoundClear.wav", 0.7f);
 
-	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+	const auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
 
-	auto& players = gameHandlerComp->GetGameplayDataRef().players;
+	const auto& players = gameHandlerComp->GetGameplayDataRef().players;
 
-	for (auto player : players)
+	for (const auto player : players)
 	{
 		player->GetComponent<PeterPepperComponent>()->AssertVictory();
 	}
 
-	auto& enemies = gameHandlerComp->GetGameplayDataRef().enemies;
+	const auto& enemies = gameHandlerComp->GetGameplayDataRef().enemies;
 
-	for (auto enemy : enemies)
+	for (const auto enemy : enemies)
 	{
 		enemy->SetRunsUpdate(false);
 	}
@@ -118,10 +118,10 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 
 void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
 {
-	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
-	auto& players = gameHandlerComp->GetGameplayDataRef().players;
+	const auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
+	const auto& players = gameHandlerComp->GetGameplayDataRef().players;
 
-	for (auto player : players)
+	for (const auto player : players)
 	{
 		player->SetIsActive(false);
 	}

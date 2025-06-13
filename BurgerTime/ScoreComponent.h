@@ -29,8 +29,7 @@ namespace dae
 
 	private:
 
-		int m_CurrentScore{ 0 };
-
+		int m_CurrentScore;
 		TextComponent* m_ScoreDisplay;
 	};
 }

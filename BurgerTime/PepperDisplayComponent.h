@@ -6,7 +6,7 @@ namespace dae
 {
 	class TextComponent;
 
-	class PepperDisplayComponent : public ComponentBase, public dae::IObserver
+	class PepperDisplayComponent : public ComponentBase, public IObserver
 	{
 	public:
 

@@ -5,10 +5,10 @@
 #include "SceneManager.h"
 #include "TextComponent.h"
 
-dae::PepperDisplayComponent::PepperDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent, GameObject* petterPepper):
+dae::PepperDisplayComponent::PepperDisplayComponent(GameObject* ownerPtr, TextComponent* textComponent, GameObject* peterPepper):
 	ComponentBase(ownerPtr)
 	, m_PepperDisplay{textComponent}
-	, m_PeterPepperPtr{ petterPepper }
+	, m_PeterPepperPtr{ peterPepper }
 {
 }
 
@@ -35,7 +35,7 @@ void dae::PepperDisplayComponent::Notify(const Event& event, GameObject* observe
 {
 	if (event.id == make_sdbm_hash("PepperAmountChanged"))
 	{
-		int remainingPeppers = observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingPeppers();
+		const int remainingPeppers = observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingPeppers();
 
 		m_PepperDisplay->SetText("Peppers: " + std::to_string(remainingPeppers));
 	}

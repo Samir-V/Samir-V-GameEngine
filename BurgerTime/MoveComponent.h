@@ -39,20 +39,20 @@ namespace dae
 		void UpdateVerticalMovement();
 		glm::vec2 UpdateHorizontalMovement();
 
-		glm::vec2 m_Velocity{};
-		glm::vec2 m_Direction{};
-		glm::vec2 m_LastNonZeroDirection{};
+		glm::vec2 m_Velocity;
+		glm::vec2 m_Direction;
+		glm::vec2 m_LastNonZeroDirection;
 
-		bool m_CanGoHorizontally	{ false };
-		bool m_CanGoVertically		{ false };
+		bool m_CanGoHorizontally;
+		bool m_CanGoVertically;
 
 		std::set<RectCollider2DComponent*> m_CurrentPlatformsColliders;
 		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
 		std::set<RectCollider2DComponent*> m_CurrentEnemyColliders;
 
-		const float m_MaxSpeed{};
+		const float m_MaxSpeed;
 
-		RectCollider2DComponent* m_OwnerColliderPtr{};
+		RectCollider2DComponent* m_OwnerColliderPtr;
 	};
 }
 

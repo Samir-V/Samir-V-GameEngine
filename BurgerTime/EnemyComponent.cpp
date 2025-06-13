@@ -11,6 +11,7 @@ dae::EnemyComponent::EnemyComponent(GameObject* ownerPtr, EnemyType enemyType) :
 	ComponentBase(ownerPtr)
 	, m_EnemyDyingEvent{std::make_unique<Subject>()}
 	, m_EnemyType{ enemyType }
+	, m_CollidedBurgerPartComponents{}
 {
 }
 
@@ -19,7 +20,7 @@ void dae::EnemyComponent::Start()
 	m_State = std::make_unique<EnemyWalkingState>();
 	m_State->OnEnter(GetOwner());
 
-	auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
+	const auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
 
 	rectColliderComp->GetCollisionEnterEvent()->AddObserver(this);
 	rectColliderComp->GetCollisionStayEvent()->AddObserver(this);
@@ -129,7 +130,7 @@ dae::Subject* dae::EnemyComponent::GetEnemyDyingEvent() const
 
 void dae::EnemyComponent::Resurrect()
 {
-	auto enemyMoveComp = GetOwner()->GetComponent<EnemyMoveComponent>();
+	const auto enemyMoveComp = GetOwner()->GetComponent<EnemyMoveComponent>();
 	enemyMoveComp->Start();
 
 	ChangeState(std::make_unique<EnemyWalkingState>());

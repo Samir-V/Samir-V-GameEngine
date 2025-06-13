@@ -7,7 +7,11 @@
 dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, const std::vector<GameObject*>& players, float maxSpeed) :
 	ComponentBase(ownerPtr)
 	, m_Players{players}
-	, m_MaxSpeed { maxSpeed }
+	, m_CurrentHorizontalDirective{}
+	, m_CurrentVerticalDirective{}
+	, m_Velocity{}
+	, m_Direction{}
+	, m_MaxSpeed{maxSpeed}
 {
 }
 
@@ -18,9 +22,9 @@ dae::EnemyMoveComponent::~EnemyMoveComponent()
 
 void dae::EnemyMoveComponent::Start()
 {
-	auto directives = CalculateDirectionDirectives();
+	const auto [horDirective, verDirective] = CalculateDirectionDirectives();
 
-	if (directives.horDirective == HorizontalDirective::Right)
+	if (horDirective == HorizontalDirective::Right)
 	{
 		SetDirection({ 1.0f, 0.0f });
 	}

@@ -6,6 +6,7 @@
 
 dae::ScoreboardDisplayComponent::ScoreboardDisplayComponent(GameObject* ownerPtr, std::vector<TextComponent*> displays) :
 	ComponentBase(ownerPtr)
+	, m_Entries{}
 	, m_Displays{ std::move(displays)}
 {
 }

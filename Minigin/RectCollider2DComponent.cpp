@@ -5,7 +5,11 @@
 
 std::vector<dae::RectCollider2DComponent*> dae::RectCollider2DComponent::m_Colliders{};
 
-dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, float collisionRectWidth, float collisionRectHeight): ComponentBase(ownerPtr)
+dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, float collisionRectWidth, float collisionRectHeight):
+	ComponentBase(ownerPtr)
+	, m_CollisionEnterEvent {std::make_unique<Subject>()}
+	, m_CollisionExitEvent {std::make_unique<Subject>()}
+	, m_CollisionStayEvent {std::make_unique<Subject>()}
 {
 	auto& ownerPos = ownerPtr->GetWorldTransform().GetPosition();
 
@@ -13,10 +17,6 @@ dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, floa
 	m_CollisionRect.posY = ownerPos.y;
 	m_CollisionRect.width = collisionRectWidth;
 	m_CollisionRect.height = collisionRectHeight;
-
-	m_CollisionEnterEvent = std::make_unique<Subject>();
-	m_CollisionExitEvent = std::make_unique<Subject>();
-	m_CollisionStayEvent = std::make_unique<Subject>();
 
 	m_Colliders.push_back(this);
 }
@@ -83,16 +83,20 @@ void dae::RectCollider2DComponent::Update(float)
 
 		currentFrameCollisions.insert(otherCollider);
 
-		// Handles physical position updates
-		// If turned on both, adjusts parent game objects position to prevent it from stepping over the other object
 		if (m_ShouldCollide && otherCollider->m_ShouldCollide)
 		{
-			
+			auto& otherPos = otherCollider->GetOwner()->GetWorldTransform().GetPosition();
 
-			if (!m_IsStatic)
+			const auto shiftVector = GetCollisionOverlapShift(m_CollisionRect, otherCollider->m_CollisionRect);
+
+			if (!m_IsStatic && !otherCollider->m_IsStatic)
 			{
-				auto shiftVector = GetCollisionOverlapShift(m_CollisionRect, otherCollider->m_CollisionRect);
+				GetOwner()->SetLocalPosition(ownerPos.x + shiftVector.x * 0.5f, ownerPos.y + shiftVector.y * 0.5f);
 
+				otherCollider->GetOwner()->SetLocalPosition(otherPos.x - shiftVector.x * 0.5f, otherPos.y - shiftVector.y * 0.5f);
+			}
+			else if(!m_IsStatic)
+			{
 				GetOwner()->SetLocalPosition(ownerPos.x + shiftVector.x, ownerPos.y + shiftVector.y);
 			}
 		}
@@ -218,10 +222,10 @@ glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rec
 
 bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength) const
 {
-	float minX = m_CollisionRect.posX;
-	float maxX = m_CollisionRect.posX + m_CollisionRect.width;
-	float minY = m_CollisionRect.posY;
-	float maxY = m_CollisionRect.posY + m_CollisionRect.height;
+	const float minX = m_CollisionRect.posX;
+	const float maxX = m_CollisionRect.posX + m_CollisionRect.width;
+	const float minY = m_CollisionRect.posY;
+	const float maxY = m_CollisionRect.posY + m_CollisionRect.height;
 
 	float distance{};
 
@@ -244,13 +248,13 @@ bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, cons
 		invDir.y = std::numeric_limits<float>::max();
 	}
 
-	float t1 = (minX - rayOrigin.x) * invDir.x;
-	float t2 = (maxX - rayOrigin.x) * invDir.x;
-	float t3 = (minY - rayOrigin.y) * invDir.y;
-	float t4 = (maxY - rayOrigin.y) * invDir.y;
+	const float t1 = (minX - rayOrigin.x) * invDir.x;
+	const float t2 = (maxX - rayOrigin.x) * invDir.x;
+	const float t3 = (minY - rayOrigin.y) * invDir.y;
+	const float t4 = (maxY - rayOrigin.y) * invDir.y;
 
-	float tmin = std::max(std::min(t1, t2), std::min(t3, t4));
-	float tmax = std::min(std::max(t1, t2), std::max(t3, t4));
+	const float tmin = std::max(std::min(t1, t2), std::min(t3, t4));
+	const float tmax = std::min(std::max(t1, t2), std::max(t3, t4));
 
 	if (tmax < 0 || tmin > tmax)
 	{
@@ -276,10 +280,9 @@ bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, cons
 
 std::unordered_set<dae::GameObject*> dae::RectCollider2DComponent::GetRayIntersectedGameObjects(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength)
 {
-	// Can be further optimized by limiting the area for checking the intersections (since many colliders may exist and not all of them are close to the ray)
 	std::unordered_set<GameObject*> intersectedGameObjects{};
 
-	for (auto collider : m_Colliders)
+	for (const auto collider : m_Colliders)
 	{
 		if (collider->RayIntersect(rayOrigin, rayDirection, rayLength))
 		{

@@ -49,7 +49,7 @@ namespace dae
 
 	private:
 
-		std::set<RectCollider2DComponent*> m_CurrentLadderColliders;
+		std::set<RectCollider2DComponent*> m_CurrentLadderColliders{};
 
 		GameObject* m_LadderBelowPtr{};
 

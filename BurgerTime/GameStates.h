@@ -42,7 +42,7 @@ namespace dae
 	private:
 
 		GameHandlerComponent* m_GameHandlerComponentPtr{};
-		std::vector<BurgerPartComponent*> m_BurgerPartComponents;
+		std::vector<BurgerPartComponent*> m_BurgerPartComponents{};
 
 		float m_TimeSinceLastSpawn{};
 	};

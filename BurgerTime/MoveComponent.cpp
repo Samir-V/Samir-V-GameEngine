@@ -5,7 +5,14 @@
 #include "PeterPepperComponent.h"
 #include "RectCollider2DComponent.h"
 
-dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) : ComponentBase(ownerPtr), m_MaxSpeed{ maxSpeed }
+dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) :
+	ComponentBase(ownerPtr)
+	, m_Velocity{}
+	, m_Direction{}
+	, m_LastNonZeroDirection{}
+	, m_CanGoHorizontally{false}
+	, m_CanGoVertically{false}
+	, m_MaxSpeed{maxSpeed}
 {
 	m_OwnerColliderPtr = ownerPtr->GetComponent<RectCollider2DComponent>();
 }
@@ -31,7 +38,7 @@ void dae::MoveComponent::Update(float elapsedSec)
 		m_CanGoVertically = false;
 	}
 
-	glm::vec2 verticalCollisionShift = UpdateHorizontalMovement();
+	const glm::vec2 verticalCollisionShift = UpdateHorizontalMovement();
 	UpdateVerticalMovement();
 
 	// Movement prevention
@@ -101,7 +108,7 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 	{
 		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			for (auto currentEnemyCollider : m_CurrentEnemyColliders)
+			for (const auto currentEnemyCollider : m_CurrentEnemyColliders)
 			{
 				const auto playerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
 				const auto enemyColliderRect = currentEnemyCollider->GetCollisionRect();
@@ -121,7 +128,7 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 
 				if (enemyStateType != typeid(StunnedState) && enemyStateType != typeid(FallingState))
 				{
-					auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
+					const auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
 					peterPepperComp->ChangeState(std::make_unique<DyingState>());
 					break;
 				}
@@ -187,15 +194,15 @@ void dae::MoveComponent::UpdateVerticalMovement()
 
 	if (m_Direction.y < 0.0f && !m_CurrentLadderColliders.empty())
 	{
-		auto randomLadderCollider = *m_CurrentLadderColliders.begin();
-		auto randomLadderColliderRect = randomLadderCollider->GetCollisionRect();
+		const auto randomLadderCollider = *m_CurrentLadderColliders.begin();
+		const auto randomLadderColliderRect = randomLadderCollider->GetCollisionRect();
 
-		auto ladderWidth = randomLadderColliderRect.width;
-		auto widthDifferenceSplit = (m_OwnerColliderPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
+		const auto ladderWidth = randomLadderColliderRect.width;
+		const auto widthDifferenceSplit = (m_OwnerColliderPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
 
-		float xWorld = randomLadderColliderRect.posX - widthDifferenceSplit;
+		const float xWorld = randomLadderColliderRect.posX - widthDifferenceSplit;
 
-		auto characterPos = GetOwner()->GetWorldTransform().GetPosition();
+		const auto characterPos = GetOwner()->GetWorldTransform().GetPosition();
 
 		GetOwner()->SetWorldPosition(xWorld, characterPos.y);
 
@@ -203,9 +210,9 @@ void dae::MoveComponent::UpdateVerticalMovement()
 		return;
 	}
 
-	auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
-	glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
-	glm::vec2 rayDirection{ 0.0f, 1.0f };
+	const auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+	const glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height };
+	const glm::vec2 rayDirection{ 0.0f, 1.0f };
 	float rayLength;
 
 	if (m_Direction.y < 0.0f)
@@ -217,12 +224,12 @@ void dae::MoveComponent::UpdateVerticalMovement()
 		rayLength = 5.0f;
 	}
 
-	auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
+	const auto intersectedGameObjects = RectCollider2DComponent::GetRayIntersectedGameObjects(rayOrigin, rayDirection, rayLength);
 
 	bool ladderFound{ false };
 	GameObject* ladderGameObject{ nullptr };
 
-	for (auto intersectedGameObject : intersectedGameObjects)
+	for (const auto intersectedGameObject : intersectedGameObjects)
 	{
 		if (intersectedGameObject->GetTag() == make_sdbm_hash("Ladder"))
 		{
@@ -236,10 +243,10 @@ void dae::MoveComponent::UpdateVerticalMovement()
 
 	if (ladderGameObject != nullptr)
 	{
-		auto ladderWidth = ladderGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
-		auto widthDifferenceSplit = (ownerColliderRect.width - ladderWidth) / 2.0f;
+		const auto ladderWidth = ladderGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+		const auto widthDifferenceSplit = (ownerColliderRect.width - ladderWidth) / 2.0f;
 
-		float xWorld = ladderGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+		const float xWorld = ladderGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
 
 		auto& characterPos = GetOwner()->GetWorldTransform().GetPosition();
 
@@ -253,13 +260,13 @@ glm::vec2 dae::MoveComponent::UpdateHorizontalMovement()
 
 	if (m_Direction.x != 0.0f)
 	{
-		auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
+		const auto ownerColliderRect = m_OwnerColliderPtr->GetCollisionRect();
 		constexpr glm::vec2 rayDirection = glm::vec2(0.0f, 1.0f);
 
 		const glm::vec2 leftOrigin = { ownerColliderRect.posX, ownerColliderRect.posY + ownerColliderRect.height };
 		const glm::vec2 rightOrigin = { ownerColliderRect.posX + ownerColliderRect.width, ownerColliderRect.posY + ownerColliderRect.height };
 
-		for (auto currentPlatformCollider : m_CurrentPlatformsColliders)
+		for (const auto currentPlatformCollider : m_CurrentPlatformsColliders)
 		{
 			constexpr float rayLength = 2.0f;
 			if (m_Direction.x < 0.0f && currentPlatformCollider->RayIntersect(leftOrigin, rayDirection, rayLength))

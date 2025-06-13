@@ -53,6 +53,6 @@ namespace dae
 
 		std::set<BurgerPartComponent*> m_CollidedBurgerPartComponents;
 
-		EnemyType m_EnemyType{};
+		EnemyType m_EnemyType;
 	};
 }

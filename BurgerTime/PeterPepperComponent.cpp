@@ -9,6 +9,8 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	, m_PlayerDiedEvent{std::make_unique<Subject>()}
 	, m_PepperAmountChangedEvent{std::make_unique<Subject>()}
 	, m_State{std::make_unique<WalkingState>()}
+	, m_Peppers{5}
+	, m_Lives{3}
 {
 	m_State->OnEnter(GetOwner());
 }
@@ -59,7 +61,7 @@ void dae::PeterPepperComponent::DecreaseLives(int amount)
 
 void dae::PeterPepperComponent::IncreasePepper(int amount)
 {
-	int deltaPepper = std::clamp(amount, 0, 5);
+	const int deltaPepper = std::clamp(amount, 0, 5);
 	m_Peppers += deltaPepper;
 }
 

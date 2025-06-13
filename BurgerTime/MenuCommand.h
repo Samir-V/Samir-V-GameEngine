@@ -55,6 +55,5 @@ namespace dae
 			GetMenuHudComponent()->ChooseMode();
 		}
 
-	private:
 	};
 }

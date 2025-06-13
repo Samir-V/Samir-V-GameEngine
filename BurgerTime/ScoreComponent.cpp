@@ -12,6 +12,7 @@
 
 dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textComponent) :
 	ComponentBase(ownerPtr)
+	, m_CurrentScore{0}
 	, m_ScoreDisplay{textComponent}
 {
 

@@ -53,11 +53,11 @@ namespace dae
 
 		std::vector<GameObject*> m_Players;
 
-		HorizontalDirective m_CurrentHorizontalDirective{};
-		VerticalDirective m_CurrentVerticalDirective{};
+		HorizontalDirective m_CurrentHorizontalDirective;
+		VerticalDirective m_CurrentVerticalDirective;
 
-		glm::vec2 m_Velocity{};
-		glm::vec2 m_Direction{};
+		glm::vec2 m_Velocity;
+		glm::vec2 m_Direction;
 
 		const float m_MaxSpeed;
 	};
