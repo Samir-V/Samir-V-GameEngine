@@ -79,6 +79,11 @@ void dae::PeterPepperComponent::AssertVictory()
 
 void dae::PeterPepperComponent::Resurrect()
 {
+	if (typeid(*m_State) == typeid(DyingState))
+	{
+		ChangeState(std::make_unique<DeadState>());
+	}
+
 	ChangeState(std::make_unique<WalkingState>());
 }
 

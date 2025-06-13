@@ -14,6 +14,8 @@
 #include "ScoreComponent.h"
 
 // For the second player creation
+#include <iostream>
+
 #include "ResourceManager.h"
 #include "TextComponent.h"
 #include "Texture2DComponent.h"
@@ -95,8 +97,9 @@ void dae::GameHandlerComponent::Start()
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
 		m_GameplayData.deadPlayerAmount = 0;
-
 		m_GameplayData.playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
+
+		//  This extra loop covers the case of the level being skipped
 		for (const auto player : m_GameplayData.players)
 		{
 			auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
@@ -110,7 +113,15 @@ void dae::GameHandlerComponent::Start()
 				player->SetWorldPosition(worldPos.x, worldPos.y);
 			}
 
-			player->SetIsActive(true);
+			if (peterPepperComponent->GetRemainingLives() > 0)
+			{
+				peterPepperComponent->Resurrect();
+				player->SetIsActive(true);
+			}
+			else
+			{
+				++m_GameplayData.deadPlayerAmount;
+			}
 		}
 
 		auto pepperSprays = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("PepperSpray"));
@@ -287,11 +298,13 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 
 			SwitchLevel("HighScoreInput");
 			m_LevelCounter = 0;
-			ChangeState(std::make_unique<HighScoreMenuState>()); // if no,  move up
+			ChangeState(std::make_unique<HighScoreMenuState>());
 			return;
 		}
 
 		++m_GameplayData.deadPlayerAmount;
+
+		std::cout << "Player died " << "Amount: " << m_GameplayData.deadPlayerAmount << "\n";
 
 		if (m_GameplayData.deadPlayerAmount == static_cast<int>(m_GameplayData.players.size()))
 		{
@@ -373,11 +386,11 @@ void dae::GameHandlerComponent::ResetLevel()
 	m_GameplayData.enemies.clear();
 	m_GameplayData.enemyRespawnDelays.clear();
 	m_GameplayData.pendingSpawns.clear();
+	m_GameplayData.deadPlayerAmount = 0;
 
 	for (const auto player : m_GameplayData.players)
 	{
 		auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
-		peterPepperComponent->Resurrect();
 		player->GetComponent<MoveComponent>()->Reset();
 
 		if (!m_GameplayData.playerRespawnPoints.empty())
@@ -387,7 +400,15 @@ void dae::GameHandlerComponent::ResetLevel()
 			player->SetWorldPosition(worldPos.x, worldPos.y);
 		}
 
-		player->SetIsActive(true);
+		if (peterPepperComponent->GetRemainingLives() > 0)
+		{
+			peterPepperComponent->Resurrect();
+			player->SetIsActive(true);
+		}
+		else
+		{
+			++m_GameplayData.deadPlayerAmount;
+		}
 	}
 
 	auto pepperSprays = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("PepperSpray"));
@@ -398,8 +419,6 @@ void dae::GameHandlerComponent::ResetLevel()
 	}
 
 	SpawnLevelEnemies();
-
-	m_GameplayData.deadPlayerAmount = 0;
 }
 
 void dae::GameHandlerComponent::AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern)
