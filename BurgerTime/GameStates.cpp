@@ -85,7 +85,7 @@ void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 {
 	auto& sound = ServiceLocator::GetSoundSystem();
 	sound.StopMusic();
-	sound.Play("RoundClear.wav", 0.8f);
+	sound.Play("RoundClear.wav", 0.7f);
 
 	auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
 

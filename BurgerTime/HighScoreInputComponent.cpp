@@ -2,16 +2,17 @@
 
 #include <algorithm>
 #include <fstream>
+#include <utility>
 #include "TextComponent.h"
 
-dae::HighScoreInputComponent::HighScoreInputComponent(GameObject* ownerPtr, TextComponent* scoreDisplay, TextComponent* nameDisplay, const std::vector<TextComponent*>& letterDisplays):
+dae::HighScoreInputComponent::HighScoreInputComponent(GameObject* ownerPtr, TextComponent* scoreDisplay, TextComponent* nameDisplay, std::vector<TextComponent*> letterDisplays):
 	ComponentBase(ownerPtr)
 	, m_CurrentLetterIndex{0}
 	, m_Name{}
 	, m_FinalScore{0}
 	, m_ScoreDisplay{scoreDisplay}
 	, m_NameDisplay{nameDisplay}
-	, m_LetterDisplays{letterDisplays}
+	, m_LetterDisplays{std::move(letterDisplays)}
 	, m_MaxEntries{ 5 }
 {
 	m_ScoreDisplay->SetText("Score: " + std::to_string(m_FinalScore));

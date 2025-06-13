@@ -1,11 +1,12 @@
 #include "ScoreboardDisplayComponent.h"
 #include <fstream>
+#include <utility>
 
 #include "TextComponent.h"
 
-dae::ScoreboardDisplayComponent::ScoreboardDisplayComponent(GameObject* ownerPtr, const std::vector<TextComponent*>& displays) :
+dae::ScoreboardDisplayComponent::ScoreboardDisplayComponent(GameObject* ownerPtr, std::vector<TextComponent*> displays) :
 	ComponentBase(ownerPtr)
-	, m_Displays{ displays }
+	, m_Displays{ std::move(displays)}
 {
 }
 

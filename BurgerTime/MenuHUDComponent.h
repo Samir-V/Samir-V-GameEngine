@@ -33,10 +33,9 @@ namespace dae
 
 		int m_CurrentIndex{ 0 };
 
-		static constexpr std::array<GameHandlerComponent::GameMode, 3> m_IndexToMode = {
+		static constexpr std::array<GameHandlerComponent::GameMode, 2> m_IndexToMode = {
 			GameHandlerComponent::GameMode::Solo,
 			GameHandlerComponent::GameMode::Coop,
-			GameHandlerComponent::GameMode::Versus
 		};
 
 		GameHandlerComponent* m_GameHandlerComponentPtr{};

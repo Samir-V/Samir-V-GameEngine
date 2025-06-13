@@ -52,9 +52,7 @@ void dae::MenuHUDComponent::UpdateMarkerPosition() const
 
 void dae::MenuHUDComponent::ChooseMode() const
 {
-	m_GameHandlerComponentPtr->SetGameMode(m_IndexToMode.at(m_CurrentIndex));
-	m_GameHandlerComponentPtr->SwitchLevel("Level1");
-	m_GameHandlerComponentPtr->ChangeState(std::make_unique<PlayingState>());
+	m_GameHandlerComponentPtr->StartMainGame(m_IndexToMode.at(m_CurrentIndex));
 }
 
 

@@ -18,8 +18,7 @@ namespace dae
 		enum class GameMode
 		{
 			Solo,
-			Coop,
-			Versus
+			Coop
 		};
 
 		struct GameplayData
@@ -58,6 +57,7 @@ namespace dae
 
 		void Notify(const Event& event, GameObject* observedGameObject) override;
 
+		void StartMainGame(GameMode gameMode);
 		void SwitchLevel(const std::string& name);
 		void SkipLevel();
 		void SwitchToScoreView();

@@ -14,7 +14,7 @@ namespace dae
 
 		using HighScoreEntry = std::pair<std::string, int>;
 
-		HighScoreInputComponent(GameObject* ownerPtr, TextComponent* scoreDisplay, TextComponent* nameDisplay, const std::vector<TextComponent*>& letterDisplays);
+		HighScoreInputComponent(GameObject* ownerPtr, TextComponent* scoreDisplay, TextComponent* nameDisplay, std::vector<TextComponent*> letterDisplays);
 		~HighScoreInputComponent() override = default;
 
 		HighScoreInputComponent(const HighScoreInputComponent& other) = delete;

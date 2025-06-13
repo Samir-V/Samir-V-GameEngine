@@ -10,8 +10,8 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "ServiceLocator.h"
-#include "SpritesheetComponent.h"
 #include "RectCollider2DComponent.h"
+#include "ScoreComponent.h"
 
 // For the second player creation
 #include "ResourceManager.h"
@@ -21,7 +21,7 @@
 #include "HealthDisplayComponent.h"
 #include "HighScoreInputComponent.h"
 #include "PeterPepperCommand.h"
-#include "ScoreComponent.h"
+#include "SpritesheetComponent.h"
 #include "Windows.h"
 #include "Xinput.h"
 
@@ -145,6 +145,14 @@ void dae::GameHandlerComponent::Update(float elapsedSec)
 void dae::GameHandlerComponent::LateUpdate(float)
 {
 }
+
+void dae::GameHandlerComponent::StartMainGame(GameMode gameMode)
+{
+	SetGameMode(gameMode);
+	SwitchLevel("Level1");
+	ChangeState(std::make_unique<PlayingState>());
+}
+
 
 void dae::GameHandlerComponent::SwitchLevel(const std::string& name)
 {
