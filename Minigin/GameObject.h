@@ -57,6 +57,8 @@ namespace dae
 			requires std::derived_from<ComponentType, ComponentBase>
 		ComponentType* AddComponent(Args&&... args)
 		{
+			assert(!HasComponent<ComponentType>());
+
 			auto component = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
 			auto rawPtr = component.get();
 			m_Components.push_back(std::move(component));
