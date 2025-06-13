@@ -14,8 +14,6 @@
 #include "ScoreComponent.h"
 
 // For the second player creation
-#include <iostream>
-
 #include "ResourceManager.h"
 #include "TextComponent.h"
 #include "Texture2DComponent.h"
@@ -303,8 +301,6 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedG
 		}
 
 		++m_GameplayData.deadPlayerAmount;
-
-		std::cout << "Player died " << "Amount: " << m_GameplayData.deadPlayerAmount << "\n";
 
 		if (m_GameplayData.deadPlayerAmount == static_cast<int>(m_GameplayData.players.size()))
 		{

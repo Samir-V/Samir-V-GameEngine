@@ -173,6 +173,7 @@ void load()
 			// Menu scene
 			auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
 			auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+			auto fontSmall = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
 			auto& input = dae::InputManager::GetInstance();
 
@@ -212,6 +213,17 @@ void load()
 			input.RegisterKeyboardCommand(make_sdbm_hash("MenuMap"), std::make_unique<dae::VisitHighScoreView>(gameHandlerObject), SDL_SCANCODE_RIGHT, dae::InputManager::ActivationType::Pressing);
 
 			menuScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel = go->AddComponent<dae::TextComponent>("To go to Scoreboard", fontSmall);
+			controlsPanel->SetLocalPosition(0, 213);
+			menuScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press Right on D-PAD or Keyboard", fontSmall);
+			controlsPanel2->SetLocalPosition(0, 227);
+			menuScene->Add(std::move(go));
+
 			return menuScene;
 		});
 
@@ -220,6 +232,7 @@ void load()
 			// HighScore scene
 			auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
 			auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+			auto fontSmall = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
 			auto& input = dae::InputManager::GetInstance();
 
@@ -266,6 +279,26 @@ void load()
 			go->AddComponent<dae::HighScoreInputComponent>(scoreShowcase, nameShowcase, std::vector{ leftLetterShowcase, mainLetterShowcase, rightLetterShowcase });
 			highScoreInputScene->Add(std::move(go));
 
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel = go->AddComponent<dae::TextComponent>("Use arrows/D-PAD to switch letters", fontSmall);
+			controlsPanel->SetLocalPosition(0, 185);
+			highScoreInputScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press E/A to confirm a letter", fontSmall);
+			controlsPanel2->SetLocalPosition(0, 199);
+			highScoreInputScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel3 = go->AddComponent<dae::TextComponent>("Remove letters with Backspace/B", fontSmall);
+			controlsPanel3->SetLocalPosition(0, 213);
+			highScoreInputScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel4 = go->AddComponent<dae::TextComponent>("Confirm name with Space/X", fontSmall);
+			controlsPanel4->SetLocalPosition(0, 227);
+			highScoreInputScene->Add(std::move(go));
+
 			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, -1), XINPUT_GAMEPAD_DPAD_LEFT, dae::InputManager::ActivationType::Pressing, 0);
 			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, 1), XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputManager::ActivationType::Pressing, 0);
 
@@ -291,6 +324,7 @@ void load()
 			// HighScore view scene
 			auto fontBig = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 32);
 			auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+			auto fontSmall = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
 			auto& input = dae::InputManager::GetInstance();
 
@@ -335,6 +369,16 @@ void load()
 
 			input.RegisterControllerCommand(make_sdbm_hash("HighScoreViewMap"), std::make_unique<dae::ReturnToMenu>(gameHandlerObject), XINPUT_GAMEPAD_DPAD_LEFT, dae::InputManager::ActivationType::Pressing, 0);
 			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreViewMap"), std::make_unique<dae::ReturnToMenu>(gameHandlerObject), SDL_SCANCODE_LEFT, dae::InputManager::ActivationType::Pressing);
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel = go->AddComponent<dae::TextComponent>("To go to Main Menu", fontSmall);
+			controlsPanel->SetLocalPosition(0, 213);
+			highScoreViewScene->Add(std::move(go));
+
+			go = std::make_unique<dae::GameObject>();
+			auto controlsPanel2 = go->AddComponent<dae::TextComponent>("Press Left on D-PAD or Keyboard", fontSmall);
+			controlsPanel2->SetLocalPosition(0, 227);
+			highScoreViewScene->Add(std::move(go));
 
 			return highScoreViewScene;
 		});
