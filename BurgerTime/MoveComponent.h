@@ -25,7 +25,7 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void Notify(const Event& event, GameObject* observedGameObject) override;
+		void Notify(const Event& event, GameObject* gameObjectCausingEvent) override;
 
 		void SetDirection(const glm::vec2& direction);
 

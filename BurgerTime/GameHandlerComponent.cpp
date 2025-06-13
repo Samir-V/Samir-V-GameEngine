@@ -75,7 +75,6 @@ void dae::GameHandlerComponent::Start()
 	}
 	else
 	{
-
 		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
 
 		sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("GameplayHUD")).front()->SetIsActive(true);
@@ -83,46 +82,10 @@ void dae::GameHandlerComponent::Start()
 		m_GameplayData.players = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("Player"));
 		m_GameplayData.burgerParts = scene->GetGameObjectsWithTag(make_sdbm_hash("BurgerPart"));
 		m_GameplayData.enemyRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("EnemyRespawnPoint"));
-		m_GameplayData.deadPlayerAmount = 0;
 		m_GameplayData.playerRespawnPoints = scene->GetGameObjectsWithTag(make_sdbm_hash("PlayerRespawnPoint"));
+		m_GameplayData.deadPlayerAmount = 0;
 
-		//  This extra loop covers the case of the level being skipped
-		for (const auto player : m_GameplayData.players)
-		{
-			auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
-			peterPepperComponent->GetPlayerDiedEvent()->AddObserver(this);
-			player->GetComponent<MoveComponent>()->Reset();
-
-			if (!m_GameplayData.playerRespawnPoints.empty())
-			{
-				const int idx = std::rand() % static_cast<int>(m_GameplayData.playerRespawnPoints.size());
-				auto& worldPos = m_GameplayData.playerRespawnPoints[idx]->GetWorldTransform().GetPosition();
-				player->SetWorldPosition(worldPos.x, worldPos.y);
-			}
-
-			if (peterPepperComponent->GetRemainingLives() > 0)
-			{
-				peterPepperComponent->Resurrect();
-				player->SetIsActive(true);
-
-				if (m_LevelCounter != 0)
-				{
-					peterPepperComponent->IncreasePepper();
-					peterPepperComponent->GetPepperAmountChangedEvent()->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), player);
-				}
-			}
-			else
-			{
-				++m_GameplayData.deadPlayerAmount;
-			}
-		}
-
-		auto pepperSprays = sceneDontDestroy->GetGameObjectsWithTag(make_sdbm_hash("PepperSpray"));
-
-		for (auto pepperSpray : pepperSprays)
-		{
-			pepperSpray->SetIsActive(false);
-		}
+		ResetPlayers(true);
 
 		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
 
@@ -245,13 +208,13 @@ dae::GameHandlerComponent::GameplayData& dae::GameHandlerComponent::GetGameplayD
 	return m_GameplayData;
 }
 
-void dae::GameHandlerComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::GameHandlerComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("EnemyDied"))
 	{
 		constexpr float respawnDelay = 2.0f;
 
-		m_GameplayData.enemyRespawnDelays.insert({ observedGameObject, respawnDelay });
+		m_GameplayData.enemyRespawnDelays.insert({ gameObjectCausingEvent, respawnDelay });
 	}
 
 	if (event.id == make_sdbm_hash("PlayerDied"))
@@ -375,22 +338,17 @@ void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
 	activeScene->Add(std::move(go));
 }
 
-void dae::GameHandlerComponent::ResetLevel()
+void dae::GameHandlerComponent::ResetPlayers(bool initialReset)
 {
-	for (auto enemy : m_GameplayData.enemies)
-	{
-		enemy->Destroy();
-	}
-
-	m_GameplayData.enemies.clear();
-	m_GameplayData.enemyRespawnDelays.clear();
-	m_GameplayData.pendingSpawns.clear();
-	m_GameplayData.deadPlayerAmount = 0;
-
 	for (const auto player : m_GameplayData.players)
 	{
 		auto peterPepperComponent = player->GetComponent<PeterPepperComponent>();
 		player->GetComponent<MoveComponent>()->Reset();
+
+		if (initialReset)
+		{
+			peterPepperComponent->GetPlayerDiedEvent()->AddObserver(this);
+		}
 
 		if (!m_GameplayData.playerRespawnPoints.empty())
 		{
@@ -404,9 +362,10 @@ void dae::GameHandlerComponent::ResetLevel()
 			peterPepperComponent->Resurrect();
 			player->SetIsActive(true);
 
-			if (m_LevelCounter != 0)
+			if (initialReset && m_LevelCounter != 0)
 			{
 				peterPepperComponent->IncreasePepper();
+				peterPepperComponent->GetPepperAmountChangedEvent()->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), player);
 			}
 		}
 		else
@@ -421,6 +380,21 @@ void dae::GameHandlerComponent::ResetLevel()
 	{
 		pepperSpray->SetIsActive(false);
 	}
+}
+
+void dae::GameHandlerComponent::ResetLevel()
+{
+	for (auto enemy : m_GameplayData.enemies)
+	{
+		enemy->Destroy();
+	}
+
+	m_GameplayData.enemies.clear();
+	m_GameplayData.enemyRespawnDelays.clear();
+	m_GameplayData.pendingSpawns.clear();
+	m_GameplayData.deadPlayerAmount = 0;
+
+	ResetPlayers();
 
 	SpawnLevelEnemies();
 }

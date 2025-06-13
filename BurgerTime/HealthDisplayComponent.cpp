@@ -33,11 +33,11 @@ void dae::HealthDisplayComponent::Render() const
 {
 }
 
-void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("PlayerDied"))
 	{
-		const int remainingLives = observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingLives();
+		const int remainingLives = gameObjectCausingEvent->GetComponent<PeterPepperComponent>()->GetRemainingLives();
 
 		const int index = remainingLives - 1;
 

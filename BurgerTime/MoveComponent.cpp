@@ -84,29 +84,29 @@ void dae::MoveComponent::Render() const
 {
 }
 
-void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::MoveComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Platform"))
 		{
-			m_CurrentPlatformsColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+			m_CurrentPlatformsColliders.insert(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 		}
 
-		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Ladder"))
 		{
-			m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+			m_CurrentLadderColliders.insert(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 		}
 
-		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			m_CurrentEnemyColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+			m_CurrentEnemyColliders.insert(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 		}
 	}
 
 	if (event.id == make_sdbm_hash("OnCollisionStay"))
 	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Enemy"))
 		{
 			for (const auto currentEnemyCollider : m_CurrentEnemyColliders)
 			{
@@ -124,9 +124,9 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 					continue;
 				}
 
-				auto enemyStateType = observedGameObject->GetComponent<EnemyComponent>()->GetCurrentStateType();
+				auto enemyStateType = gameObjectCausingEvent->GetComponent<EnemyComponent>()->GetCurrentStateType();
 
-				if (enemyStateType != typeid(StunnedState) && enemyStateType != typeid(FallingState))
+				if (enemyStateType != typeid(EnemyStunnedState) && enemyStateType != typeid(EnemyFallingState))
 				{
 					const auto peterPepperComp = GetOwner()->GetComponent<PeterPepperComponent>();
 					peterPepperComp->ChangeState(std::make_unique<DyingState>());
@@ -138,19 +138,19 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* observedGameObje
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))
 	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Platform"))
 		{
-			m_CurrentPlatformsColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
+			m_CurrentPlatformsColliders.erase(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 		}
 
-		if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Ladder"))
 		{
-			m_CurrentLadderColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
+			m_CurrentLadderColliders.erase(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 		}
 
-		if (observedGameObject->GetTag() == make_sdbm_hash("Enemy"))
+		if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Enemy"))
 		{
-			m_CurrentEnemyColliders.erase(observedGameObject->GetComponent<RectCollider2DComponent>());
+			m_CurrentEnemyColliders.erase(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 		}
 	}
 }

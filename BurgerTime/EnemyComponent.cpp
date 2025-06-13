@@ -45,11 +45,11 @@ void dae::EnemyComponent::Render() const
 {
 }
 
-void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::EnemyComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
-		auto newState = m_State->OnCollisionEnter(GetOwner(), observedGameObject);
+		auto newState = m_State->OnCollisionEnter(GetOwner(), gameObjectCausingEvent);
 
 		if (newState != nullptr)
 		{
@@ -60,7 +60,7 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 	if (event.id == make_sdbm_hash("OnCollisionStay"))
 	{
 
-		auto newState = m_State->OnCollisionStay(GetOwner(), observedGameObject);
+		auto newState = m_State->OnCollisionStay(GetOwner(), gameObjectCausingEvent);
 
 		if (newState != nullptr)
 		{
@@ -70,7 +70,7 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))
 	{
-		auto newState = m_State->OnCollisionExit(GetOwner(), observedGameObject);
+		auto newState = m_State->OnCollisionExit(GetOwner(), gameObjectCausingEvent);
 
 		if (newState != nullptr)
 		{
@@ -120,7 +120,7 @@ void dae::EnemyComponent::StartFalling(GameObject* burgerPart)
 	}
 
 	m_CollidedBurgerPartComponents.clear();
-	ChangeState(std::make_unique<FallingState>());
+	ChangeState(std::make_unique<EnemyFallingState>());
 }
 
 dae::Subject* dae::EnemyComponent::GetEnemyDyingEvent() const

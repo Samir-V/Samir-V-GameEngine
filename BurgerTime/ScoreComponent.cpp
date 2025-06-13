@@ -59,11 +59,11 @@ void dae::ScoreComponent::Render() const
 {
 }
 
-void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::ScoreComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("EnemySpawned"))
 	{
-		observedGameObject->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
+		gameObjectCausingEvent->GetComponent<EnemyComponent>()->GetEnemyDyingEvent()->AddObserver(this);
 	}
 
 	if (event.id == make_sdbm_hash("PlayerRespawned"))

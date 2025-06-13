@@ -18,7 +18,7 @@ namespace dae
 		ScoreComponent& operator=(const ScoreComponent& other) = delete;
 		ScoreComponent& operator=(ScoreComponent&& other) = delete;
 
-		void Notify(const Event& event, GameObject* observedGameObject) override;
+		void Notify(const Event& event, GameObject* gameObjectCausingEvent) override;
 
 		void Start() override;
 		void Update(float elapsedSec) override;

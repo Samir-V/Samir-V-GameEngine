@@ -1,8 +1,6 @@
 #include <stdexcept>
-#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "ResourceManager.h"
-#include "Renderer.h"
 
 
 void dae::ResourceManager::Init()

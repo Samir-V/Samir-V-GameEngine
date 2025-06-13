@@ -42,11 +42,11 @@ namespace dae
 			}
 		}
 
-		void NotifyObservers(const Event& event, GameObject* observedGameObject) const
+		void NotifyObservers(const Event& event, GameObject* gameObjectCausingEvent) const
 		{
 			for (const auto observer : m_Observers)
 			{
-				observer->Notify(event, observedGameObject);
+				observer->Notify(event, gameObjectCausingEvent);
 			}
 		}
 

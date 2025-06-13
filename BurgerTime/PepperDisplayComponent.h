@@ -18,7 +18,7 @@ namespace dae
 		PepperDisplayComponent& operator=(const PepperDisplayComponent& other) = delete;
 		PepperDisplayComponent& operator=(PepperDisplayComponent&& other) = delete;
 
-		void Notify(const Event& event, GameObject* observedGameObject) override;
+		void Notify(const Event& event, GameObject* gameObjectCausingEvent) override;
 
 		void Start() override;
 		void Update(float elapsedSec) override;

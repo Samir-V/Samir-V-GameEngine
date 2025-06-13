@@ -55,7 +55,7 @@ namespace dae
 		void LateUpdate(float elapsedSec) override;
 		void Render() const override;
 
-		void Notify(const Event& event, GameObject* observedGameObject) override;
+		void Notify(const Event& event, GameObject* gameObjectCausingEvent) override;
 
 		void StartMainGame(GameMode gameMode);
 		void SwitchLevel(const std::string& name);
@@ -67,17 +67,18 @@ namespace dae
 
 		GameplayData& GetGameplayDataRef();
 		void SpawnEnemy(EnemyType enemyType);
-		void SpawnLevelEnemies();
-		void ResetLevel();
 
 		void AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern);
 
 		Subject* GetEnemiesSpawnedEvent() const;
 		int GetLevelCounter() const;
 
-		void SpawnSecondPlayerObjects();
-
 	private:
+
+		void SpawnLevelEnemies();
+		void ResetLevel();
+		void ResetPlayers(bool initialReset = false);
+		void SpawnSecondPlayerObjects();
 
 		static bool m_IsCreated;
 

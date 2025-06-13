@@ -31,11 +31,11 @@ void dae::PepperDisplayComponent::Render() const
 {
 }
 
-void dae::PepperDisplayComponent::Notify(const Event& event, GameObject* observedGameObject)
+void dae::PepperDisplayComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("PepperAmountChanged"))
 	{
-		const int remainingPeppers = observedGameObject->GetComponent<PeterPepperComponent>()->GetRemainingPeppers();
+		const int remainingPeppers = gameObjectCausingEvent->GetComponent<PeterPepperComponent>()->GetRemainingPeppers();
 
 		m_PepperDisplay->SetText("Peppers: " + std::to_string(remainingPeppers));
 	}

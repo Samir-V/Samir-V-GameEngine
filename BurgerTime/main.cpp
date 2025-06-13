@@ -139,6 +139,8 @@ void load_level_from_json(const std::string& filename, dae::Scene& scene)
 
 void load()
 {
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
 	ServiceLocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
 	register_factories();
 

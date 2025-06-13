@@ -60,7 +60,6 @@ void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 
 std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enemyObject, float)
 {
-
 	const auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
 	const glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height + 1.0f };
 	constexpr glm::vec2 rayDirection{ 0.0f, 1.0f };
@@ -111,16 +110,16 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enem
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Ladder"))
 	{
-		m_CurrentLadderColliders.insert(observedGameObject->GetComponent<RectCollider2DComponent>());
+		m_CurrentLadderColliders.insert(gameObjectCausingEvent->GetComponent<RectCollider2DComponent>());
 	}
 
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -146,19 +145,19 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameOb
 		}
 	}
 
-	if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("PepperSpray"))
 	{
-		return std::make_unique<StunnedState>(this->Clone());
+		return std::make_unique<EnemyStunnedState>(this->Clone());
 	}
 
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("Ladder"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Ladder"))
 	{
-		const auto distance = enemyObject->GetWorldTransform().GetPosition().x - observedGameObject->GetWorldTransform().GetPosition().x;
+		const auto distance = enemyObject->GetWorldTransform().GetPosition().x - gameObjectCausingEvent->GetWorldTransform().GetPosition().x;
 
 		if ( abs(distance) <= 0.25f )
 		{
@@ -180,10 +179,10 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 				m_EnemyMoveComponentPtr->SetDirection({ 0.0f, -1.0f });
 			}
 
-			const auto ladderWidth = observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
+			const auto ladderWidth = gameObjectCausingEvent->GetComponent<RectCollider2DComponent>()->GetCollisionRect().width;
 			const auto widthDifferenceSplit = (m_RectCollider2DComponentPtr->GetCollisionRect().width - ladderWidth) / 2.0f;
 
-			const float xWorld = observedGameObject->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
+			const float xWorld = gameObjectCausingEvent->GetWorldTransform().GetPosition().x - widthDifferenceSplit;
 			auto& characterPos = enemyObject->GetWorldTransform().GetPosition();
 			enemyObject->SetWorldPosition(xWorld, characterPos.y);
 
@@ -191,7 +190,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 		}
 	}
 
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
 		for (const auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
@@ -219,11 +218,11 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionExit(GameObject* , GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionExit(GameObject* , GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -290,11 +289,11 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::Update(GameObject*, float e
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -320,17 +319,17 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionEnter(GameObject
 		}
 	}
 
-	if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("PepperSpray"))
 	{
-		return std::make_unique<StunnedState>(this->Clone());
+		return std::make_unique<EnemyStunnedState>(this->Clone());
 	}
 
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("Platform"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Platform"))
 	{
 		if (m_Timer > 0.0f)
 		{
@@ -349,7 +348,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 			}))
 		{
 
-			const auto overlapShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, observedGameObject->GetComponent<RectCollider2DComponent>()->GetCollisionRect());
+			const auto overlapShift = RectCollider2DComponent::GetCollisionOverlapShift(ownerColliderRect, gameObjectCausingEvent->GetComponent<RectCollider2DComponent>()->GetCollisionRect());
 			auto& ownerPos = enemyObject->GetWorldTransform().GetPosition();
 			enemyObject->SetWorldPosition(ownerPos.x + overlapShift.x, ownerPos.y + overlapShift.y);
 
@@ -403,7 +402,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 		}
 	}
 
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
 		for (auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
@@ -430,11 +429,11 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionExit(GameObject* , GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionExit(GameObject* , GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -500,11 +499,11 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::Update(GameObject*,
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -530,17 +529,17 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionEnter(Ga
 		}
 	}
 
-	if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("PepperSpray"))
 	{
-		return std::make_unique<StunnedState>(this->Clone());
+		return std::make_unique<EnemyStunnedState>(this->Clone());
 	}
 
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
 		for (const auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
@@ -568,11 +567,11 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionStay(Gam
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionExit(GameObject*, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionExit(GameObject*, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -582,12 +581,12 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionExit(Gam
 
 
 
-dae::StunnedState::StunnedState(std::unique_ptr<EnemyState> previousState)
+dae::EnemyStunnedState::EnemyStunnedState(std::unique_ptr<EnemyState> previousState)
 {
 	m_PreviousState = std::move(previousState);
 }
 
-void dae::StunnedState::OnEnter(GameObject* enemyObject)
+void dae::EnemyStunnedState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -613,7 +612,7 @@ void dae::StunnedState::OnEnter(GameObject* enemyObject)
 	sound.Play("EnemySprayed.wav", 0.8f);
 }
 
-std::unique_ptr<dae::EnemyState> dae::StunnedState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::Update(GameObject*, float elapsedSec)
 {
 	if (m_Timer > 0.0f)
 	{
@@ -624,16 +623,16 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::Update(GameObject*, float el
 	return std::move(m_PreviousState);
 }
 
-void dae::StunnedState::OnExit(GameObject*)
+void dae::EnemyStunnedState::OnExit(GameObject*)
 {
 	m_EnemyMoveComponentPtr->SetIsActive(true);
 }
 
-std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 		if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
 		{
 			switch (m_EnemyComponentPtr->GetEnemyType())
@@ -662,9 +661,9 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionEnter(GameObject*
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
 		for (const auto burgerPartComponent : m_EnemyComponentPtr->GetCollidedBurgerPartsRef())
 		{
@@ -692,11 +691,11 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionStay(GameObject* 
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionExit(GameObject*, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionExit(GameObject*, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
-		const auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		const auto burgerComp = gameObjectCausingEvent->GetComponent<BurgerPartComponent>();
 
 		m_EnemyComponentPtr->GetCollidedBurgerPartsRef().erase(burgerComp);
 	}
@@ -706,7 +705,7 @@ std::unique_ptr<dae::EnemyState> dae::StunnedState::OnCollisionExit(GameObject*,
 
 
 
-void dae::FallingState::OnEnter(GameObject* enemyObject)
+void dae::EnemyFallingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
 	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
@@ -715,9 +714,9 @@ void dae::FallingState::OnEnter(GameObject* enemyObject)
 	sound.Play("EnemyFall.wav", 0.8f);
 }
 
-std::unique_ptr<dae::EnemyState> dae::FallingState::OnCollisionEnter(GameObject*, GameObject* observedGameObject)
+std::unique_ptr<dae::EnemyState> dae::EnemyFallingState::OnCollisionEnter(GameObject*, GameObject* gameObjectCausingEvent)
 {
-	if (observedGameObject->GetTag() == make_sdbm_hash("Platform") || observedGameObject->GetTag() == make_sdbm_hash("Plate"))
+	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Platform") || gameObjectCausingEvent->GetTag() == make_sdbm_hash("Plate"))
 	{
 		return std::make_unique<EnemyDyingState>();
 	}

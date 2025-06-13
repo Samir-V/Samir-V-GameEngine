@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include "MoveComponent.h"
 #include "PeterPepperComponent.h"
-#include "ServiceLocator.h"
 
 class PeterPepperCommand : public Command
 {

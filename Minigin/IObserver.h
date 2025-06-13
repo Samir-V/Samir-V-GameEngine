@@ -17,7 +17,7 @@ namespace dae
 	{
 	public:
 		virtual ~IObserver() = default;
-		virtual void Notify(const Event& event, GameObject* observedGameObject) = 0;
+		virtual void Notify(const Event& event, GameObject* gameObjectCausingEvent) = 0;
 	};
 }
 
