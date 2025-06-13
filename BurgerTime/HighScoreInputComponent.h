@@ -31,6 +31,7 @@ namespace dae
 		void AlterLetterIndex(int delta);
 		void ConfirmLetter();
 		void ConfirmName();
+		void RemoveLetter();
 
 	private:
 

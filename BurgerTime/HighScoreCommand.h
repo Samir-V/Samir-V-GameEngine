@@ -39,6 +39,20 @@ namespace dae
 		}
 	};
 
+	class RemoveLetter : public HighScoreCommand
+	{
+	public:
+
+		RemoveLetter(const GameObject* highScoreInputObject) : HighScoreCommand(highScoreInputObject)
+		{
+		}
+
+		void Execute() override
+		{
+			GetHighScoreInputComponent()->RemoveLetter();
+		}
+	};
+
 	class ConfirmName : public HighScoreCommand
 	{
 	public:

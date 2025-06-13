@@ -272,12 +272,16 @@ void load()
 			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmLetter>(highScoreInputObject), XINPUT_GAMEPAD_A, dae::InputManager::ActivationType::Pressing, 0);
 			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmName>(highScoreInputObject), XINPUT_GAMEPAD_X, dae::InputManager::ActivationType::Pressing, 0);
 
+			input.RegisterControllerCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::RemoveLetter>(highScoreInputObject), XINPUT_GAMEPAD_B, dae::InputManager::ActivationType::Pressing, 0);
+
 
 			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, -1), SDL_SCANCODE_LEFT, dae::InputManager::ActivationType::Pressing);
 			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::AlterLetterIndex>(highScoreInputObject, 1), SDL_SCANCODE_RIGHT, dae::InputManager::ActivationType::Pressing);
 
 			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmLetter>(highScoreInputObject), SDL_SCANCODE_E, dae::InputManager::ActivationType::Pressing);
 			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::ConfirmName>(highScoreInputObject), SDL_SCANCODE_SPACE, dae::InputManager::ActivationType::Pressing);
+
+			input.RegisterKeyboardCommand(make_sdbm_hash("HighScoreInputMap"), std::make_unique<dae::RemoveLetter>(highScoreInputObject), SDL_SCANCODE_BACKSPACE, dae::InputManager::ActivationType::Pressing);
 
 			return highScoreInputScene;
 		});

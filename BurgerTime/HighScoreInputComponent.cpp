@@ -100,3 +100,20 @@ void dae::HighScoreInputComponent::ConfirmName()
 }
 
 
+void dae::HighScoreInputComponent::RemoveLetter()
+{
+	if (!m_Name.empty())
+	{
+		m_Name.resize(m_Name.size() - 1);
+
+		if (m_Name.empty())
+		{
+			m_NameDisplay->SetText("Your name");
+		}
+		else
+		{
+			m_NameDisplay->SetText(m_Name);
+		}
+	}
+}
+
