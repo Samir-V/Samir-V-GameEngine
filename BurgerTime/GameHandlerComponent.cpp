@@ -75,17 +75,6 @@ void dae::GameHandlerComponent::Start()
 	}
 	else
 	{
-		if (m_LevelCounter != 0)
-		{
-			// Here add pepper
-		}
-
-		++m_LevelCounter;
-
-		if (m_LevelCounter > 3)
-		{
-			m_LevelCounter = 1;
-		}
 
 		const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
 
@@ -115,6 +104,12 @@ void dae::GameHandlerComponent::Start()
 			{
 				peterPepperComponent->Resurrect();
 				player->SetIsActive(true);
+
+				if (m_LevelCounter != 0)
+				{
+					peterPepperComponent->IncreasePepper();
+					peterPepperComponent->GetPepperAmountChangedEvent()->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), player);
+				}
 			}
 			else
 			{
@@ -129,11 +124,19 @@ void dae::GameHandlerComponent::Start()
 			pepperSpray->SetIsActive(false);
 		}
 
-		SpawnLevelEnemies();
 		input.SetActiveInputMap(make_sdbm_hash("GameplayMap"));
 
 		auto& sound = ServiceLocator::GetSoundSystem();
 		sound.Play("MainTheme.mp3", 0.8f, true);
+
+		++m_LevelCounter;
+
+		if (m_LevelCounter > 3)
+		{
+			m_LevelCounter = 1;
+		}
+
+		SpawnLevelEnemies();
 	}
 }
 
@@ -400,6 +403,11 @@ void dae::GameHandlerComponent::ResetLevel()
 		{
 			peterPepperComponent->Resurrect();
 			player->SetIsActive(true);
+
+			if (m_LevelCounter != 0)
+			{
+				peterPepperComponent->IncreasePepper();
+			}
 		}
 		else
 		{

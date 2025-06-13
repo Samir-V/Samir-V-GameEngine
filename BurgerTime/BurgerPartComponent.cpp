@@ -202,11 +202,37 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* observedGa
 
 				for (auto enemy : m_EnemiesOnTop)
 				{
-					// Update the scores here depending on the number of killed enemies
-					// Should be moved and handled by the EnemyComponent itself. This only should calculate points multiplier for the burger part
 					auto enemyComponent = enemy->GetComponent<EnemyComponent>();
-
 					enemyComponent->StartFalling(GetOwner());
+				}
+
+				int enemiesOnTopCount = static_cast<int>(m_EnemiesOnTop.size());
+
+				if (enemiesOnTopCount != 0)
+				{
+					switch (enemiesOnTopCount)
+					{
+					case 1:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop1")), GetOwner());
+						break;
+					case 2:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop2")), GetOwner());
+						break;
+					case 3:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop3")), GetOwner());
+						break;
+					case 4:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop4")), GetOwner());
+						break;
+					case 5:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop5")), GetOwner());
+						break;
+					case 6:
+						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop6")), GetOwner());
+						break;
+					default: 
+						break;
+					}
 				}
 
 				m_EnemiesOnTop.clear();

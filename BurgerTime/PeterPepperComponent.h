@@ -25,7 +25,7 @@ namespace dae
 		void Render() const override;
 
 		Subject* GetPlayerDiedEvent() const;
-		Subject* GetPepperSprayedEvent() const;
+		Subject* GetPepperAmountChangedEvent() const;
 		int GetRemainingLives() const;
 		int GetRemainingPeppers() const;
 
@@ -35,6 +35,7 @@ namespace dae
 		void Resurrect();
 		void SprayPepper();
 		void DecreaseLives(int amount = 1);
+		void IncreasePepper(int amount = 1);
 		void FullRespawn();
 
 	private:
@@ -43,7 +44,7 @@ namespace dae
 		int m_Peppers{ 5 };
 
 		std::unique_ptr<Subject> m_PlayerDiedEvent;
-		std::unique_ptr<Subject> m_PepperSprayedEvent;
+		std::unique_ptr<Subject> m_PepperAmountChangedEvent;
 
 		std::unique_ptr<PeterPepperState> m_State;
 	};

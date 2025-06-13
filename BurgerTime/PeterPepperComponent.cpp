@@ -7,7 +7,7 @@
 dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	ComponentBase(ownerPtr)
 	, m_PlayerDiedEvent{std::make_unique<Subject>()}
-	, m_PepperSprayedEvent{std::make_unique<Subject>()}
+	, m_PepperAmountChangedEvent{std::make_unique<Subject>()}
 	, m_State{std::make_unique<WalkingState>()}
 {
 	m_State->OnEnter(GetOwner());
@@ -40,9 +40,9 @@ dae::Subject* dae::PeterPepperComponent::GetPlayerDiedEvent() const
 	return m_PlayerDiedEvent.get();
 }
 
-dae::Subject* dae::PeterPepperComponent::GetPepperSprayedEvent() const
+dae::Subject* dae::PeterPepperComponent::GetPepperAmountChangedEvent() const
 {
-	return m_PepperSprayedEvent.get();
+	return m_PepperAmountChangedEvent.get();
 }
 
 
@@ -55,6 +55,12 @@ void dae::PeterPepperComponent::DecreaseLives(int amount)
 {
 	m_Lives -= amount;
 	m_Lives = std::max(m_Lives, 0);
+}
+
+void dae::PeterPepperComponent::IncreasePepper(int amount)
+{
+	int deltaPepper = std::clamp(amount, 0, 5);
+	m_Peppers += deltaPepper;
 }
 
 
@@ -108,7 +114,7 @@ void dae::PeterPepperComponent::FullRespawn()
 	m_Lives = 3;
 
 	m_PlayerDiedEvent->NotifyObservers(Event(make_sdbm_hash("PlayerRespawned")), GetOwner());
-	m_PepperSprayedEvent->NotifyObservers(Event(make_sdbm_hash("PlayerRespawned")), GetOwner());
+	m_PepperAmountChangedEvent->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), GetOwner());
 }
 
 int dae::PeterPepperComponent::GetRemainingPeppers() const

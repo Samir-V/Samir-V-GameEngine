@@ -26,6 +26,8 @@ namespace dae
 		virtual std::unique_ptr<EnemyState> Update(GameObject*, float) { return nullptr; }
 		virtual void OnExit(GameObject*) {}
 
+		virtual std::unique_ptr<EnemyState> Clone() const = 0;
+
 		virtual std::unique_ptr<EnemyState> OnCollisionEnter(GameObject*, GameObject*) { return nullptr; }
 		virtual std::unique_ptr<EnemyState> OnCollisionStay(GameObject*, GameObject*) { return nullptr; }
 		virtual std::unique_ptr<EnemyState> OnCollisionExit(GameObject*, GameObject*) { return nullptr; }
@@ -37,10 +39,13 @@ namespace dae
 	public:
 		EnemyWalkingState() = default;
 
+		std::unique_ptr<EnemyState> Clone() const override { return std::make_unique<EnemyWalkingState>(*this); }
+
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
 		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
 		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
+		std::unique_ptr<EnemyState> OnCollisionExit(GameObject* enemyObject, GameObject* observedGameObject) override;
 
 	private:
 
@@ -59,9 +64,13 @@ namespace dae
 	public:
 		ClimbingState() = default;
 
+		std::unique_ptr<EnemyState> Clone() const override { return std::make_unique<ClimbingState>(*this); }
+
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
 		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
+		std::unique_ptr<EnemyState> OnCollisionExit(GameObject* enemyObject, GameObject* observedGameObject) override;
 
 	private:
 
@@ -79,8 +88,13 @@ namespace dae
 	public:
 		FinishedClimbingState() = default;
 
+		std::unique_ptr<EnemyState> Clone() const override { return std::make_unique<FinishedClimbingState>(*this); }
+
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
+		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
+		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
+		std::unique_ptr<EnemyState> OnCollisionExit(GameObject* enemyObject, GameObject* observedGameObject) override;
 
 	private:
 
@@ -96,9 +110,24 @@ namespace dae
 	public:
 		StunnedState(std::unique_ptr<EnemyState> previousState);
 
+		// Although exists - will not be used
+		std::unique_ptr<EnemyState> Clone() const override
+		{
+			auto prevClone = m_PreviousState->Clone();
+
+			auto newStun = std::make_unique<StunnedState>(std::move(prevClone));
+
+			newStun->m_Timer = this->m_Timer;
+
+			return newStun;
+		}
+
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
 		void OnExit(GameObject* enemyObject) override;
+		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
+		std::unique_ptr<EnemyState> OnCollisionStay(GameObject* enemyObject, GameObject* observedGameObject) override;
+		std::unique_ptr<EnemyState> OnCollisionExit(GameObject* enemyObject, GameObject* observedGameObject) override;
 
 	private:
 
@@ -115,8 +144,11 @@ namespace dae
 	public:
 		FallingState() = default;
 
+		std::unique_ptr<EnemyState> Clone() const override { return std::make_unique<FallingState>(*this); }
+
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> OnCollisionEnter(GameObject* enemyObject, GameObject* observedGameObject) override;
+
 
 	private:
 
@@ -127,6 +159,8 @@ namespace dae
 	{
 	public:
 		EnemyDyingState() = default;
+
+		std::unique_ptr<EnemyState> Clone() const override { return std::make_unique<EnemyDyingState>(*this); }
 
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;
@@ -145,6 +179,8 @@ namespace dae
 	{
 	public:
 		EnemyDeadState() = default;
+
+		std::unique_ptr<EnemyState> Clone() const override { return std::make_unique<EnemyDeadState>(*this); }
 
 		void OnEnter(GameObject* enemyObject) override;
 		std::unique_ptr<EnemyState> Update(GameObject* enemyObject, float elapsedSec) override;

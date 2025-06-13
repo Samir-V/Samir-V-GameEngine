@@ -48,49 +48,6 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
-		{
-			auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
-
-			if (burgerComp->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
-			{
-				switch (m_EnemyType)
-				{
-				case EnemyType::HotDog:
-					m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("HotDogKilled")), observedGameObject);
-					break;
-				case EnemyType::Pickle:
-					m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("PickleKilled")), observedGameObject);
-					break;
-				case EnemyType::Egg:
-					m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("EggKilled")), observedGameObject);
-					break;
-				}
-
-				m_CollidedBurgerPartComponents.clear();
-				ChangeState(std::make_unique<EnemyDyingState>());
-			}
-			else
-			{
-				m_CollidedBurgerPartComponents.insert(burgerComp);
-			}
-		}
-
-		if (observedGameObject->GetTag() == make_sdbm_hash("PepperSpray"))
-		{
-			if (typeid(*m_State) != typeid(StunnedState))
-			{
-				// This algorithm differs since the state needs to be preserved and then returned
-				m_State->OnExit(GetOwner());
-
-				auto stunnedState = std::make_unique<StunnedState>(std::move(m_State));
-
-				m_State = std::move(stunnedState);
-
-				m_State->OnEnter(GetOwner());
-			}
-		}
-
 		auto newState = m_State->OnCollisionEnter(GetOwner(), observedGameObject);
 
 		if (newState != nullptr)
@@ -101,30 +58,6 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 
 	if (event.id == make_sdbm_hash("OnCollisionStay"))
 	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
-		{
-			for (auto burgerPartComponent : m_CollidedBurgerPartComponents)
-			{
-				if (burgerPartComponent->GetBurgerPartState() == BurgerPartComponent::BurgerPartState::Falling)
-				{
-					switch (m_EnemyType)
-					{
-					case EnemyType::HotDog:
-						m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("HotDogKilled")), observedGameObject);
-						break;
-					case EnemyType::Pickle:
-						m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("PickleKilled")), observedGameObject);
-						break;
-					case EnemyType::Egg:
-						m_EnemyDyingEvent->NotifyObservers(Event(make_sdbm_hash("EggKilled")), observedGameObject);
-						break;
-					}
-
-					ChangeState(std::make_unique<EnemyDyingState>());
-					break;
-				}
-			}
-		}
 
 		auto newState = m_State->OnCollisionStay(GetOwner(), observedGameObject);
 
@@ -136,11 +69,11 @@ void dae::EnemyComponent::Notify(const Event& event, GameObject* observedGameObj
 
 	if (event.id == make_sdbm_hash("OnCollisionExit"))
 	{
-		if (observedGameObject->GetTag() == make_sdbm_hash("BurgerPart"))
-		{
-			auto burgerComp = observedGameObject->GetComponent<BurgerPartComponent>();
+		auto newState = m_State->OnCollisionExit(GetOwner(), observedGameObject);
 
-			m_CollidedBurgerPartComponents.erase(burgerComp);
+		if (newState != nullptr)
+		{
+			ChangeState(std::move(newState));
 		}
 	}
 }
@@ -202,4 +135,8 @@ void dae::EnemyComponent::Resurrect()
 	ChangeState(std::make_unique<EnemyWalkingState>());
 }
 
+std::set<dae::BurgerPartComponent*>& dae::EnemyComponent::GetCollidedBurgerPartsRef()
+{
+	return m_CollidedBurgerPartComponents;
+}
 

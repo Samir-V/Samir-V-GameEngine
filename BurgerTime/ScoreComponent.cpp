@@ -77,6 +77,42 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject* observedGameObj
 		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
 	}
 
+	if (event.id == make_sdbm_hash("EnemyTop1"))
+	{
+		m_CurrentScore += 500;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EnemyTop2"))
+	{
+		m_CurrentScore += 1000;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EnemyTop3"))
+	{
+		m_CurrentScore += 2000;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EnemyTop4"))
+	{
+		m_CurrentScore += 4000;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EnemyTop5"))
+	{
+		m_CurrentScore += 8000;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
+	if (event.id == make_sdbm_hash("EnemyTop6"))
+	{
+		m_CurrentScore += 16000;
+		m_ScoreDisplay->SetText("Score: " + std::to_string(m_CurrentScore));
+	}
+
 	if (event.id == make_sdbm_hash("HotDogKilled"))
 	{
 		m_CurrentScore += 100;

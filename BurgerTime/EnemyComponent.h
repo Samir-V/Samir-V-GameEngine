@@ -44,6 +44,8 @@ namespace dae
 
 		void Resurrect();
 
+		std::set<BurgerPartComponent*>& GetCollidedBurgerPartsRef();
+
 	private:
 
 		std::unique_ptr<EnemyState> m_State;
