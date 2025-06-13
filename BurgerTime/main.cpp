@@ -153,7 +153,7 @@ void load()
 	input.SetActiveInputMap(make_sdbm_hash("MenuMap"));
 
 	// Adding the gamehandler to the dont destroy on load scene
-	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateScene("DontDestroyOnLoadScene", true);
+	auto& sceneDontDestroy = dae::SceneManager::GetInstance().CreateDontDestroyOnLoadScene("DontDestroyOnLoadScene");
 	auto go = std::make_unique<dae::GameObject>();
 	const auto gameHandlerComp = go->AddComponent<dae::GameHandlerComponent>();
 	gameHandlerComp->AddEnemySpawnPattern(dae::GameHandlerComponent::EnemySpawnPattern{ 3, 0, 1 });
@@ -481,16 +481,32 @@ void load()
 	go->SetParent(goHUDptr, false);
 	go->SetLocalPosition(0, 220.0f);
 	const auto firstLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
-	const auto secondLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
 	firstLifeDisplay->SetLocalPosition(0, 0);
+	sceneDontDestroy.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
+	go->SetLocalPosition(0, 220.0f);
+	const auto secondLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
 	secondLifeDisplay->SetLocalPosition(0, -10);
-	go->AddComponent<dae::HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay }, playerPtr);
+	sceneDontDestroy.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
+	go->SetLocalPosition(0, 220.0f);
+	const auto thirdLifeDisplay = go->AddComponent<dae::Texture2DComponent>("HUD/Life.png");
+	thirdLifeDisplay->SetLocalPosition(0, -20);
+	sceneDontDestroy.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetParent(goHUDptr, false);
+	go->AddComponent<dae::HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay, thirdLifeDisplay }, playerPtr);
 	sceneDontDestroy.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
 	go->SetParent(goHUDptr, false);
 	textComp = go->AddComponent<dae::TextComponent>("Peppers: 5", font);
-	textComp->SetLocalPosition(170, 0);
+	textComp->SetLocalPosition(165, 0);
 	sceneDontDestroy.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();

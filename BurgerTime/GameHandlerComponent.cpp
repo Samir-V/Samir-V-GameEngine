@@ -511,20 +511,38 @@ void dae::GameHandlerComponent::SpawnSecondPlayerObjects()
 	auto goHUDptr = goHUD.get();
 	sceneDontDestroy->Add(std::move(goHUD));
 
+
+
 	go = std::make_unique<GameObject>();
 	go->SetParent(goHUDptr, false);
-	go->SetLocalPosition(0, 220.0f);
-	auto firstLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
-	auto secondLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
-	firstLifeDisplay->SetLocalPosition(10, 0);
-	secondLifeDisplay->SetLocalPosition(10, -10);
-	go->AddComponent<HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay }, playerPtr);
+	go->SetLocalPosition(10, 220.0f);
+	const auto firstLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
+	firstLifeDisplay->SetLocalPosition(0, 0);
+	sceneDontDestroy->Add(std::move(go));
+
+	go = std::make_unique<GameObject>();
+	go->SetParent(goHUDptr, false);
+	go->SetLocalPosition(10, 220.0f);
+	const auto secondLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
+	secondLifeDisplay->SetLocalPosition(0, -10);
+	sceneDontDestroy->Add(std::move(go));
+
+	go = std::make_unique<GameObject>();
+	go->SetParent(goHUDptr, false);
+	go->SetLocalPosition(10, 220.0f);
+	const auto thirdLifeDisplay = go->AddComponent<Texture2DComponent>("HUD/LifePink.png");
+	thirdLifeDisplay->SetLocalPosition(0, -20);
+	sceneDontDestroy->Add(std::move(go));
+
+	go = std::make_unique<GameObject>();
+	go->SetParent(goHUDptr, false);
+	go->AddComponent<HealthDisplayComponent>(std::vector{ firstLifeDisplay, secondLifeDisplay, thirdLifeDisplay }, playerPtr);
 	sceneDontDestroy->Add(std::move(go));
 
 	go = std::make_unique<GameObject>();
 	go->SetParent(goHUDptr, false);
 	auto textComp = go->AddComponent<TextComponent>("Peppers: 5", font);
-	textComp->SetLocalPosition(170, 15);
+	textComp->SetLocalPosition(165, 15);
 	sceneDontDestroy->Add(std::move(go));
 
 	go = std::make_unique<GameObject>();

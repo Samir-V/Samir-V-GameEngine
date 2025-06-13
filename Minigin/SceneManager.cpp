@@ -52,21 +52,14 @@ void dae::SceneManager::Render()
 	m_DontDestroyOnLoadScene->Render();
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name, bool dontDestroyOnLoad)
+dae::Scene& dae::SceneManager::CreateDontDestroyOnLoadScene(const std::string& name)
 {
-	if (dontDestroyOnLoad && !m_DontDestroyOnLoadScene)
-	{
-		const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-		m_Scenes.insert({ name, scene });
-		m_DontDestroyOnLoadScene = scene.get();
-		return *scene;
-	}
-	else
-	{
-		const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-		m_Scenes.insert({ name, scene });
-		return *scene;
-	}
+	assert(!m_DontDestroyOnLoadScene);
+
+	auto scenePtr = std::shared_ptr<Scene>(new Scene(name));
+	m_Scenes.emplace(name, scenePtr);
+	m_DontDestroyOnLoadScene = scenePtr.get();
+	return *scenePtr;
 }
 
 std::shared_ptr<dae::Scene> dae::SceneManager::CreateSceneForFactory(const std::string& name)

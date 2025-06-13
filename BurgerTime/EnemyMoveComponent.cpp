@@ -13,6 +13,16 @@ dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, const std::vec
 	, m_Direction{}
 	, m_MaxSpeed{maxSpeed}
 {
+	const auto [horDirective, verDirective] = CalculateDirectionDirectives();
+
+	if (horDirective == HorizontalDirective::Right)
+	{
+		SetDirection({ 1.0f, 0.0f });
+	}
+	else
+	{
+		SetDirection({ -1.0f, 0.0f });
+	}
 }
 
 dae::EnemyMoveComponent::~EnemyMoveComponent()
@@ -113,4 +123,18 @@ dae::EnemyMoveComponent::MovingDirective dae::EnemyMoveComponent::CalculateDirec
 	}
 
 	return { m_CurrentHorizontalDirective, m_CurrentVerticalDirective };
+}
+
+void dae::EnemyMoveComponent::Reset()
+{
+	const auto [horDirective, verDirective] = CalculateDirectionDirectives();
+
+	if (horDirective == HorizontalDirective::Right)
+	{
+		SetDirection({ 1.0f, 0.0f });
+	}
+	else
+	{
+		SetDirection({ -1.0f, 0.0f });
+	}
 }

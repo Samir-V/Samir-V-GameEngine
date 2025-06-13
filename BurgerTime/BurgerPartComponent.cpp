@@ -198,19 +198,26 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* gameObject
 
 			if (everyPartHasOffset)
 			{
-				m_ExtraLevelsToFall = static_cast<int>(m_EnemiesOnTop.size());
+
+				std::set<EnemyComponent*> actualEnemiesToFall{};
+				constexpr float offset{ 2.0f };
 
 				for (const auto enemy : m_EnemiesOnTop)
 				{
-					const auto enemyComponent = enemy->GetComponent<EnemyComponent>();
-					enemyComponent->StartFalling(GetOwner());
+					const auto ownerYPos = GetOwner()->GetWorldTransform().GetPosition().y;
+					const auto enemyYPos = enemy->GetWorldTransform().GetPosition().y;
+
+					if (enemyYPos < ownerYPos + offset)
+					{
+						const auto enemyComponent = enemy->GetComponent<EnemyComponent>();
+						enemyComponent->StartFalling(GetOwner());
+						++m_ExtraLevelsToFall;
+					}
 				}
 
-				const int enemiesOnTopCount = static_cast<int>(m_EnemiesOnTop.size());
-
-				if (enemiesOnTopCount != 0)
+				if (m_ExtraLevelsToFall != 0)
 				{
-					switch (enemiesOnTopCount)
+					switch (m_ExtraLevelsToFall)
 					{
 					case 1:
 						m_BurgerPartCollisionEvent->NotifyObservers(Event(make_sdbm_hash("EnemyTop1")), GetOwner());

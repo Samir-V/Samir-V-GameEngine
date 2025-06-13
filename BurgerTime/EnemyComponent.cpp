@@ -131,7 +131,7 @@ dae::Subject* dae::EnemyComponent::GetEnemyDyingEvent() const
 void dae::EnemyComponent::Resurrect()
 {
 	const auto enemyMoveComp = GetOwner()->GetComponent<EnemyMoveComponent>();
-	enemyMoveComp->Start();
+	enemyMoveComp->Reset();
 
 	ChangeState(std::make_unique<EnemyWalkingState>());
 }

@@ -46,6 +46,7 @@ namespace dae
 
 		const glm::vec2& GetDirection() const;
 		void SetDirection(const glm::vec2& direction);
+		void Reset();
 
 		MovingDirective CalculateDirectionDirectives();
 

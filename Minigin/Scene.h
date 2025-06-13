@@ -6,7 +6,7 @@ namespace dae
 {
 	class Scene final
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name, bool dontDestroyOnLoad);
+		friend Scene& SceneManager::CreateDontDestroyOnLoadScene(const std::string& name);
 		friend std::shared_ptr<Scene> SceneManager::CreateSceneForFactory(const std::string& name);
 	public:
 		void Add(std::unique_ptr<GameObject> object);

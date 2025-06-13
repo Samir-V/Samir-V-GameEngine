@@ -12,7 +12,7 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name, bool dontDestroyOnLoad);
+		Scene& CreateDontDestroyOnLoadScene(const std::string& name);
 		std::shared_ptr<Scene> CreateSceneForFactory(const std::string& name);
 		Scene* GetSceneByName(const std::string& name);
 		Scene* GetActiveScene() const;
