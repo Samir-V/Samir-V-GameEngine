@@ -3,7 +3,7 @@
 #include "RectCollider2DComponent.h"
 #include "Scene.h"
 
-void dae::SceneManager::Start()
+void svengine::SceneManager::Start()
 {
 	m_DontDestroyOnLoadScene->Start();
 
@@ -16,7 +16,7 @@ void dae::SceneManager::Start()
 }
 
 
-void dae::SceneManager::Update(float elapsedSec)
+void svengine::SceneManager::Update(float elapsedSec)
 {
 	m_DontDestroyOnLoadScene->Update(elapsedSec);
 
@@ -28,7 +28,7 @@ void dae::SceneManager::Update(float elapsedSec)
 	m_ActiveScene->Update(elapsedSec);
 }
 
-void dae::SceneManager::LateUpdate(float elapsedSec)
+void svengine::SceneManager::LateUpdate(float elapsedSec)
 {
 	m_DontDestroyOnLoadScene->LateUpdate(elapsedSec);
 
@@ -40,7 +40,7 @@ void dae::SceneManager::LateUpdate(float elapsedSec)
 	m_ActiveScene->LateUpdate(elapsedSec);
 }
 
-void dae::SceneManager::Render()
+void svengine::SceneManager::Render()
 {
 	if (!m_ActiveScene)
 	{
@@ -52,7 +52,7 @@ void dae::SceneManager::Render()
 	m_DontDestroyOnLoadScene->Render();
 }
 
-dae::Scene& dae::SceneManager::CreateDontDestroyOnLoadScene(const std::string& name)
+svengine::Scene& svengine::SceneManager::CreateDontDestroyOnLoadScene(const std::string& name)
 {
 	assert(!m_DontDestroyOnLoadScene);
 
@@ -62,14 +62,14 @@ dae::Scene& dae::SceneManager::CreateDontDestroyOnLoadScene(const std::string& n
 	return *scenePtr;
 }
 
-std::shared_ptr<dae::Scene> dae::SceneManager::CreateSceneForFactory(const std::string& name)
+std::shared_ptr<svengine::Scene> svengine::SceneManager::CreateSceneForFactory(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	return scene;
 }
 
 
-dae::Scene* dae::SceneManager::GetSceneByName(const std::string& name)
+svengine::Scene* svengine::SceneManager::GetSceneByName(const std::string& name)
 {
 	auto it = std::ranges::find_if(m_Scenes, [&name](const std::pair<std::string, std::shared_ptr<Scene>>& pair)
 		{
@@ -84,18 +84,18 @@ dae::Scene* dae::SceneManager::GetSceneByName(const std::string& name)
 	return nullptr;
 }
 
-dae::Scene* dae::SceneManager::GetActiveScene() const
+svengine::Scene* svengine::SceneManager::GetActiveScene() const
 {
 	return m_ActiveScene;
 }
 
-dae::Scene* dae::SceneManager::GetDontDestroyOnLoadScene() const
+svengine::Scene* svengine::SceneManager::GetDontDestroyOnLoadScene() const
 {
 	return m_DontDestroyOnLoadScene;
 }
 
 
-void dae::SceneManager::SetActiveScene(const std::string& name)
+void svengine::SceneManager::SetActiveScene(const std::string& name)
 {
 	if (m_ActiveScene)
 	{
@@ -126,7 +126,7 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 	}
 }
 
-void dae::SceneManager::RegisterSceneFactory(const std::string& name, std::function<std::shared_ptr<Scene>()> factory)
+void svengine::SceneManager::RegisterSceneFactory(const std::string& name, std::function<std::shared_ptr<Scene>()> factory)
 {
 	m_SceneFactories[name] = std::move(factory);
 }

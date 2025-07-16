@@ -3,7 +3,7 @@
 #include "GameHandlerComponent.h"
 #include <array>
 
-namespace dae
+namespace svengine
 {
 	class TextComponent;
 

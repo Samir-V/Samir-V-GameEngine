@@ -4,7 +4,7 @@
 #include "HighScoreInputComponent.h"
 #include "GameHandlerComponent.h"
 
-namespace dae
+namespace svengine
 {
 	class HighScoreCommand : public Command
 	{

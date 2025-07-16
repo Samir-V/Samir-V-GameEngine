@@ -8,7 +8,7 @@
 
 using SpriteID = unsigned int;
 
-namespace dae
+namespace svengine
 {
 	class SpritesheetComponent final : public ComponentBase
 	{

@@ -2,13 +2,13 @@
 
 #include "PeterPepperComponent.h"
 
-void dae::WalkingState::OnEnter(GameObject* peterPepperObject)
+void svengine::WalkingState::OnEnter(GameObject* peterPepperObject)
 {
 	m_MoveComponentPtr = peterPepperObject->GetComponent<MoveComponent>();
 	m_SpritesheetComponentPtr = peterPepperObject->GetComponent<SpritesheetComponent>();
 }
 
-std::unique_ptr<dae::PeterPepperState> dae::WalkingState::Update(GameObject*, float)
+std::unique_ptr<svengine::PeterPepperState> svengine::WalkingState::Update(GameObject*, float)
 {
 	const auto velocity = m_MoveComponentPtr->GetVelocity();
 	const auto lastNonZeroDirection = m_MoveComponentPtr->GetLastDirection();
@@ -44,12 +44,12 @@ std::unique_ptr<dae::PeterPepperState> dae::WalkingState::Update(GameObject*, fl
 	return nullptr;
 }
 
-void dae::WalkingState::OnExit(GameObject*)
+void svengine::WalkingState::OnExit(GameObject*)
 {
 }
 
 
-void dae::SprayingState::OnEnter(GameObject* peterPepperObject)
+void svengine::SprayingState::OnEnter(GameObject* peterPepperObject)
 {
 	peterPepperObject->GetComponent<PeterPepperComponent>()->GetPepperAmountChangedEvent()->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), peterPepperObject);
 
@@ -102,7 +102,7 @@ void dae::SprayingState::OnEnter(GameObject* peterPepperObject)
 	sound.Play("PepperShake.wav", 0.8f);
 }
 
-std::unique_ptr<dae::PeterPepperState> dae::SprayingState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::PeterPepperState> svengine::SprayingState::Update(GameObject*, float elapsedSec)
 {
 	if (m_LastDirection.x < 0)
 	{
@@ -131,7 +131,7 @@ std::unique_ptr<dae::PeterPepperState> dae::SprayingState::Update(GameObject*, f
 	return nullptr;
 }
 
-void dae::SprayingState::OnExit(GameObject* peterPepperObject)
+void svengine::SprayingState::OnExit(GameObject* peterPepperObject)
 {
 	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);
@@ -141,7 +141,7 @@ void dae::SprayingState::OnExit(GameObject* peterPepperObject)
 }
 
 
-void dae::WinningState::OnEnter(GameObject* peterPepperObject)
+void svengine::WinningState::OnEnter(GameObject* peterPepperObject)
 {
 	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 
@@ -154,7 +154,7 @@ void dae::WinningState::OnEnter(GameObject* peterPepperObject)
 	spriteSheetComp->Play(make_sdbm_hash("PPWin"));
 }
 
-std::unique_ptr<dae::PeterPepperState> dae::WinningState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::PeterPepperState> svengine::WinningState::Update(GameObject*, float elapsedSec)
 {
 	m_Timer -= elapsedSec;
 
@@ -166,14 +166,14 @@ std::unique_ptr<dae::PeterPepperState> dae::WinningState::Update(GameObject*, fl
 	return nullptr;
 }
 
-void dae::WinningState::OnExit(GameObject* peterPepperObject)
+void svengine::WinningState::OnExit(GameObject* peterPepperObject)
 {
 	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);
 }
 
 
-void dae::DyingState::OnEnter(GameObject* peterPepperObject)
+void svengine::DyingState::OnEnter(GameObject* peterPepperObject)
 {
 	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 
@@ -189,7 +189,7 @@ void dae::DyingState::OnEnter(GameObject* peterPepperObject)
 	sound.Play("Death.wav", 0.8f);
 }
 
-std::unique_ptr<dae::PeterPepperState> dae::DyingState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::PeterPepperState> svengine::DyingState::Update(GameObject*, float elapsedSec)
 {
 	m_Timer -= elapsedSec;
 
@@ -201,13 +201,13 @@ std::unique_ptr<dae::PeterPepperState> dae::DyingState::Update(GameObject*, floa
 	return nullptr;
 }
 
-void dae::DyingState::OnExit(GameObject* )
+void svengine::DyingState::OnExit(GameObject* )
 {
 	
 }
 
 
-void dae::DeadState::OnEnter(GameObject* peterPepperObject)
+void svengine::DeadState::OnEnter(GameObject* peterPepperObject)
 {
 	peterPepperObject->SetIsActive(false);
 	const auto peterPepperComponent = peterPepperObject->GetComponent<PeterPepperComponent>();
@@ -215,12 +215,12 @@ void dae::DeadState::OnEnter(GameObject* peterPepperObject)
 	peterPepperComponent->GetPlayerDiedEvent()->NotifyObservers(Event(make_sdbm_hash("PlayerDied")), peterPepperObject);
 }
 
-std::unique_ptr<dae::PeterPepperState> dae::DeadState::Update(GameObject*, float)
+std::unique_ptr<svengine::PeterPepperState> svengine::DeadState::Update(GameObject*, float)
 {
 	return nullptr;
 }
 
-void dae::DeadState::OnExit(GameObject* peterPepperObject)
+void svengine::DeadState::OnExit(GameObject* peterPepperObject)
 {
 	const auto moveComponent = peterPepperObject->GetComponent<MoveComponent>();
 	moveComponent->SetIsActive(true);

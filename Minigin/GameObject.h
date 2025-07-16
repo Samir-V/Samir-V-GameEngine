@@ -10,7 +10,7 @@
 
 using Tag = unsigned int;
 
-namespace dae
+namespace svengine
 {
 	class Scene;
 

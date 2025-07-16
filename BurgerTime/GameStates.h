@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-namespace dae
+namespace svengine
 {
 	class GameHandlerComponent;
 	class BurgerPartComponent;

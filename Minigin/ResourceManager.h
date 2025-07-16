@@ -7,7 +7,7 @@
 #include "Texture2D.h"
 #include "Font.h"
 
-namespace dae
+namespace svengine
 {
 	class ResourceManager final : public Singleton<ResourceManager>
 	{

@@ -6,33 +6,33 @@
 #include "SceneManager.h"
 #include "TextComponent.h"
 
-dae::MenuHUDComponent::MenuHUDComponent(GameObject* ownerPtr, TextComponent* markerTextComponent, std::vector<TextComponent*> buttons):
+svengine::MenuHUDComponent::MenuHUDComponent(GameObject* ownerPtr, TextComponent* markerTextComponent, std::vector<TextComponent*> buttons):
 	ComponentBase(ownerPtr)
 	, m_MarkerTextComponentPtr{markerTextComponent}
 	, m_Buttons{std::move(buttons)}
 {
 }
 
-void dae::MenuHUDComponent::Start()
+void svengine::MenuHUDComponent::Start()
 {
 	const auto gameHandlerObject = SceneManager::GetInstance().GetDontDestroyOnLoadScene()->GetGameObjectsWithTag(make_sdbm_hash("GameHandler"));
 
 	m_GameHandlerComponentPtr = gameHandlerObject.front()->GetComponent<GameHandlerComponent>();
 }
 
-void dae::MenuHUDComponent::Update(float)
+void svengine::MenuHUDComponent::Update(float)
 {
 }
 
-void dae::MenuHUDComponent::LateUpdate(float)
+void svengine::MenuHUDComponent::LateUpdate(float)
 {
 }
 
-void dae::MenuHUDComponent::Render() const
+void svengine::MenuHUDComponent::Render() const
 {
 }
 
-void dae::MenuHUDComponent::ChangeMarkerIndexBy(int delta)
+void svengine::MenuHUDComponent::ChangeMarkerIndexBy(int delta)
 {
 	m_CurrentIndex += delta;
 
@@ -41,7 +41,7 @@ void dae::MenuHUDComponent::ChangeMarkerIndexBy(int delta)
 	UpdateMarkerPosition();
 }
 
-void dae::MenuHUDComponent::UpdateMarkerPosition() const
+void svengine::MenuHUDComponent::UpdateMarkerPosition() const
 {
 	const auto markerPos = m_MarkerTextComponentPtr->GetLocalTransform().GetPosition();
 
@@ -50,7 +50,7 @@ void dae::MenuHUDComponent::UpdateMarkerPosition() const
 	m_MarkerTextComponentPtr->SetLocalPosition(markerPos.x, newMarkerPosY);
 }
 
-void dae::MenuHUDComponent::ChooseMode() const
+void svengine::MenuHUDComponent::ChooseMode() const
 {
 	m_GameHandlerComponentPtr->StartMainGame(m_IndexToMode.at(m_CurrentIndex));
 }

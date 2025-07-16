@@ -5,7 +5,7 @@
 #include <utility>
 #include "TextComponent.h"
 
-dae::HighScoreInputComponent::HighScoreInputComponent(GameObject* ownerPtr, TextComponent* scoreDisplay, TextComponent* nameDisplay, std::vector<TextComponent*> letterDisplays):
+svengine::HighScoreInputComponent::HighScoreInputComponent(GameObject* ownerPtr, TextComponent* scoreDisplay, TextComponent* nameDisplay, std::vector<TextComponent*> letterDisplays):
 	ComponentBase(ownerPtr)
 	, m_CurrentLetterIndex{0}
 	, m_Name{}
@@ -20,7 +20,7 @@ dae::HighScoreInputComponent::HighScoreInputComponent(GameObject* ownerPtr, Text
 	AlterLetterIndex(0);
 }
 
-void dae::HighScoreInputComponent::Start()
+void svengine::HighScoreInputComponent::Start()
 {
 	m_Entries.clear();
 	std::ifstream file{ m_Filename };
@@ -42,25 +42,25 @@ void dae::HighScoreInputComponent::Start()
 	}
 }
 
-void dae::HighScoreInputComponent::Update(float)
+void svengine::HighScoreInputComponent::Update(float)
 {
 }
 
-void dae::HighScoreInputComponent::LateUpdate(float)
+void svengine::HighScoreInputComponent::LateUpdate(float)
 {
 }
 
-void dae::HighScoreInputComponent::Render() const
+void svengine::HighScoreInputComponent::Render() const
 {
 }
 
-void dae::HighScoreInputComponent::SetScore(int score)
+void svengine::HighScoreInputComponent::SetScore(int score)
 {
 	m_FinalScore = score;
 	m_ScoreDisplay->SetText("Score: " + std::to_string(score));
 }
 
-void dae::HighScoreInputComponent::AlterLetterIndex(int delta)
+void svengine::HighScoreInputComponent::AlterLetterIndex(int delta)
 {
 	const int alphabetSize = static_cast<int>(m_Alphabet.size());
 	m_CurrentLetterIndex = (m_CurrentLetterIndex + delta + alphabetSize) % alphabetSize;
@@ -73,13 +73,13 @@ void dae::HighScoreInputComponent::AlterLetterIndex(int delta)
 	m_LetterDisplays[2]->SetText(std::string(1, m_Alphabet[nextIndex]));
 }
 
-void dae::HighScoreInputComponent::ConfirmLetter()
+void svengine::HighScoreInputComponent::ConfirmLetter()
 {
 	m_Name += m_Alphabet[m_CurrentLetterIndex];
 	m_NameDisplay->SetText(m_Name);
 }
 
-void dae::HighScoreInputComponent::ConfirmName()
+void svengine::HighScoreInputComponent::ConfirmName()
 {
 	m_Entries.emplace_back(m_Name, m_FinalScore);
 
@@ -100,7 +100,7 @@ void dae::HighScoreInputComponent::ConfirmName()
 }
 
 
-void dae::HighScoreInputComponent::RemoveLetter()
+void svengine::HighScoreInputComponent::RemoveLetter()
 {
 	if (!m_Name.empty())
 	{

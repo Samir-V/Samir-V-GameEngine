@@ -3,9 +3,9 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 
-std::vector<dae::RectCollider2DComponent*> dae::RectCollider2DComponent::m_Colliders{};
+std::vector<svengine::RectCollider2DComponent*> svengine::RectCollider2DComponent::m_Colliders{};
 
-dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, float collisionRectWidth, float collisionRectHeight):
+svengine::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, float collisionRectWidth, float collisionRectHeight):
 	ComponentBase(ownerPtr)
 	, m_CollisionEnterEvent {std::make_unique<Subject>()}
 	, m_CollisionExitEvent {std::make_unique<Subject>()}
@@ -21,7 +21,7 @@ dae::RectCollider2DComponent::RectCollider2DComponent(GameObject* ownerPtr, floa
 	m_Colliders.push_back(this);
 }
 
-dae::RectCollider2DComponent::~RectCollider2DComponent()
+svengine::RectCollider2DComponent::~RectCollider2DComponent()
 {
 	std::erase(m_Colliders, this);
 
@@ -40,11 +40,11 @@ dae::RectCollider2DComponent::~RectCollider2DComponent()
 }
 
 
-void dae::RectCollider2DComponent::Start()
+void svengine::RectCollider2DComponent::Start()
 {
 }
 
-void dae::RectCollider2DComponent::Update(float)
+void svengine::RectCollider2DComponent::Update(float)
 {
 
 	auto& ownerPos = GetOwner()->GetWorldTransform().GetPosition();
@@ -132,15 +132,15 @@ void dae::RectCollider2DComponent::Update(float)
 	m_PreviousFrameCollisions = std::move(currentFrameCollisions);
 }
 
-void dae::RectCollider2DComponent::LateUpdate(float)
+void svengine::RectCollider2DComponent::LateUpdate(float)
 {
 }
 
-void dae::RectCollider2DComponent::Render() const
+void svengine::RectCollider2DComponent::Render() const
 {
 }
 
-void dae::RectCollider2DComponent::SetLocalPosition(float x, float y)
+void svengine::RectCollider2DComponent::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 
@@ -149,22 +149,22 @@ void dae::RectCollider2DComponent::SetLocalPosition(float x, float y)
 	m_CollisionRect.posY = ownerPos.y + y;
 }
 
-void dae::RectCollider2DComponent::SetShouldCollide(bool shouldCollide)
+void svengine::RectCollider2DComponent::SetShouldCollide(bool shouldCollide)
 {
 	m_ShouldCollide = shouldCollide;
 }
 
-void dae::RectCollider2DComponent::SetShouldTriggerEvents(bool triggerEvents)
+void svengine::RectCollider2DComponent::SetShouldTriggerEvents(bool triggerEvents)
 {
 	m_ShouldTriggerEvents = triggerEvents;
 }
 
-void dae::RectCollider2DComponent::SetIsStatic(bool isStatic)
+void svengine::RectCollider2DComponent::SetIsStatic(bool isStatic)
 {
 	m_IsStatic = isStatic;
 }
 
-bool dae::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& rect2)
+bool svengine::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& rect2)
 {
 	if (rect1.posX < rect2.posX + rect2.width &&
 		rect1.posX + rect1.width > rect2.posX &&
@@ -176,7 +176,7 @@ bool dae::RectCollider2DComponent::IsOverlapping(const Rect& rect1, const Rect& 
 	return false;
 }
 
-glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2)
+glm::vec2 svengine::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rect1, const Rect& rect2)
 {
 	constexpr float epsilon = 0.001f;
 
@@ -220,7 +220,7 @@ glm::vec2 dae::RectCollider2DComponent::GetCollisionOverlapShift(const Rect& rec
 	}
 }
 
-bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength) const
+bool svengine::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength) const
 {
 	const float minX = m_CollisionRect.posX;
 	const float maxX = m_CollisionRect.posX + m_CollisionRect.width;
@@ -278,7 +278,7 @@ bool dae::RectCollider2DComponent::RayIntersect(const glm::vec2& rayOrigin, cons
 	return true;
 }
 
-std::unordered_set<dae::GameObject*> dae::RectCollider2DComponent::GetRayIntersectedGameObjects(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength)
+std::unordered_set<svengine::GameObject*> svengine::RectCollider2DComponent::GetRayIntersectedGameObjects(const glm::vec2& rayOrigin, const glm::vec2& rayDirection, float rayLength)
 {
 	std::unordered_set<GameObject*> intersectedGameObjects{};
 
@@ -294,27 +294,27 @@ std::unordered_set<dae::GameObject*> dae::RectCollider2DComponent::GetRayInterse
 }
 
 
-dae::Subject* dae::RectCollider2DComponent::GetCollisionEnterEvent() const
+svengine::Subject* svengine::RectCollider2DComponent::GetCollisionEnterEvent() const
 {
 	return m_CollisionEnterEvent.get();
 }
 
-dae::Subject* dae::RectCollider2DComponent::GetCollisionExitEvent() const
+svengine::Subject* svengine::RectCollider2DComponent::GetCollisionExitEvent() const
 {
 	return m_CollisionExitEvent.get();
 }
 
-dae::Subject* dae::RectCollider2DComponent::GetCollisionStayEvent() const
+svengine::Subject* svengine::RectCollider2DComponent::GetCollisionStayEvent() const
 {
 	return m_CollisionStayEvent.get();
 }
 
-dae::RectCollider2DComponent::Rect dae::RectCollider2DComponent::GetCollisionRect() const
+svengine::RectCollider2DComponent::Rect svengine::RectCollider2DComponent::GetCollisionRect() const
 {
 	return m_CollisionRect;
 }
 
-void dae::RectCollider2DComponent::RemoveAllCollidersFromScene(const Scene* scene)
+void svengine::RectCollider2DComponent::RemoveAllCollidersFromScene(const Scene* scene)
 {
 	auto it = m_Colliders.begin();
 	while (it != m_Colliders.end())

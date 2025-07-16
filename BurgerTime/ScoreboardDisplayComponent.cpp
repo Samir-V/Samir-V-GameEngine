@@ -4,14 +4,14 @@
 
 #include "TextComponent.h"
 
-dae::ScoreboardDisplayComponent::ScoreboardDisplayComponent(GameObject* ownerPtr, std::vector<TextComponent*> displays) :
+svengine::ScoreboardDisplayComponent::ScoreboardDisplayComponent(GameObject* ownerPtr, std::vector<TextComponent*> displays) :
 	ComponentBase(ownerPtr)
 	, m_Entries{}
 	, m_Displays{ std::move(displays)}
 {
 }
 
-void dae::ScoreboardDisplayComponent::Start()
+void svengine::ScoreboardDisplayComponent::Start()
 {
 	m_Entries.clear();
 	std::ifstream file{ m_Filename };
@@ -34,15 +34,15 @@ void dae::ScoreboardDisplayComponent::Start()
 	}
 }
 
-void dae::ScoreboardDisplayComponent::Update(float)
+void svengine::ScoreboardDisplayComponent::Update(float)
 {
 }
 
-void dae::ScoreboardDisplayComponent::LateUpdate(float)
+void svengine::ScoreboardDisplayComponent::LateUpdate(float)
 {
 }
 
-void dae::ScoreboardDisplayComponent::Render() const
+void svengine::ScoreboardDisplayComponent::Render() const
 {
 }
 

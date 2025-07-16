@@ -6,7 +6,7 @@
 
 #include "Singleton.h"
 
-namespace dae
+namespace svengine
 {
 	class Scene;
 	class SceneManager final : public Singleton<SceneManager>

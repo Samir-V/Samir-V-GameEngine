@@ -10,7 +10,7 @@
 #include "SceneManager.h"
 #include "TextComponent.h"
 
-dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textComponent) :
+svengine::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textComponent) :
 	ComponentBase(ownerPtr)
 	, m_CurrentScore{0}
 	, m_ScoreDisplay{textComponent}
@@ -18,7 +18,7 @@ dae::ScoreComponent::ScoreComponent(GameObject* ownerPtr, TextComponent* textCom
 
 }
 
-void dae::ScoreComponent::Start()
+void svengine::ScoreComponent::Start()
 {
 	if (auto scene = SceneManager::GetInstance().GetActiveScene())
 	{
@@ -47,19 +47,19 @@ void dae::ScoreComponent::Start()
 }
 
 
-void dae::ScoreComponent::Update(float)
+void svengine::ScoreComponent::Update(float)
 {
 }
 
-void dae::ScoreComponent::LateUpdate(float)
+void svengine::ScoreComponent::LateUpdate(float)
 {
 }
 
-void dae::ScoreComponent::Render() const
+void svengine::ScoreComponent::Render() const
 {
 }
 
-void dae::ScoreComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
+void svengine::ScoreComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("EnemySpawned"))
 	{
@@ -133,7 +133,7 @@ void dae::ScoreComponent::Notify(const Event& event, GameObject* gameObjectCausi
 	}
 }
 
-int dae::ScoreComponent::GetScore() const
+int svengine::ScoreComponent::GetScore() const
 {
 	return m_CurrentScore;
 }

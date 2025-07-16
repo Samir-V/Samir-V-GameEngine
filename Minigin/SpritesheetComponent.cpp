@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 
-dae::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr, std::string folderPath):
+svengine::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr, std::string folderPath):
 	ComponentBase(ownerPtr)
 	, m_CurrentCol{0}
 	, m_CurrentRow{0}
@@ -13,11 +13,11 @@ dae::SpritesheetComponent::SpritesheetComponent(GameObject* ownerPtr, std::strin
 {
 }
 
-void dae::SpritesheetComponent::Start()
+void svengine::SpritesheetComponent::Start()
 {
 }
 
-void dae::SpritesheetComponent::Update(float elapsedSec)
+void svengine::SpritesheetComponent::Update(float elapsedSec)
 {
 	assert(m_CurrentSprite != nullptr);
 
@@ -54,11 +54,11 @@ void dae::SpritesheetComponent::Update(float elapsedSec)
 	m_CurrentRow = 0;
 }
 
-void dae::SpritesheetComponent::LateUpdate(float)
+void svengine::SpritesheetComponent::LateUpdate(float)
 {
 }
 
-void dae::SpritesheetComponent::Render() const
+void svengine::SpritesheetComponent::Render() const
 {
 	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + GetLocalTransform().GetPosition();
 
@@ -84,7 +84,7 @@ void dae::SpritesheetComponent::Render() const
 	Renderer::GetInstance().RenderTexture(*m_CurrentSprite->texture, pos.x, pos.y, &sourceRect);
 }
 
-void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata)
+void svengine::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteID spriteId, SpriteMetaData spriteMetadata)
 {
 	std::string fullPath{};
 
@@ -101,7 +101,7 @@ void dae::SpritesheetComponent::AddSprite(const std::string& spriteName, SpriteI
 	m_SpriteSheet.insert({ spriteId, SpriteData{ texture, spriteMetadata }});
 }
 
-void dae::SpritesheetComponent::Play(SpriteID spriteId)
+void svengine::SpritesheetComponent::Play(SpriteID spriteId)
 {
 	auto& newSprite = m_SpriteSheet.at(spriteId);
 
@@ -114,7 +114,7 @@ void dae::SpritesheetComponent::Play(SpriteID spriteId)
 	}
 }
 
-void dae::SpritesheetComponent::ResetSpriteTiming()
+void svengine::SpritesheetComponent::ResetSpriteTiming()
 {
 	m_CurrentCol = 0;
 	m_CurrentRow = 0;

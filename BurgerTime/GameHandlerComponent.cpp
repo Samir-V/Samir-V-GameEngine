@@ -25,9 +25,9 @@
 #include "Windows.h"
 #include "Xinput.h"
 
-bool dae::GameHandlerComponent::m_IsCreated = false;
+bool svengine::GameHandlerComponent::m_IsCreated = false;
 
-dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr):
+svengine::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr):
 	ComponentBase(ownerPtr)
 	, m_LevelCounter{0}
 	, m_FinalScore{0}
@@ -46,7 +46,7 @@ dae::GameHandlerComponent::GameHandlerComponent(GameObject* ownerPtr):
 	m_State = std::make_unique<MenuState>();
 }
 
-void dae::GameHandlerComponent::Start()
+void svengine::GameHandlerComponent::Start()
 {
 	const auto scene = SceneManager::GetInstance().GetActiveScene();
 	auto& input = InputManager::GetInstance();
@@ -103,11 +103,11 @@ void dae::GameHandlerComponent::Start()
 	}
 }
 
-void dae::GameHandlerComponent::Render() const
+void svengine::GameHandlerComponent::Render() const
 {
 }
 
-void dae::GameHandlerComponent::Update(float elapsedSec)
+void svengine::GameHandlerComponent::Update(float elapsedSec)
 {
 	auto newState = m_State->Update(GetOwner(), elapsedSec);
 
@@ -117,11 +117,11 @@ void dae::GameHandlerComponent::Update(float elapsedSec)
 	}
 }
 
-void dae::GameHandlerComponent::LateUpdate(float)
+void svengine::GameHandlerComponent::LateUpdate(float)
 {
 }
 
-void dae::GameHandlerComponent::StartMainGame(GameMode gameMode)
+void svengine::GameHandlerComponent::StartMainGame(GameMode gameMode)
 {
 	SetGameMode(gameMode);
 	SwitchLevel("Level1");
@@ -129,7 +129,7 @@ void dae::GameHandlerComponent::StartMainGame(GameMode gameMode)
 }
 
 
-void dae::GameHandlerComponent::SwitchLevel(const std::string& name)
+void svengine::GameHandlerComponent::SwitchLevel(const std::string& name)
 {
 	auto& input = InputManager::GetInstance();
 	auto activeScene = SceneManager::GetInstance().GetActiveScene();
@@ -150,7 +150,7 @@ void dae::GameHandlerComponent::SwitchLevel(const std::string& name)
 	SceneManager::GetInstance().SetActiveScene(name);
 }
 
-void dae::GameHandlerComponent::SkipLevel()
+void svengine::GameHandlerComponent::SkipLevel()
 {
 	for (auto enemy : m_GameplayData.enemies)
 	{
@@ -179,7 +179,7 @@ void dae::GameHandlerComponent::SkipLevel()
 }
 
 
-void dae::GameHandlerComponent::SetGameMode(GameMode gameMode)
+void svengine::GameHandlerComponent::SetGameMode(GameMode gameMode)
 {
 	m_GameMode = gameMode;
 
@@ -189,7 +189,7 @@ void dae::GameHandlerComponent::SetGameMode(GameMode gameMode)
 	}
 }
 
-void dae::GameHandlerComponent::ChangeState(std::unique_ptr<GameState> newState)
+void svengine::GameHandlerComponent::ChangeState(std::unique_ptr<GameState> newState)
 {
 	if (newState && typeid(*m_State) == typeid(*newState))
 	{
@@ -203,12 +203,12 @@ void dae::GameHandlerComponent::ChangeState(std::unique_ptr<GameState> newState)
 	m_State->OnEnter(GetOwner());
 }
 
-dae::GameHandlerComponent::GameplayData& dae::GameHandlerComponent::GetGameplayDataRef()
+svengine::GameHandlerComponent::GameplayData& svengine::GameHandlerComponent::GetGameplayDataRef()
 {
 	return m_GameplayData;
 }
 
-void dae::GameHandlerComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
+void svengine::GameHandlerComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("EnemyDied"))
 	{
@@ -275,7 +275,7 @@ void dae::GameHandlerComponent::Notify(const Event& event, GameObject* gameObjec
 	}
 }
 
-void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
+void svengine::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
 {
 	auto activeScene = SceneManager::GetInstance().GetActiveScene();
 
@@ -338,7 +338,7 @@ void dae::GameHandlerComponent::SpawnEnemy(EnemyType enemyType)
 	activeScene->Add(std::move(go));
 }
 
-void dae::GameHandlerComponent::ResetPlayers(bool initialReset)
+void svengine::GameHandlerComponent::ResetPlayers(bool initialReset)
 {
 	for (const auto player : m_GameplayData.players)
 	{
@@ -382,7 +382,7 @@ void dae::GameHandlerComponent::ResetPlayers(bool initialReset)
 	}
 }
 
-void dae::GameHandlerComponent::ResetLevel()
+void svengine::GameHandlerComponent::ResetLevel()
 {
 	for (auto enemy : m_GameplayData.enemies)
 	{
@@ -399,12 +399,12 @@ void dae::GameHandlerComponent::ResetLevel()
 	SpawnLevelEnemies();
 }
 
-void dae::GameHandlerComponent::AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern)
+void svengine::GameHandlerComponent::AddEnemySpawnPattern(EnemySpawnPattern enemySpawnPattern)
 {
 	m_EnemySpawnPatterns.push_back(enemySpawnPattern);
 }
 
-void dae::GameHandlerComponent::SpawnLevelEnemies()
+void svengine::GameHandlerComponent::SpawnLevelEnemies()
 {
 	if (m_GameplayData.enemyRespawnPoints.empty())
 	{
@@ -429,17 +429,17 @@ void dae::GameHandlerComponent::SpawnLevelEnemies()
 	}
 }
 
-dae::Subject* dae::GameHandlerComponent::GetEnemiesSpawnedEvent() const
+svengine::Subject* svengine::GameHandlerComponent::GetEnemiesSpawnedEvent() const
 {
 	return m_EnemiesSpawnedEvent.get();
 }
 
-int dae::GameHandlerComponent::GetLevelCounter() const
+int svengine::GameHandlerComponent::GetLevelCounter() const
 {
 	return m_LevelCounter;
 }
 
-void dae::GameHandlerComponent::SpawnSecondPlayerObjects()
+void svengine::GameHandlerComponent::SpawnSecondPlayerObjects()
 {
 	const auto sceneDontDestroy = SceneManager::GetInstance().GetDontDestroyOnLoadScene();
 	auto& input = InputManager::GetInstance();
@@ -551,13 +551,13 @@ void dae::GameHandlerComponent::SpawnSecondPlayerObjects()
 	sceneDontDestroy->Add(std::move(go));
 }
 
-void dae::GameHandlerComponent::SwitchToScoreView()
+void svengine::GameHandlerComponent::SwitchToScoreView()
 {
 	ChangeState(std::make_unique<HighScoreViewState>());
 	SwitchLevel("HighScoreView");
 }
 
-void dae::GameHandlerComponent::ReturnToMenu()
+void svengine::GameHandlerComponent::ReturnToMenu()
 {
 	ChangeState(std::make_unique<MenuState>());
 	SwitchLevel("Menu");

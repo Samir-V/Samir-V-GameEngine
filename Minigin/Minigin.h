@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-namespace dae
+namespace svengine
 {
 	class Minigin
 	{

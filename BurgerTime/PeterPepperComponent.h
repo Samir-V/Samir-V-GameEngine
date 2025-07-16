@@ -5,7 +5,7 @@
 #include "PeterPepperStates.h"
 #include "Subject.h"
 
-namespace dae
+namespace svengine
 {
 	class PeterPepperComponent final : public ComponentBase
 	{

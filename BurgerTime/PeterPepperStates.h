@@ -4,7 +4,7 @@
 #include "ServiceLocator.h"
 #include "SpritesheetComponent.h"
 
-namespace dae
+namespace svengine
 {
 	class PeterPepperState
 	{

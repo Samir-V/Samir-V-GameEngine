@@ -13,7 +13,7 @@
 #include "BurgerPartComponent.h"
 
 
-void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
+void svengine::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -58,7 +58,7 @@ void dae::EnemyWalkingState::OnEnter(GameObject* enemyObject)
 	}
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enemyObject, float)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyWalkingState::Update(GameObject* enemyObject, float)
 {
 	const auto ownerColliderRect = m_RectCollider2DComponentPtr->GetCollisionRect();
 	const glm::vec2 rayOrigin{ ownerColliderRect.posX + ownerColliderRect.width / 2.0f, ownerColliderRect.posY + ownerColliderRect.height + 1.0f };
@@ -110,7 +110,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::Update(GameObject* enem
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyWalkingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Ladder"))
 	{
@@ -153,7 +153,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionEnter(GameOb
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyWalkingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Ladder"))
 	{
@@ -218,7 +218,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionStay(GameObj
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionExit(GameObject* , GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyWalkingState::OnCollisionExit(GameObject* , GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -234,7 +234,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyWalkingState::OnCollisionExit(GameObj
 // Climbing State
 
 
-void dae::ClimbingState::OnEnter(GameObject* enemyObject)
+void svengine::ClimbingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -278,7 +278,7 @@ void dae::ClimbingState::OnEnter(GameObject* enemyObject)
 	}
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::EnemyState> svengine::ClimbingState::Update(GameObject*, float elapsedSec)
 {
 
 	if (m_Timer > 0.0f)
@@ -289,7 +289,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::Update(GameObject*, float e
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::ClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -327,7 +327,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionEnter(GameObject
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::ClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Platform"))
 	{
@@ -429,7 +429,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionStay(GameObject*
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionExit(GameObject* , GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::ClimbingState::OnCollisionExit(GameObject* , GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -443,7 +443,7 @@ std::unique_ptr<dae::EnemyState> dae::ClimbingState::OnCollisionExit(GameObject*
 
 
 
-void dae::FinishedClimbingState::OnEnter(GameObject* enemyObject)
+void svengine::FinishedClimbingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -487,7 +487,7 @@ void dae::FinishedClimbingState::OnEnter(GameObject* enemyObject)
 	}
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::EnemyState> svengine::FinishedClimbingState::Update(GameObject*, float elapsedSec)
 {
 	m_Timer -= elapsedSec;
 
@@ -499,7 +499,7 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::Update(GameObject*,
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::FinishedClimbingState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -537,7 +537,7 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionEnter(Ga
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::FinishedClimbingState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -567,7 +567,7 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionStay(Gam
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionExit(GameObject*, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::FinishedClimbingState::OnCollisionExit(GameObject*, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -581,12 +581,12 @@ std::unique_ptr<dae::EnemyState> dae::FinishedClimbingState::OnCollisionExit(Gam
 
 
 
-dae::EnemyStunnedState::EnemyStunnedState(std::unique_ptr<EnemyState> previousState)
+svengine::EnemyStunnedState::EnemyStunnedState(std::unique_ptr<EnemyState> previousState)
 {
 	m_PreviousState = std::move(previousState);
 }
 
-void dae::EnemyStunnedState::OnEnter(GameObject* enemyObject)
+void svengine::EnemyStunnedState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -612,7 +612,7 @@ void dae::EnemyStunnedState::OnEnter(GameObject* enemyObject)
 	sound.Play("EnemySprayed.wav", 0.8f);
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyStunnedState::Update(GameObject*, float elapsedSec)
 {
 	if (m_Timer > 0.0f)
 	{
@@ -623,12 +623,12 @@ std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::Update(GameObject*, flo
 	return std::move(m_PreviousState);
 }
 
-void dae::EnemyStunnedState::OnExit(GameObject*)
+void svengine::EnemyStunnedState::OnExit(GameObject*)
 {
 	m_EnemyMoveComponentPtr->SetIsActive(true);
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyStunnedState::OnCollisionEnter(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -661,7 +661,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionEnter(GameOb
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyStunnedState::OnCollisionStay(GameObject* enemyObject, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -691,7 +691,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionStay(GameObj
 	return nullptr;
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionExit(GameObject*, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyStunnedState::OnCollisionExit(GameObject*, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("BurgerPart"))
 	{
@@ -705,7 +705,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyStunnedState::OnCollisionExit(GameObj
 
 
 
-void dae::EnemyFallingState::OnEnter(GameObject* enemyObject)
+void svengine::EnemyFallingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
 	m_EnemyMoveComponentPtr->SetDirection({ 0.0f, 1.0f });
@@ -714,7 +714,7 @@ void dae::EnemyFallingState::OnEnter(GameObject* enemyObject)
 	sound.Play("EnemyFall.wav", 0.8f);
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyFallingState::OnCollisionEnter(GameObject*, GameObject* gameObjectCausingEvent)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyFallingState::OnCollisionEnter(GameObject*, GameObject* gameObjectCausingEvent)
 {
 	if (gameObjectCausingEvent->GetTag() == make_sdbm_hash("Platform") || gameObjectCausingEvent->GetTag() == make_sdbm_hash("Plate"))
 	{
@@ -727,7 +727,7 @@ std::unique_ptr<dae::EnemyState> dae::EnemyFallingState::OnCollisionEnter(GameOb
 
 
 
-void dae::EnemyDyingState::OnEnter(GameObject* enemyObject)
+void svengine::EnemyDyingState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -753,7 +753,7 @@ void dae::EnemyDyingState::OnEnter(GameObject* enemyObject)
 	sound.Play("EnemySquashed.wav", 0.8f);
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyDyingState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyDyingState::Update(GameObject*, float elapsedSec)
 {
 	if (m_Timer > 0.0f)
 	{
@@ -764,14 +764,14 @@ std::unique_ptr<dae::EnemyState> dae::EnemyDyingState::Update(GameObject*, float
 	return std::make_unique<EnemyDeadState>();
 }
 
-void dae::EnemyDyingState::OnExit(GameObject* enemyObject)
+void svengine::EnemyDyingState::OnExit(GameObject* enemyObject)
 {
 	enemyObject->SetIsActive(false);
 }
 
 
 
-void dae::EnemyDeadState::OnEnter(GameObject* enemyObject)
+void svengine::EnemyDeadState::OnEnter(GameObject* enemyObject)
 {
 	m_EnemyComponentPtr = enemyObject->GetComponent<EnemyComponent>();
 	m_EnemyMoveComponentPtr = enemyObject->GetComponent<EnemyMoveComponent>();
@@ -779,12 +779,12 @@ void dae::EnemyDeadState::OnEnter(GameObject* enemyObject)
 	m_EnemyComponentPtr->GetEnemyDyingEvent()->NotifyObservers(Event(make_sdbm_hash("EnemyDied")), enemyObject);
 }
 
-std::unique_ptr<dae::EnemyState> dae::EnemyDeadState::Update(GameObject*, float)
+std::unique_ptr<svengine::EnemyState> svengine::EnemyDeadState::Update(GameObject*, float)
 {
 	return nullptr;
 }
 
-void dae::EnemyDeadState::OnExit(GameObject* enemyObject)
+void svengine::EnemyDeadState::OnExit(GameObject* enemyObject)
 {
 	m_EnemyMoveComponentPtr->SetIsActive(true);
 	enemyObject->GetComponent<RectCollider2DComponent>()->SetIsActive(true);

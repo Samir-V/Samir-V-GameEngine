@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "InputManager.h"
 
-bool dae::InputManager::ProcessInput()
+bool svengine::InputManager::ProcessInput()
 {
 	FlushPendingControllers();
 	FlushPendingInputMaps();
@@ -9,7 +9,7 @@ bool dae::InputManager::ProcessInput()
 	return HandleKeyboardInput();
 }
 
-bool dae::InputManager::HandleKeyboardInput() const
+bool svengine::InputManager::HandleKeyboardInput() const
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -89,7 +89,7 @@ bool dae::InputManager::HandleKeyboardInput() const
 	return true;
 }
 
-void dae::InputManager::HandleControllerInput() const
+void svengine::InputManager::HandleControllerInput() const
 {
 	for (const auto& controller : m_Controllers)
 	{
@@ -136,22 +136,22 @@ void dae::InputManager::HandleControllerInput() const
 
 
 
-void dae::InputManager::RegisterKeyboardCommand(InputMap inputMap, std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType)
+void svengine::InputManager::RegisterKeyboardCommand(InputMap inputMap, std::unique_ptr<Command> command, SDL_Scancode key, ActivationType activationType)
 {
 	m_KeyboardCommands.at(inputMap).emplace_back(std::move(command), key, activationType);
 }
 
-void dae::InputManager::RegisterControllerCommand(InputMap inputMap, std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex)
+void svengine::InputManager::RegisterControllerCommand(InputMap inputMap, std::unique_ptr<Command> command, unsigned int controllerKey, ActivationType activationType, int controllerIndex)
 {
 	m_ControllerCommands.at(inputMap).emplace_back(std::move(command), controllerKey, activationType, controllerIndex);
 }
 
-void dae::InputManager::AddController(int index)
+void svengine::InputManager::AddController(int index)
 {
 	m_PendingControllersToAdd.push_back(index);
 }
 
-void dae::InputManager::RemoveController(int index)
+void svengine::InputManager::RemoveController(int index)
 {
 	if (index >= 0 && index < static_cast<int>(m_Controllers.size()))
 	{
@@ -159,7 +159,7 @@ void dae::InputManager::RemoveController(int index)
 	}
 }
 
-void dae::InputManager::FlushPendingControllers()
+void svengine::InputManager::FlushPendingControllers()
 {
 	for (int index : m_PendingControllersToAdd)
 	{
@@ -175,23 +175,23 @@ void dae::InputManager::FlushPendingControllers()
 }
 
 
-void dae::InputManager::AddInputMap(InputMap inputMap)
+void svengine::InputManager::AddInputMap(InputMap inputMap)
 {
 	m_KeyboardCommands.emplace(inputMap, std::vector<KeyboardCommand>{});
 	m_ControllerCommands.emplace(inputMap, std::vector<ControllerCommand>{});
 }
 
-void dae::InputManager::SetActiveInputMap(InputMap inputMap)
+void svengine::InputManager::SetActiveInputMap(InputMap inputMap)
 {
 	m_CurrentInputMap = inputMap;
 }
 
-void dae::InputManager::ClearInputMap(InputMap inputMap)
+void svengine::InputManager::ClearInputMap(InputMap inputMap)
 {
 	m_PendingInputMapsToClear.push_back(inputMap);
 }
 
-void dae::InputManager::FlushPendingInputMaps()
+void svengine::InputManager::FlushPendingInputMaps()
 {
 	for (InputMap pendingInputMapToClear : m_PendingInputMapsToClear)
 	{

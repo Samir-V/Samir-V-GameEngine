@@ -2,7 +2,7 @@
 #include <vector>
 #include "IObserver.h"
 
-namespace dae
+namespace svengine
 {
 	class Subject
 	{

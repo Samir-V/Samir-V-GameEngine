@@ -5,7 +5,7 @@
 #include "ComponentBase.h"
 #include "Texture2D.h"
 
-namespace dae
+namespace svengine
 {
 	class Texture2DComponent final : public ComponentBase
 	{

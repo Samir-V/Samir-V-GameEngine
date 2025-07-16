@@ -2,7 +2,7 @@
 #include "Command.h"
 #include "MenuHUDComponent.h"
 
-namespace dae
+namespace svengine
 {
 	class MenuCommand : public Command
 	{

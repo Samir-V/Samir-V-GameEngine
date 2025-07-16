@@ -7,33 +7,33 @@
 #include "SceneManager.h"
 #include "Texture2DComponent.h"
 
-dae::HealthDisplayComponent::HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays, GameObject* peterPepper) :
+svengine::HealthDisplayComponent::HealthDisplayComponent(GameObject* ownerPtr, std::vector<Texture2DComponent*> lifeDisplays, GameObject* peterPepper) :
 	ComponentBase(ownerPtr)
 	, m_LifeDisplays{std::move(lifeDisplays)}
 	, m_PeterPepperPtr{peterPepper}
 {
 }
 
-void dae::HealthDisplayComponent::Start()
+void svengine::HealthDisplayComponent::Start()
 {
 	assert(m_PeterPepperPtr != nullptr);
 
 	m_PeterPepperPtr->GetComponent<PeterPepperComponent>()->GetPlayerDiedEvent()->AddObserver(this);
 }
 
-void dae::HealthDisplayComponent::Update(float)
+void svengine::HealthDisplayComponent::Update(float)
 {
 }
 
-void dae::HealthDisplayComponent::LateUpdate(float)
+void svengine::HealthDisplayComponent::LateUpdate(float)
 {
 }
 
-void dae::HealthDisplayComponent::Render() const
+void svengine::HealthDisplayComponent::Render() const
 {
 }
 
-void dae::HealthDisplayComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
+void svengine::HealthDisplayComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("PlayerDied"))
 	{

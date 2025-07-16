@@ -8,7 +8,7 @@
 #include "GameStates.h"
 #include "IObserver.h"
 
-namespace dae
+namespace svengine
 {
 	class GameObject;
 

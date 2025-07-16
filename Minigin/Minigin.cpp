@@ -44,7 +44,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-dae::Minigin::Minigin()
+svengine::Minigin::Minigin()
 {
 	PrintSDLVersion();
 	
@@ -81,7 +81,7 @@ dae::Minigin::Minigin()
 	ResourceManager::GetInstance().Init();
 }
 
-dae::Minigin::~Minigin()
+svengine::Minigin::~Minigin()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
@@ -92,7 +92,7 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void svengine::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 

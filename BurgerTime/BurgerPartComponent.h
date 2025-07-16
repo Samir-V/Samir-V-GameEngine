@@ -8,7 +8,7 @@
 #include "Subject.h"
 #include "Texture2D.h"
 
-namespace dae
+namespace svengine
 {
 	class RectCollider2DComponent;
 

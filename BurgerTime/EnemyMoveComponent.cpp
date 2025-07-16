@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 
-dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, const std::vector<GameObject*>& players, float maxSpeed) :
+svengine::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, const std::vector<GameObject*>& players, float maxSpeed) :
 	ComponentBase(ownerPtr)
 	, m_Players{players}
 	, m_CurrentHorizontalDirective{}
@@ -25,12 +25,12 @@ dae::EnemyMoveComponent::EnemyMoveComponent(GameObject* ownerPtr, const std::vec
 	}
 }
 
-dae::EnemyMoveComponent::~EnemyMoveComponent()
+svengine::EnemyMoveComponent::~EnemyMoveComponent()
 {
 }
 
 
-void dae::EnemyMoveComponent::Start()
+void svengine::EnemyMoveComponent::Start()
 {
 	const auto [horDirective, verDirective] = CalculateDirectionDirectives();
 
@@ -44,7 +44,7 @@ void dae::EnemyMoveComponent::Start()
 	}
 }
 
-void dae::EnemyMoveComponent::Update(float elapsedSec)
+void svengine::EnemyMoveComponent::Update(float elapsedSec)
 {
 	// Position update
 
@@ -58,25 +58,25 @@ void dae::EnemyMoveComponent::Update(float elapsedSec)
 	GetOwner()->SetWorldPosition(newEnemyPosX, newEnemyPosY);
 }
 
-void dae::EnemyMoveComponent::LateUpdate(float)
+void svengine::EnemyMoveComponent::LateUpdate(float)
 {
 }
 
-void dae::EnemyMoveComponent::Render() const
+void svengine::EnemyMoveComponent::Render() const
 {
 }
 
-const glm::vec2& dae::EnemyMoveComponent::GetDirection() const
+const glm::vec2& svengine::EnemyMoveComponent::GetDirection() const
 {
 	return m_Direction;
 }
 
-void dae::EnemyMoveComponent::SetDirection(const glm::vec2& direction)
+void svengine::EnemyMoveComponent::SetDirection(const glm::vec2& direction)
 {
 	m_Direction = direction;
 }
 
-dae::EnemyMoveComponent::MovingDirective dae::EnemyMoveComponent::CalculateDirectionDirectives()
+svengine::EnemyMoveComponent::MovingDirective svengine::EnemyMoveComponent::CalculateDirectionDirectives()
 {
 	assert(!m_Players.empty());
 
@@ -125,7 +125,7 @@ dae::EnemyMoveComponent::MovingDirective dae::EnemyMoveComponent::CalculateDirec
 	return { m_CurrentHorizontalDirective, m_CurrentVerticalDirective };
 }
 
-void dae::EnemyMoveComponent::Reset()
+void svengine::EnemyMoveComponent::Reset()
 {
 	const auto [horDirective, verDirective] = CalculateDirectionDirectives();
 

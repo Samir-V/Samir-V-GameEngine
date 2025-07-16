@@ -4,7 +4,7 @@
 
 #include "ComponentBase.h"
 
-namespace dae
+namespace svengine
 {
 	class Font;
 	class Texture2D;

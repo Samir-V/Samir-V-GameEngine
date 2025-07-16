@@ -8,7 +8,7 @@
 #include "SceneManager.h"
 #include "ServiceLocator.h"
 
-void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
+void svengine::PlayingState::OnEnter(GameObject* gameHandlerObject)
 {
 	m_BurgerPartComponents.clear();
 
@@ -22,7 +22,7 @@ void dae::PlayingState::OnEnter(GameObject* gameHandlerObject)
 	}
 }
 
-std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::GameState> svengine::PlayingState::Update(GameObject*, float elapsedSec)
 {
 	const bool allAssembled = std::ranges::all_of(m_BurgerPartComponents, [](const BurgerPartComponent* burgerPartComponent)
 		{
@@ -76,12 +76,12 @@ std::unique_ptr<dae::GameState> dae::PlayingState::Update(GameObject*, float ela
 	return nullptr;
 }
 
-void dae::PlayingState::OnExit(GameObject* )
+void svengine::PlayingState::OnExit(GameObject* )
 {
 }
 
 
-void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
+void svengine::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 {
 	auto& sound = ServiceLocator::GetSoundSystem();
 	sound.StopMusic();
@@ -104,7 +104,7 @@ void dae::GameWinningState::OnEnter(GameObject* gameHandlerObject)
 	}
 }
 
-std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float elapsedSec)
+std::unique_ptr<svengine::GameState> svengine::GameWinningState::Update(GameObject*, float elapsedSec)
 {
 	if (m_Timer < 0.0f)
 	{
@@ -116,7 +116,7 @@ std::unique_ptr<dae::GameState> dae::GameWinningState::Update(GameObject*, float
 	return nullptr;
 }
 
-void dae::GameWinningState::OnExit(GameObject* gameHandlerObject)
+void svengine::GameWinningState::OnExit(GameObject* gameHandlerObject)
 {
 	const auto gameHandlerComp = gameHandlerObject->GetComponent<GameHandlerComponent>();
 	const auto& players = gameHandlerComp->GetGameplayDataRef().players;

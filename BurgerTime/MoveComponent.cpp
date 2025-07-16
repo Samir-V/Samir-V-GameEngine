@@ -5,7 +5,7 @@
 #include "PeterPepperComponent.h"
 #include "RectCollider2DComponent.h"
 
-dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) :
+svengine::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) :
 	ComponentBase(ownerPtr)
 	, m_Velocity{}
 	, m_Direction{}
@@ -17,14 +17,14 @@ dae::MoveComponent::MoveComponent(GameObject* ownerPtr, float maxSpeed) :
 	m_OwnerColliderPtr = ownerPtr->GetComponent<RectCollider2DComponent>();
 }
 
-void dae::MoveComponent::Start()
+void svengine::MoveComponent::Start()
 {
 	m_OwnerColliderPtr->GetCollisionEnterEvent()->AddObserver(this);
 	m_OwnerColliderPtr->GetCollisionStayEvent()->AddObserver(this);
 	m_OwnerColliderPtr->GetCollisionExitEvent()->AddObserver(this);
 }
 
-void dae::MoveComponent::Update(float elapsedSec)
+void svengine::MoveComponent::Update(float elapsedSec)
 {
 	// Walking opportunities checking
 
@@ -76,15 +76,15 @@ void dae::MoveComponent::Update(float elapsedSec)
 	GetOwner()->SetWorldPosition(newPepperPosX, newPepperPosY);
 }
 
-void dae::MoveComponent::LateUpdate(float)
+void svengine::MoveComponent::LateUpdate(float)
 {
 }
 
-void dae::MoveComponent::Render() const
+void svengine::MoveComponent::Render() const
 {
 }
 
-void dae::MoveComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
+void svengine::MoveComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	if (event.id == make_sdbm_hash("OnCollisionEnter"))
 	{
@@ -155,18 +155,18 @@ void dae::MoveComponent::Notify(const Event& event, GameObject* gameObjectCausin
 	}
 }
 
-const glm::vec2& dae::MoveComponent::GetLastDirection() const
+const glm::vec2& svengine::MoveComponent::GetLastDirection() const
 {
 	return m_LastNonZeroDirection;
 }
 
-const glm::vec2& dae::MoveComponent::GetVelocity() const
+const glm::vec2& svengine::MoveComponent::GetVelocity() const
 {
 	return m_Velocity;
 }
 
 // This handles input for movement
-void dae::MoveComponent::SetDirection(const glm::vec2& direction)
+void svengine::MoveComponent::SetDirection(const glm::vec2& direction)
 {
 	if (m_Direction == glm::vec2{ 0.0f, 0.0f })
 	{
@@ -174,7 +174,7 @@ void dae::MoveComponent::SetDirection(const glm::vec2& direction)
 	}
 }
 
-void dae::MoveComponent::Reset()
+void svengine::MoveComponent::Reset()
 {
 	// to avoid referencing dangling pointers when reloading the level
 	m_CurrentPlatformsColliders.clear();
@@ -185,7 +185,7 @@ void dae::MoveComponent::Reset()
 }
 
 
-void dae::MoveComponent::UpdateVerticalMovement()
+void svengine::MoveComponent::UpdateVerticalMovement()
 {
 	if (m_Direction.y == 0.0f)
 	{
@@ -254,7 +254,7 @@ void dae::MoveComponent::UpdateVerticalMovement()
 	}
 }
 
-glm::vec2 dae::MoveComponent::UpdateHorizontalMovement()
+glm::vec2 svengine::MoveComponent::UpdateHorizontalMovement()
 {
 	m_CanGoHorizontally = false;
 

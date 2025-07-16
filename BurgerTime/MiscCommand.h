@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "ServiceLocator.h"
 
-namespace dae
+namespace svengine
 {
 	class MiscCommand : public Command
 	{

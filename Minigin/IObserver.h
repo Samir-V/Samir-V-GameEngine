@@ -9,7 +9,7 @@ struct Event
 	explicit Event(EventId _id) : id{ _id } {}
 };
 
-namespace dae
+namespace svengine
 {
 	class GameObject;
 

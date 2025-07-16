@@ -7,14 +7,14 @@
 #include "EnemyStates.h"
 #include "Subject.h"
 
-namespace dae
+namespace svengine
 {
 	class BurgerPartComponent;
 }
 
-using EnemyType = dae::EnemyState::EnemyType;
+using EnemyType = svengine::EnemyState::EnemyType;
 
-namespace dae
+namespace svengine
 {
 	class EnemyComponent final : public ComponentBase, public IObserver
 	{

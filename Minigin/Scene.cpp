@@ -5,7 +5,7 @@
 
 #include "TextComponent.h"
 
-using namespace dae;
+using namespace svengine;
 
 unsigned int Scene::m_idCounter = 0;
 

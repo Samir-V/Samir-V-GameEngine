@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 
 
-void dae::ResourceManager::Init()
+void svengine::ResourceManager::Init()
 {
 	if (TTF_Init() != 0)
 	{
@@ -11,7 +11,7 @@ void dae::ResourceManager::Init()
 	}
 }
 
-std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string& file)
+std::shared_ptr<svengine::Texture2D> svengine::ResourceManager::LoadTexture(const std::string& file)
 {
 	if(!m_LoadedTextures.contains(file))
 	{
@@ -20,7 +20,7 @@ std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::str
 	return m_LoadedTextures.at(file);
 }
 
-std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& file, uint8_t size)
+std::shared_ptr<svengine::Font> svengine::ResourceManager::LoadFont(const std::string& file, uint8_t size)
 {
 	const auto key = std::pair<std::string, uint8_t>(file, size);
 
@@ -31,7 +31,7 @@ std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& fil
 	return m_LoadedFonts.at(key);
 }
 
-void dae::ResourceManager::UnloadUnusedResources()
+void svengine::ResourceManager::UnloadUnusedResources()
 {
 	for (auto it = m_LoadedTextures.begin(); it != m_LoadedTextures.end();)
 	{

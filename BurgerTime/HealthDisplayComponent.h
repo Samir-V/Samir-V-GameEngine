@@ -4,7 +4,7 @@
 #include "ComponentBase.h"
 #include "IObserver.h"
 
-namespace dae
+namespace svengine
 {
 	class Texture2DComponent;
 

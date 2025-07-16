@@ -9,7 +9,7 @@
 #include "RectCollider2DComponent.h"
 #include "ServiceLocator.h"
 
-dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices):
+svengine::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::string& filepath, int nrOfSlices):
 	ComponentBase(ownerPtr)
 	, m_NrOfSlices{nrOfSlices}
 	, m_ExtraLevelsToFall{0}
@@ -28,7 +28,7 @@ dae::BurgerPartComponent::BurgerPartComponent(GameObject* ownerPtr, const std::s
 	}
 }
 
-void dae::BurgerPartComponent::Start()
+void svengine::BurgerPartComponent::Start()
 {
 	const auto rectColliderComp = GetOwner()->GetComponent<RectCollider2DComponent>();
 
@@ -37,7 +37,7 @@ void dae::BurgerPartComponent::Start()
 	rectColliderComp->GetCollisionExitEvent()->AddObserver(this);
 }
 
-void dae::BurgerPartComponent::Update(float elapsedSec)
+void svengine::BurgerPartComponent::Update(float elapsedSec)
 {
 	std::erase_if(m_EnemiesOnTop, [](const GameObject* gameObject) {
 		return (gameObject == nullptr) || (gameObject->IsMarkedToDestroy()) || (!gameObject->IsActive());
@@ -53,11 +53,11 @@ void dae::BurgerPartComponent::Update(float elapsedSec)
 	}
 }
 
-void dae::BurgerPartComponent::LateUpdate(float)
+void svengine::BurgerPartComponent::LateUpdate(float)
 {
 }
 
-void dae::BurgerPartComponent::Render() const
+void svengine::BurgerPartComponent::Render() const
 {
 	const auto& pos = GetOwner()->GetWorldTransform().GetPosition() + GetLocalTransform().GetPosition();
 	for (int index = 0; index < m_NrOfSlices; ++index)
@@ -66,7 +66,7 @@ void dae::BurgerPartComponent::Render() const
 	}
 }
 
-void dae::BurgerPartComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
+void svengine::BurgerPartComponent::Notify(const Event& event, GameObject* gameObjectCausingEvent)
 {
 	auto& soundSystem = ServiceLocator::GetSoundSystem();
 
@@ -285,12 +285,12 @@ void dae::BurgerPartComponent::Notify(const Event& event, GameObject* gameObject
 }
 
 
-dae::Subject* dae::BurgerPartComponent::GetBurgerPartCollisionEvent() const
+svengine::Subject* svengine::BurgerPartComponent::GetBurgerPartCollisionEvent() const
 {
 	return m_BurgerPartCollisionEvent.get();
 }
 
-dae::BurgerPartComponent::BurgerPartState dae::BurgerPartComponent::GetBurgerPartState() const
+svengine::BurgerPartComponent::BurgerPartState svengine::BurgerPartComponent::GetBurgerPartState() const
 {
 	return m_BurgerPartState;
 }

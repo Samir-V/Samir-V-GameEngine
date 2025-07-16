@@ -2,9 +2,9 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::GameObject::~GameObject() = default;
+svengine::GameObject::~GameObject() = default;
 
-void dae::GameObject::Start()
+void svengine::GameObject::Start()
 {
 	for (const auto& component : m_Components)
 	{
@@ -15,7 +15,7 @@ void dae::GameObject::Start()
 	}
 }
 
-void dae::GameObject::Update(float elapsedSec)
+void svengine::GameObject::Update(float elapsedSec)
 {
 	if (!m_RunsUpdate)
 	{
@@ -31,7 +31,7 @@ void dae::GameObject::Update(float elapsedSec)
 	}
 }
 
-void dae::GameObject::LateUpdate(float elapsedSec)
+void svengine::GameObject::LateUpdate(float elapsedSec)
 {
 	if (m_RunsUpdate)
 	{
@@ -55,7 +55,7 @@ void dae::GameObject::LateUpdate(float elapsedSec)
 }
 
 
-void dae::GameObject::Render() const
+void svengine::GameObject::Render() const
 {
 	for (const auto& component : m_Components)
 	{
@@ -66,19 +66,19 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::SetLocalPosition(float x, float y)
+void svengine::GameObject::SetLocalPosition(float x, float y)
 {
 	m_LocalTransform.SetPosition(x, y, 0.0f);
 	SetPositionIsDirty();
 }
 
-void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
+void svengine::GameObject::SetLocalPosition(const glm::vec3& pos)
 {
 	m_LocalTransform.SetPosition(pos);
 	SetPositionIsDirty();
 }
 
-void dae::GameObject::SetWorldPosition(float x, float y)
+void svengine::GameObject::SetWorldPosition(float x, float y)
 {
 	m_WorldTransform.SetPosition(x, y, 0.0f);
 
@@ -97,7 +97,7 @@ void dae::GameObject::SetWorldPosition(float x, float y)
 	}
 }
 
-void dae::GameObject::SetWorldPosition(const glm::vec3& pos)
+void svengine::GameObject::SetWorldPosition(const glm::vec3& pos)
 {
 	m_WorldTransform.SetPosition(pos);
 
@@ -116,7 +116,7 @@ void dae::GameObject::SetWorldPosition(const glm::vec3& pos)
 	}
 }
 
-void dae::GameObject::SetIsActive(bool newIsActive)
+void svengine::GameObject::SetIsActive(bool newIsActive)
 {
 	m_IsActive = newIsActive;
 
@@ -126,17 +126,17 @@ void dae::GameObject::SetIsActive(bool newIsActive)
 	}
 }
 
-bool dae::GameObject::IsActive() const
+bool svengine::GameObject::IsActive() const
 {
 	return m_IsActive;
 }
 
-void dae::GameObject::SetRunsUpdate(bool runsUpdate)
+void svengine::GameObject::SetRunsUpdate(bool runsUpdate)
 {
 	m_RunsUpdate = runsUpdate;
 }
 
-const dae::Transform& dae::GameObject::GetWorldTransform()
+const svengine::Transform& svengine::GameObject::GetWorldTransform()
 {
 	if (m_PositionIsDirty)
 	{
@@ -146,13 +146,13 @@ const dae::Transform& dae::GameObject::GetWorldTransform()
 	return m_WorldTransform;
 }
 
-const dae::Transform& dae::GameObject::GetLocalTransform() const
+const svengine::Transform& svengine::GameObject::GetLocalTransform() const
 {
 	return m_LocalTransform;
 }
 
 
-void dae::GameObject::UpdateWorldPosition()
+void svengine::GameObject::UpdateWorldPosition()
 {
 	if (m_PositionIsDirty)
 	{
@@ -168,7 +168,7 @@ void dae::GameObject::UpdateWorldPosition()
 	m_PositionIsDirty = false;
 }
 
-void dae::GameObject::SetPositionIsDirty()
+void svengine::GameObject::SetPositionIsDirty()
 {
 	m_PositionIsDirty = true;
 
@@ -178,7 +178,7 @@ void dae::GameObject::SetPositionIsDirty()
 	}
 }
 
-void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStays)
+void svengine::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStays)
 {
 	// Validation
 	assert((newParentPtr == nullptr && m_Parent == nullptr) || (newParentPtr != m_Parent && newParentPtr != this && IsNotInChildren(this)));
@@ -223,7 +223,7 @@ void dae::GameObject::SetParent(GameObject* newParentPtr, bool worldPositionStay
 	}
 }
 
-bool dae::GameObject::IsNotInChildren(GameObject* gameObject) const
+bool svengine::GameObject::IsNotInChildren(GameObject* gameObject) const
 {
 	return std::ranges::none_of(m_Children, [gameObject](const auto& child) 
 		{
@@ -231,29 +231,29 @@ bool dae::GameObject::IsNotInChildren(GameObject* gameObject) const
 		});
 }
 
-std::vector<dae::GameObject*>& dae::GameObject::GetChildrenVector()
+std::vector<svengine::GameObject*>& svengine::GameObject::GetChildrenVector()
 {
 	return m_Children;
 }
 
-dae::GameObject* dae::GameObject::GetParent() const
+svengine::GameObject* svengine::GameObject::GetParent() const
 {
 	return m_Parent;
 }
 
-void dae::GameObject::SetParentScene(Scene* scene)
+void svengine::GameObject::SetParentScene(Scene* scene)
 {
 	m_ParentScene = scene;
 }
 
-dae::Scene* dae::GameObject::GetParentScene() const
+svengine::Scene* svengine::GameObject::GetParentScene() const
 {
 	return m_ParentScene;
 }
 
 
 
-void dae::GameObject::Destroy()
+void svengine::GameObject::Destroy()
 {
 	m_MarkedToDestroy = true;
 
@@ -265,17 +265,17 @@ void dae::GameObject::Destroy()
 	}
 }
 
-bool dae::GameObject::IsMarkedToDestroy() const
+bool svengine::GameObject::IsMarkedToDestroy() const
 {
 	return m_MarkedToDestroy;
 }
 
-Tag dae::GameObject::GetTag() const
+Tag svengine::GameObject::GetTag() const
 {
 	return m_Tag;
 }
 
-void dae::GameObject::SetTag(Tag tag)
+void svengine::GameObject::SetTag(Tag tag)
 {
 	m_Tag = tag;
 }

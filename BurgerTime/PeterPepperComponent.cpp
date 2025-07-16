@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 
-dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
+svengine::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	ComponentBase(ownerPtr)
 	, m_PlayerDiedEvent{std::make_unique<Subject>()}
 	, m_PepperAmountChangedEvent{std::make_unique<Subject>()}
@@ -15,11 +15,11 @@ dae::PeterPepperComponent::PeterPepperComponent(GameObject* ownerPtr):
 	m_State->OnEnter(GetOwner());
 }
 
-void dae::PeterPepperComponent::Start()
+void svengine::PeterPepperComponent::Start()
 {
 }
 
-void dae::PeterPepperComponent::Update(float elapsedSec)
+void svengine::PeterPepperComponent::Update(float elapsedSec)
 {
 	auto newState = m_State->Update(GetOwner(), elapsedSec);
 
@@ -29,44 +29,44 @@ void dae::PeterPepperComponent::Update(float elapsedSec)
 	}
 }
 
-void dae::PeterPepperComponent::LateUpdate(float)
+void svengine::PeterPepperComponent::LateUpdate(float)
 {
 }
 
-void dae::PeterPepperComponent::Render() const
+void svengine::PeterPepperComponent::Render() const
 {
 }
 
-dae::Subject* dae::PeterPepperComponent::GetPlayerDiedEvent() const
+svengine::Subject* svengine::PeterPepperComponent::GetPlayerDiedEvent() const
 {
 	return m_PlayerDiedEvent.get();
 }
 
-dae::Subject* dae::PeterPepperComponent::GetPepperAmountChangedEvent() const
+svengine::Subject* svengine::PeterPepperComponent::GetPepperAmountChangedEvent() const
 {
 	return m_PepperAmountChangedEvent.get();
 }
 
 
-int dae::PeterPepperComponent::GetRemainingLives() const
+int svengine::PeterPepperComponent::GetRemainingLives() const
 {
 	return m_Lives;
 }
 
-void dae::PeterPepperComponent::DecreaseLives(int amount)
+void svengine::PeterPepperComponent::DecreaseLives(int amount)
 {
 	m_Lives -= amount;
 	m_Lives = std::max(m_Lives, 0);
 }
 
-void dae::PeterPepperComponent::IncreasePepper(int amount)
+void svengine::PeterPepperComponent::IncreasePepper(int amount)
 {
 	const int deltaPepper = std::clamp(amount, 0, 5);
 	m_Peppers += deltaPepper;
 }
 
 
-void dae::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> newState)
+void svengine::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> newState)
 {
 	if (newState && typeid(*m_State) == typeid(*newState))
 	{
@@ -80,12 +80,12 @@ void dae::PeterPepperComponent::ChangeState(std::unique_ptr<PeterPepperState> ne
 	m_State->OnEnter(GetOwner());
 }
 
-void dae::PeterPepperComponent::AssertVictory()
+void svengine::PeterPepperComponent::AssertVictory()
 {
 	ChangeState(std::make_unique<WinningState>());
 }
 
-void dae::PeterPepperComponent::Resurrect()
+void svengine::PeterPepperComponent::Resurrect()
 {
 	if (typeid(*m_State) == typeid(DyingState))
 	{
@@ -95,7 +95,7 @@ void dae::PeterPepperComponent::Resurrect()
 	ChangeState(std::make_unique<WalkingState>());
 }
 
-void dae::PeterPepperComponent::SprayPepper()
+void svengine::PeterPepperComponent::SprayPepper()
 {
 	if (typeid(*m_State) != typeid(WalkingState))
 	{
@@ -109,7 +109,7 @@ void dae::PeterPepperComponent::SprayPepper()
 	}
 }
 
-void dae::PeterPepperComponent::FullRespawn()
+void svengine::PeterPepperComponent::FullRespawn()
 {
 	ChangeState(std::make_unique<WalkingState>());
 	m_Peppers = 5;
@@ -119,7 +119,7 @@ void dae::PeterPepperComponent::FullRespawn()
 	m_PepperAmountChangedEvent->NotifyObservers(Event(make_sdbm_hash("PepperAmountChanged")), GetOwner());
 }
 
-int dae::PeterPepperComponent::GetRemainingPeppers() const
+int svengine::PeterPepperComponent::GetRemainingPeppers() const
 {
 	return m_Peppers;
 }

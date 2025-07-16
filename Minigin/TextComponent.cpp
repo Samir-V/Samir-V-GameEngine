@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(GameObject* ownerPtr, const std::string& text, std::shared_ptr<Font> font) :
+svengine::TextComponent::TextComponent(GameObject* ownerPtr, const std::string& text, std::shared_ptr<Font> font) :
 	ComponentBase(ownerPtr),
 	m_NeedsUpdate(true),
 	m_Text(text),
@@ -15,11 +15,11 @@ dae::TextComponent::TextComponent(GameObject* ownerPtr, const std::string& text,
 {
 }
 
-void dae::TextComponent::Start()
+void svengine::TextComponent::Start()
 {
 }
 
-void dae::TextComponent::Update(float)
+void svengine::TextComponent::Update(float)
 {
 	if (m_NeedsUpdate)
 	{
@@ -40,12 +40,12 @@ void dae::TextComponent::Update(float)
 	}
 }
 
-void dae::TextComponent::LateUpdate(float)
+void svengine::TextComponent::LateUpdate(float)
 {
 
 }
 
-void dae::TextComponent::Render() const
+void svengine::TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)
 	{
@@ -55,7 +55,7 @@ void dae::TextComponent::Render() const
 }
 
 // This implementation uses the "dirty flag" pattern
-void dae::TextComponent::SetText(const std::string& text)
+void svengine::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;

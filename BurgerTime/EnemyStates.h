@@ -2,7 +2,7 @@
 #include <memory>
 #include <set>
 
-namespace dae
+namespace svengine
 {
 	class GameObject;
 	class SpritesheetComponent;

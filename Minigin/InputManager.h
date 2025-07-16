@@ -10,7 +10,7 @@
 
 using InputMap = unsigned int;
 
-namespace dae
+namespace svengine
 {
 	class InputManager final : public Singleton<InputManager>
 	{
